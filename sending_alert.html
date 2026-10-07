@@ -8,10 +8,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <meta http-equiv="refresh" content="3;url=sos_active.html" />
+    <link rel="stylesheet" href="figma_additions.css">
 </head>
 <body>
-    <div class="phone">
+    <div class="phone" style="background: rgb(250,249,247);">
 
         <!-- Status Bar -->
         <div class="status-bar">
@@ -36,12 +36,23 @@
             </div>
         </div>
 
-        <div class="center-content">
-            <div class="countdown-ring">
-                <span class="countdown-number" id="countdown">3</span>
+        <div class="sending-alert-content">
+            <div class="countdown-wrapper">
+                <svg class="countdown-svg" viewBox="0 0 680 690">
+                    <!-- Base ring -->
+                    <ellipse cx="340" cy="345" rx="320" ry="325" fill="none" stroke="rgb(235,233,230)" stroke-width="24"/>
+                    <!-- Progress ring -->
+                    <ellipse cx="340" cy="345" rx="320" ry="325" fill="none" stroke="rgb(216,59,48)" stroke-width="24" stroke-dasharray="2026" stroke-dashoffset="600" stroke-linecap="round" transform="rotate(-90 340 345)" class="progress-ring-anim"/>
+                </svg>
+                <div class="countdown-text">
+                    <div id="countdown" style="font-size: 13.23cqh; font-weight: 700; color: rgb(3,4,3); line-height: 1;">2</div>
+                    <div style="font-size: 2.06cqh; font-weight: 400; color: rgb(153,153,153); margin-top: 1cqh;">Sending alert...</div>
+                </div>
             </div>
-            <h2 class="large-title">Sending Alert...</h2>
-            <a href="index.html" class="cancel-btn">Cancel</a>
+            
+            <a href="index.html" class="figma-cancel-btn">
+                <span>Cancel</span>
+            </a>
         </div>
 
         <!-- Home Indicator -->
@@ -52,13 +63,16 @@
     </div>
 
     <script>
-        let count = 3;
+        let count = 2;
         setInterval(() => {
             count--;
             if (count > 0) {
                 document.getElementById('countdown').innerText = count;
             }
         }, 1000);
+        setTimeout(() => {
+            window.location.href = 'sos_active.html';
+        }, 2000);
     </script>
 </body>
 </html>

@@ -230,17 +230,25 @@
                     </div>
                 </div>
 
-                <div class="info-card assigned-hero">
-                    <div class="hero-portrait"></div>
+                <div class="info-card assigned-hero" style="animation: dropIn 0.5s forwards; transform: translateY(-2cqh); opacity: 0; margin-bottom: 2cqh;">
+                    <div class="hero-portrait" style="background-image: url('https://i.pravatar.cc/150?u=tatsumaki');"></div>
                     <div class="info-text-block">
-                        <span style="color: rgb(250,250,250); font-size: 2.11cqh; font-weight: 700; line-height: 1.2;">Genos is 600 m away</span>
-                        <span style="color: rgb(180,184,188); font-size: 1.41cqh; font-weight: 400; line-height: 1.3;">Class A Hero, 127 Situations handled</span>
+                        <span style="color: rgb(250,250,250); font-size: 2.11cqh; font-weight: 700; line-height: 1.2;">Tatsumaki is on her way</span>
+                        <span style="color: rgb(180,184,188); font-size: 1.41cqh; font-weight: 400; line-height: 1.3;">S Tier Hero • Arriving in ~4 min</span>
+                    </div>
+                </div>
+
+                <div class="info-card assigned-hero">
+                    <div class="hero-portrait" style="background-image: url('https://i.pravatar.cc/150?u=genos');"></div>
+                    <div class="info-text-block">
+                        <span style="color: rgb(250,250,250); font-size: 2.11cqh; font-weight: 700; line-height: 1.2;">Genos is 480 m away</span>
+                        <span style="color: rgb(180,184,188); font-size: 1.41cqh; font-weight: 400; line-height: 1.3;">A Tier Hero • 127 Situations handled</span>
                     </div>
                 </div>
             </div>
 
             <div class="feedback-section">
-                <div class="feedback-header">The Current Situation is</div>
+                <div class="feedback-header">The current situation is worse</div>
                 
                 <div class="situation-choices">
                     <a href="safe.html" class="situation-choice choice-better">
@@ -251,12 +259,12 @@
                         <span class="choice-label">Better</span>
                     </a>
                     
-                    <a href="sos_situation_worse.html" class="situation-choice choice-worse">
-                        <svg width="3cqh" height="3cqh" viewBox="0 0 24 24" fill="none" stroke="rgb(251,226,197)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <a href="#" class="situation-choice choice-worse" style="background: rgb(41,30,30);">
+                        <svg width="3cqh" height="3cqh" viewBox="0 0 24 24" fill="none" stroke="rgb(246,138,148)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                             <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
                             <polyline points="17 18 23 18 23 12"></polyline>
                         </svg>
-                        <span class="choice-label">Worse</span>
+                        <span class="choice-label" style="color: rgb(246,138,148);">Worse</span>
                     </a>
                 </div>
 
@@ -282,5 +290,11 @@
         </div>
 
     </div>
+
+    <script>
+        setTimeout(() => {
+            window.location.href = 'safe.html';
+        }, 3000);
+    </script>
 </body>
 </html>

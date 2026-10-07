@@ -9,112 +9,300 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <style>
-        .category-header {
-            padding: 4cqh 6cqw;
-            display: flex;
-            align-items: center;
-            gap: 4cqw;
-        }
-        .back-btn {
-            color: var(--text-primary);
-            text-decoration: none;
-        }
-        .category-list {
-            padding: 0 5.05cqw;
+        .category-container {
             display: flex;
             flex-direction: column;
-            gap: 1.5cqh;
+            width: 100%;
+            flex: 1;
+            overflow-y: auto;
+            scrollbar-width: none;
+            padding: 0 3.3cqw; /* match 28px left padding for grid */
         }
-        .cat-item {
-            background: var(--surface);
-            padding: 2.5cqh 4cqw;
-            border-radius: 1.5cqh;
-            color: var(--text-primary);
-            text-decoration: none;
-            font-size: 2cqh;
-            font-weight: 600;
+        .category-container::-webkit-scrollbar { display: none; }
+
+        .report-intro {
+            padding: 2cqh 0 4cqh;
+        }
+
+        .progress-bar {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            transition: background 0.15s;
+            margin-bottom: 2cqh;
         }
-        .cat-item:active {
-            background: var(--surface-active);
+
+        .track {
+            width: 71cqw;
+            height: 0.76cqh;
+            background: rgb(24,28,30);
+            border-radius: 1cqh;
+            position: relative;
         }
+        .value {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 26.7%;
+            height: 100%;
+            background: #fff;
+            border-radius: 1cqh;
+        }
+
+        .step-label {
+            color: rgb(180,184,188);
+            font-size: 1.2cqh;
+        }
+
+        .intro-title {
+            color: rgb(250,250,250);
+            font-size: 3.03cqh; /* 56px */
+            font-weight: 700;
+            margin-bottom: 1.5cqh;
+        }
+
+        .intro-desc {
+            color: rgb(180,184,188);
+            font-size: 1.57cqh; /* 29px */
+            line-height: 1.3;
+            margin-bottom: 0.5cqh;
+        }
+
+        .intro-subdesc {
+            color: rgb(130,136,139);
+            font-size: 1.51cqh; /* 28px */
+            line-height: 1.3;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5cqh 2.5cqw;
+            margin-bottom: 1.5cqh;
+        }
+
+        .option-card {
+            background: rgb(24,28,30);
+            border-radius: 1.74cqh; /* 32px */
+            height: 11.7cqh; /* 216px */
+            padding: 1.5cqh 2cqw;
+            display: flex;
+            align-items: center;
+            gap: 2cqw;
+            text-decoration: none;
+            transition: background 0.15s, transform 0.1s;
+        }
+        .option-card:active {
+            background: rgb(34,38,40);
+            transform: scale(0.98);
+        }
+
+        .icon-tile {
+            width: 5.42cqh; /* 100px */
+            height: 5.42cqh;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .option-text {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .option-label {
+            color: rgb(250,250,250);
+            font-size: 1.25cqh; /* 23px */
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 0.2cqh;
+        }
+
+        .option-desc {
+            color: rgb(180,184,188);
+            font-size: 1.08cqh; /* 20px */
+            line-height: 1.2;
+        }
+
+        .other-card {
+            background: rgb(24,28,30);
+            border-radius: 1.74cqh;
+            height: 9.65cqh; /* 178px */
+            padding: 0 4cqw;
+            display: flex;
+            align-items: center;
+            gap: 3cqw;
+            text-decoration: none;
+            margin-bottom: 4cqh;
+        }
+
     </style>
 </head>
 <body>
-    <div class="phone dark-mode">
+    <div class="phone" style="background: rgb(16,19,20);">
 
         <!-- Status Bar -->
         <div class="status-bar">
-            <span class="status-time">9:41</span>
+            <span class="status-time" style="color: rgb(250,250,250);">9:41</span>
             <div class="status-icons">
                 <svg viewBox="0 0 17 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect x="0" y="6" width="3" height="6" rx="0.5" fill="rgb(3,4,3)"/>
-                    <rect x="4.5" y="4" width="3" height="8" rx="0.5" fill="rgb(3,4,3)"/>
-                    <rect x="9" y="2" width="3" height="10" rx="0.5" fill="rgb(3,4,3)"/>
-                    <rect x="13.5" y="0" width="3" height="12" rx="0.5" fill="rgb(3,4,3)"/>
+                    <rect x="0" y="6" width="3" height="6" rx="0.5" fill="rgb(250,250,250)"/>
+                    <rect x="4.5" y="4" width="3" height="8" rx="0.5" fill="rgb(250,250,250)"/>
+                    <rect x="9" y="2" width="3" height="10" rx="0.5" fill="rgb(250,250,250)"/>
+                    <rect x="13.5" y="0" width="3" height="12" rx="0.5" fill="rgb(250,250,250)"/>
                 </svg>
                 <svg viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M8 3C10.2 3 12.2 3.9 13.6 5.4L15 4C13.2 2.1 10.7 1 8 1C5.3 1 2.8 2.1 1 4L2.4 5.4C3.8 3.9 5.8 3 8 3Z" fill="rgb(3,4,3)"/>
-                    <path d="M8 6C9.4 6 10.6 6.6 11.5 7.5L12.9 6.1C11.6 4.8 9.9 4 8 4C6.1 4 4.4 4.8 3.1 6.1L4.5 7.5C5.4 6.6 6.6 6 8 6Z" fill="rgb(3,4,3)"/>
-                    <circle cx="8" cy="10.5" r="1.5" fill="rgb(3,4,3)"/>
+                    <path d="M8 3C10.2 3 12.2 3.9 13.6 5.4L15 4C13.2 2.1 10.7 1 8 1C5.3 1 2.8 2.1 1 4L2.4 5.4C3.8 3.9 5.8 3 8 3Z" fill="rgb(250,250,250)"/>
+                    <path d="M8 6C9.4 6 10.6 6.6 11.5 7.5L12.9 6.1C11.6 4.8 9.9 4 8 4C6.1 4 4.4 4.8 3.1 6.1L4.5 7.5C5.4 6.6 6.6 6 8 6Z" fill="rgb(250,250,250)"/>
+                    <circle cx="8" cy="10.5" r="1.5" fill="rgb(250,250,250)"/>
                 </svg>
                 <svg viewBox="0 0 25 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect x="0.5" y="0.5" width="21" height="11" rx="3.5" stroke="rgb(3,4,3)" stroke-opacity="0.35"/>
-                    <rect x="2" y="2" width="17" height="8" rx="2" fill="rgb(3,4,3)"/>
-                    <path d="M23 4.5V7.5C23.8 7.2 24.5 6.4 24.5 5.5C24.5 4.6 23.8 3.8 23 4.5Z" fill="rgb(3,4,3)" fill-opacity="0.4"/>
+                    <rect x="0.5" y="0.5" width="21" height="11" rx="3.5" stroke="rgb(250,250,250)" stroke-opacity="0.35"/>
+                    <rect x="2" y="2" width="17" height="8" rx="2" fill="rgb(250,250,250)"/>
+                    <path d="M23 4.5V7.5C23.8 7.2 24.5 6.4 24.5 5.5C24.5 4.6 23.8 3.8 23 4.5Z" fill="rgb(250,250,250)" fill-opacity="0.4"/>
                 </svg>
             </div>
         </div>
 
-        <div class="category-header">
-            <a href="sos_active.html" class="back-btn">
-                <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="19" y1="12" x2="5" y2="12"></line>
-                    <polyline points="12 19 5 12 12 5"></polyline>
-                </svg>
-            </a>
-            <h2 style="font-size: 2.5cqh; color: var(--text-primary);">Situation Category</h2>
-        </div>
+        <div class="category-container">
+            <div class="report-intro">
+                <div class="progress-bar">
+                    <div class="track"><div class="value"></div></div>
+                    <span class="step-label">Step 1 of 2</span>
+                </div>
+                <h2 class="intro-title">What do you see?</h2>
+                <p class="intro-desc">Choose the option that best describes the situation.</p>
+                <p class="intro-subdesc">Your mic is on, so you can also just speak if it's safe.</p>
+            </div>
 
-        <div class="category-list">
-            <a href="fire_details.html" class="cat-item">
-                <div style="display: flex; align-items: center; gap: 3cqw;">
-                    <div style="width: 4cqh; height: 4cqh; background: rgba(216,59,48,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: rgb(216,59,48);">🔥</div>
-                    Fire
-                </div>
-                <svg viewBox="0 0 8 14" width="8" height="14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1L7 7L1 13" stroke="var(--chevron-color)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </a>
-            <a href="#" class="cat-item">
-                <div style="display: flex; align-items: center; gap: 3cqw;">
-                    <div style="width: 4cqh; height: 4cqh; background: rgba(59,130,246,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: rgb(59,130,246);">🚓</div>
-                    Police
-                </div>
-                <svg viewBox="0 0 8 14" width="8" height="14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1L7 7L1 13" stroke="var(--chevron-color)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </a>
-            <a href="#" class="cat-item">
-                <div style="display: flex; align-items: center; gap: 3cqw;">
-                    <div style="width: 4cqh; height: 4cqh; background: rgba(34,197,94,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: rgb(34,197,94);">🚑</div>
-                    Medical
-                </div>
-                <svg viewBox="0 0 8 14" width="8" height="14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1L7 7L1 13" stroke="var(--chevron-color)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </a>
-            <a href="#" class="cat-item">
-                <div style="display: flex; align-items: center; gap: 3cqw;">
-                    <div style="width: 4cqh; height: 4cqh; background: var(--surface-variant); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--text-primary);">⚠️</div>
-                    Other
-                </div>
-                <svg viewBox="0 0 8 14" width="8" height="14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1L7 7L1 13" stroke="var(--chevron-color)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </a>
-        </div>
+            <div class="options-grid">
+                <a href="fire_details.html" class="option-card">
+                    <div class="icon-tile" style="background: rgb(60,45,38);">
+                        <svg width="2cqh" height="2.6cqh" viewBox="0 0 24 24" fill="none" stroke="rgb(255,190,144)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"></path>
+                        </svg>
+                    </div>
+                    <div class="option-text">
+                        <span class="option-label">Fire or smoke</span>
+                        <span class="option-desc">Flames, smoke, or<br>a burning smell</span>
+                    </div>
+                </a>
 
-        <div style="flex:1;"></div>
+                <a href="#" class="option-card">
+                    <div class="icon-tile" style="background: rgb(56,39,41);">
+                        <svg width="2.6cqh" height="2.6cqh" viewBox="0 0 24 24" fill="none" stroke="rgb(255,167,171)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                            <line x1="12" y1="8" x2="12" y2="16"></line>
+                            <line x1="8" y1="12" x2="16" y2="12"></line>
+                        </svg>
+                    </div>
+                    <div class="option-text">
+                        <span class="option-label">Someone hurt</span>
+                        <span class="option-desc">An injured or<br>collapsed person</span>
+                    </div>
+                </a>
+
+                <a href="#" class="option-card">
+                    <div class="icon-tile" style="background: rgb(42,40,57);">
+                        <svg width="2.6cqh" height="2.6cqh" viewBox="0 0 24 24" fill="none" stroke="rgb(205,179,255)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                        </svg>
+                    </div>
+                    <div class="option-text">
+                        <span class="option-label">Crime/suspicious</span>
+                        <span class="option-desc">Theft, assault, or<br>looks wrong</span>
+                    </div>
+                </a>
+
+                <a href="#" class="option-card">
+                    <div class="icon-tile" style="background: rgb(52,48,37);">
+                        <svg width="2.6cqh" height="2.6cqh" viewBox="0 0 24 24" fill="none" stroke="rgb(255,224,166)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                        </svg>
+                    </div>
+                    <div class="option-text">
+                        <span class="option-label">Disaster/collapse</span>
+                        <span class="option-desc">Crash, collapse,<br>quake, or flood</span>
+                    </div>
+                </a>
+
+                <a href="#" class="option-card">
+                    <div class="icon-tile" style="background: rgb(37,49,58);">
+                        <svg width="2.6cqh" height="2.6cqh" viewBox="0 0 24 24" fill="none" stroke="rgb(205,233,249)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="8.5" cy="7" r="4"></circle>
+                            <line x1="20" y1="8" x2="20" y2="14"></line>
+                            <line x1="23" y1="11" x2="17" y2="11"></line>
+                        </svg>
+                    </div>
+                    <div class="option-text">
+                        <span class="option-label">Someone missing</span>
+                        <span class="option-desc">A person you can't<br>find</span>
+                    </div>
+                </a>
+
+                <a href="#" class="option-card">
+                    <div class="icon-tile" style="background: rgb(48,43,62);">
+                        <svg width="2.6cqh" height="2.6cqh" viewBox="0 0 24 24" fill="none" stroke="rgb(215,191,255)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <path d="M16 12l-4-4-4 4M12 8v8"></path>
+                        </svg>
+                    </div>
+                    <div class="option-text">
+                        <span class="option-label">Villain or monster</span>
+                        <span class="option-desc">Attacking with<br>powers</span>
+                    </div>
+                </a>
+
+                <a href="#" class="option-card">
+                    <div class="icon-tile" style="background: rgb(38,55,44);">
+                        <svg width="2.6cqh" height="2.6cqh" viewBox="0 0 24 24" fill="none" stroke="rgb(200,243,187)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M11 21A10 10 0 1 1 21 11"></path>
+                            <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon>
+                        </svg>
+                    </div>
+                    <div class="option-text">
+                        <span class="option-label" style="font-size: 1.14cqh;">Powers out of control</span>
+                        <span class="option-desc">Can't control<br>their powers</span>
+                    </div>
+                </a>
+
+                <a href="#" class="option-card">
+                    <div class="icon-tile" style="background: rgb(39,49,60);">
+                        <svg width="2.6cqh" height="2.6cqh" viewBox="0 0 24 24" fill="none" stroke="rgb(196,211,255)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                        </svg>
+                    </div>
+                    <div class="option-text">
+                        <span class="option-label">Battle nearby</span>
+                        <span class="option-desc">Heroes fighting<br>close to you</span>
+                    </div>
+                </a>
+            </div>
+
+            <a href="#" class="other-card">
+                <div class="icon-tile" style="background: rgb(39,43,45);">
+                    <svg width="2.6cqh" height="0.6cqh" viewBox="0 0 24 24" fill="none" stroke="rgb(255,255,255)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="1"></circle>
+                        <circle cx="19" cy="12" r="1"></circle>
+                        <circle cx="5" cy="12" r="1"></circle>
+                    </svg>
+                </div>
+                <div class="option-text">
+                    <span class="option-label" style="font-size: 1.35cqh;">Something else</span>
+                    <span class="option-desc" style="font-size: 1.3cqh;">None of these match</span>
+                </div>
+            </a>
+            
+            <div style="height: 2cqh; flex-shrink: 0;"></div>
+        </div>
 
         <!-- Home Indicator -->
         <div class="home-bar">
-            <div class="home-indicator"></div>
+            <div class="home-indicator" style="background: rgb(240,240,240);"></div>
         </div>
 
     </div>
