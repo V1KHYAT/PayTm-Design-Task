@@ -4,22 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <title>Harbor · Superhero Emergency Alert App</title>
+    <!-- Distinctive, Human Editorial Typography -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-dark: #08090d;
-            --bg-card: rgba(18, 20, 29, 0.75);
-            --border-glass: rgba(255, 255, 255, 0.08);
-            --border-focus: rgba(239, 68, 68, 0.4);
-            --text-primary: #f8fafc;
-            --text-secondary: #94a3b8;
-            --text-muted: #64748b;
-            --accent-red: #ef4444;
-            --accent-crimson: #e11d48;
-            --accent-blue: #3b82f6;
-            --font-main: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            --canvas-bg: #faf9f5;
+            --canvas-subtle: #f3f1ea;
+            --ink-primary: #121316;
+            --ink-secondary: #4a4c54;
+            --ink-muted: #71747e;
+            --signal-red: #dc2626;
+            --signal-crimson: #991b1b;
+            --border-rule: #e5e3db;
+            --border-dark: #121316;
+            --font-editorial: 'Instrument Serif', Georgia, serif;
+            --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
             --font-mono: 'JetBrains Mono', monospace;
         }
 
@@ -31,15 +32,16 @@
         }
 
         body {
-            background: var(--bg-dark);
-            color: var(--text-primary);
-            font-family: var(--font-main);
+            background: var(--canvas-bg);
+            color: var(--ink-primary);
+            font-family: var(--font-sans);
             overflow-x: hidden;
             min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
         }
 
         /* ==========================================================================
-           PROTOTYPE VIEW MODE
+           MODE 1: INTERACTIVE MOBILE PROTOTYPE VIEWPORT
            ========================================================================== */
         #prototype-viewport {
             width: 100vw;
@@ -64,7 +66,6 @@
             max-height: 100vh;
             margin: auto;
             overflow: hidden;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             container-type: size;
             user-select: none;
             box-shadow: 0 0 60px rgba(0, 0, 0, 0.9);
@@ -75,233 +76,185 @@
         }
 
         /* ==========================================================================
-           PRESENTATION MODE (High-End Scrolling Website)
+           MODE 2: LIGHT-MODE EDITORIAL PRESENTATION (No AI Slop)
            ========================================================================== */
         #presentation-viewport {
             display: none;
             width: 100%;
             min-height: 100vh;
-            background: var(--bg-dark);
+            background: var(--canvas-bg);
             position: relative;
             z-index: 200;
             overflow-y: auto;
-            scroll-behavior: smooth;
         }
 
-        /* Background atmospheric mesh glow */
-        .ambient-mesh {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            pointer-events: none;
-            z-index: 0;
-            background: 
-                radial-gradient(circle at 15% 20%, rgba(225, 29, 72, 0.08) 0%, transparent 45%),
-                radial-gradient(circle at 85% 65%, rgba(59, 130, 246, 0.06) 0%, transparent 50%),
-                radial-gradient(circle at 50% 90%, rgba(239, 68, 68, 0.05) 0%, transparent 40%);
-        }
-
-        /* Persistent Navigation / Brand Header */
+        /* Architectural Top Bar */
         .pres-nav {
             position: sticky;
             top: 0;
             width: 100%;
-            padding: 1.25rem 2.5rem;
+            padding: 1.25rem 3rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: rgba(8, 9, 13, 0.82);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border-glass);
+            background: rgba(250, 249, 245, 0.94);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-rule);
             z-index: 50;
         }
 
         .pres-nav-brand {
             display: flex;
-            align-items: center;
-            gap: 0.85rem;
-        }
-
-        .pres-logo-icon {
-            width: 28px;
-            height: 28px;
-            background: linear-gradient(135deg, var(--accent-crimson), #fb7185);
-            border-radius: 7px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #fff;
-            font-weight: 900;
-            font-size: 14px;
-            box-shadow: 0 4px 12px rgba(225, 29, 72, 0.35);
+            align-items: baseline;
+            gap: 1.25rem;
         }
 
         .pres-nav-title {
-            font-size: 1.05rem;
-            font-weight: 700;
-            color: #fff;
-            letter-spacing: -0.02em;
+            font-family: var(--font-editorial);
+            font-size: 1.6rem;
+            font-weight: 400;
+            color: var(--ink-primary);
+            letter-spacing: -0.01em;
+            line-height: 1;
         }
 
         .pres-nav-badge {
             font-family: var(--font-mono);
             font-size: 0.72rem;
-            padding: 0.2rem 0.6rem;
-            border-radius: 999px;
-            background: rgba(255, 255, 255, 0.06);
-            color: var(--text-secondary);
-            border: 1px solid var(--border-glass);
-        }
-
-        .pres-nav-actions {
-            display: flex;
-            align-items: center;
-            gap: 1.25rem;
+            font-weight: 500;
+            color: var(--ink-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
         }
 
         .btn-live-prototype {
             display: inline-flex;
             align-items: center;
-            gap: 0.5rem;
-            background: rgba(239, 68, 68, 0.12);
-            color: #fca5a5;
-            border: 1px solid rgba(239, 68, 68, 0.3);
-            padding: 0.5rem 1.15rem;
-            border-radius: 8px;
+            gap: 0.6rem;
+            background: var(--ink-primary);
+            color: #fff;
+            border: 1px solid var(--ink-primary);
+            padding: 0.6rem 1.25rem;
+            border-radius: 6px;
             font-size: 0.85rem;
             font-weight: 600;
             text-decoration: none;
-            transition: all 0.2s ease;
             cursor: pointer;
+            transition: all 0.15s ease;
         }
 
         .btn-live-prototype:hover {
-            background: rgba(239, 68, 68, 0.22);
-            border-color: rgba(239, 68, 68, 0.5);
-            color: #fff;
+            background: var(--signal-red);
+            border-color: var(--signal-red);
             transform: translateY(-1px);
         }
 
         .pulse-dot {
-            width: 7px;
-            height: 7px;
+            width: 6px;
+            height: 6px;
             border-radius: 50%;
-            background: #ef4444;
-            box-shadow: 0 0 8px #ef4444;
-            animation: pulse 1.8s infinite;
+            background: #fff;
         }
 
-        @keyframes pulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.4; transform: scale(0.85); }
-        }
-
-        /* Main Scrolling Content Area */
+        /* Container Layout */
         .pres-container {
-            max-width: 1280px;
+            max-width: 1180px;
             margin: 0 auto;
-            padding: 3rem 2.5rem 6rem;
-            position: relative;
-            z-index: 10;
+            padding: 2rem 3rem 6rem;
         }
 
-        /* Common Section Layout */
+        /* Section Anatomy */
         .pres-section {
-            min-height: calc(100vh - 120px);
+            min-height: calc(100vh - 100px);
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            padding: 4.5rem 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            position: relative;
+            justify-content: space-between;
+            padding: 5rem 0 3.5rem;
+            border-bottom: 1px solid var(--border-rule);
         }
 
         .pres-section:last-of-type {
             border-bottom: none;
         }
 
-        /* Kicker Label */
+        /* Kicker */
         .pres-kicker {
             font-family: var(--font-mono);
-            font-size: 0.8125rem;
+            font-size: 0.78rem;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.14em;
-            color: #fb7185;
+            color: var(--signal-red);
             margin-bottom: 1.25rem;
             display: flex;
             align-items: center;
-            gap: 0.65rem;
+            gap: 0.75rem;
         }
 
         .pres-kicker::before {
             content: '';
-            display: inline-block;
-            width: 18px;
-            height: 2px;
-            background: #e11d48;
+            width: 16px;
+            height: 1.5px;
+            background: var(--signal-red);
         }
 
-        /* Section Headings */
+        /* Display Headings */
         .pres-title {
-            font-size: clamp(3.2rem, 6.5vw, 5.75rem);
-            font-weight: 800;
-            color: #fff;
-            letter-spacing: -0.04em;
-            line-height: 1.04;
-            margin-bottom: 1.5rem;
+            font-family: var(--font-editorial);
+            font-size: clamp(3.75rem, 7.5vw, 6.75rem);
+            font-weight: 400;
+            color: var(--ink-primary);
+            letter-spacing: -0.02em;
+            line-height: 0.98;
+            margin-bottom: 1.75rem;
         }
 
         .pres-subline {
-            font-size: clamp(1.25rem, 2.2vw, 1.85rem);
+            font-size: clamp(1.2rem, 2vw, 1.65rem);
             font-weight: 400;
-            color: #cbd5e1;
+            color: var(--ink-secondary);
             line-height: 1.45;
-            max-width: 780px;
-            letter-spacing: -0.015em;
-            margin-bottom: 3.5rem;
+            max-width: 720px;
+            letter-spacing: -0.01em;
+            margin-bottom: 3rem;
         }
 
-        /* Running Footers */
+        /* Editorial Running Footers */
         .pres-footer {
-            margin-top: auto;
-            padding-top: 3.5rem;
+            padding-top: 3rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 0.95rem;
-            color: var(--text-muted);
-            border-top: 1px solid var(--border-glass);
+            font-size: 0.9rem;
+            font-family: var(--font-mono);
+            color: var(--ink-muted);
+            border-top: 1px solid var(--border-rule);
             flex-wrap: wrap;
             gap: 1rem;
         }
 
         .pres-footer a.prototype-link {
-            color: #38bdf8;
-            text-decoration: none;
+            color: var(--signal-red);
+            text-decoration: underline;
+            text-underline-offset: 4px;
             font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.35rem;
-            transition: color 0.2s ease;
+            transition: color 0.15s ease;
         }
 
         .pres-footer a.prototype-link:hover {
-            color: #7dd3fc;
-            text-decoration: underline;
+            color: var(--signal-crimson);
         }
 
         /* ==========================================================================
-           SECTION 1: HERO / COVER
+           SECTION 1: HERO (COVER)
            ========================================================================== */
-        .hero-grid {
+        .hero-layout {
             display: grid;
             grid-template-columns: 1.15fr 0.85fr;
-            gap: 4rem;
+            gap: 4.5rem;
             align-items: center;
             width: 100%;
+            margin: auto 0;
         }
 
         .hero-left {
@@ -309,73 +262,58 @@
             flex-direction: column;
         }
 
-        .hero-stats-row {
-            display: flex;
-            gap: 2.5rem;
-            margin-bottom: 2rem;
-            padding: 1.5rem 0;
-            border-top: 1px solid var(--border-glass);
-            border-bottom: 1px solid var(--border-glass);
+        .hero-meta-table {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            padding: 1.75rem 0;
+            margin-bottom: 2.5rem;
+            border-top: 1px solid var(--border-rule);
+            border-bottom: 1px solid var(--border-rule);
         }
 
-        .hero-stat-item {
+        .hero-meta-col {
             display: flex;
             flex-direction: column;
-            gap: 0.25rem;
+            gap: 0.35rem;
         }
 
-        .hero-stat-label {
+        .hero-meta-label {
             font-family: var(--font-mono);
-            font-size: 0.72rem;
-            color: var(--text-muted);
+            font-size: 0.7rem;
+            color: var(--ink-muted);
             text-transform: uppercase;
             letter-spacing: 0.08em;
         }
 
-        .hero-stat-value {
-            font-size: 1.15rem;
+        .hero-meta-value {
+            font-size: 1.05rem;
             font-weight: 700;
-            color: #f1f5f9;
+            color: var(--ink-primary);
         }
 
-        /* Phone Device Mockup Showcase */
+        /* Clean Architectural Mockup */
         .hero-mockup-wrapper {
             display: flex;
             justify-content: center;
             align-items: center;
-            position: relative;
-        }
-
-        .mockup-backdrop-glow {
-            position: absolute;
-            width: 340px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(225, 29, 72, 0.28) 0%, transparent 70%);
-            filter: blur(54px);
-            z-index: 1;
         }
 
         .device-phone-chassis {
             position: relative;
-            z-index: 2;
-            width: 360px;
-            height: calc(360px * (1844 / 852));
-            background: #111317;
-            border-radius: 54px;
+            width: 350px;
+            height: calc(350px * (1844 / 852));
+            background: #18191c;
+            border-radius: 52px;
             padding: 10px;
             box-shadow: 
-                0 32px 80px -15px rgba(0, 0, 0, 0.9),
-                0 0 0 1px rgba(255, 255, 255, 0.14),
-                inset 0 0 0 2px rgba(255, 255, 255, 0.08);
-            transform: perspective(1200px) rotateY(-4deg) rotateX(2deg);
-            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+                0 25px 60px -15px rgba(18, 19, 22, 0.18),
+                0 0 0 1px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease;
         }
 
         .device-phone-chassis:hover {
-            transform: perspective(1200px) rotateY(0deg) rotateX(0deg) scale(1.02);
-            box-shadow: 
-                0 42px 100px -10px rgba(225, 29, 72, 0.3),
-                0 0 0 1px rgba(255, 255, 255, 0.22);
+            transform: translateY(-4px);
         }
 
         .device-screen-bezel {
@@ -383,7 +321,7 @@
             width: 100%;
             height: 100%;
             aspect-ratio: 852 / 1844;
-            border-radius: 44px;
+            border-radius: 42px;
             overflow: hidden;
             background: rgb(250, 249, 247);
             container-type: size;
@@ -399,251 +337,214 @@
         }
 
         /* ==========================================================================
-           SECTION 2: THE BRIEF & REFRAME
+           SECTION 2: THE BRIEF
            ========================================================================== */
-        .brief-layout {
+        .brief-content {
             display: flex;
             flex-direction: column;
             gap: 3.5rem;
             width: 100%;
+            margin: auto 0;
         }
 
-        .asked-vs-testing-grid {
+        /* The 2-Column Comparison Table */
+        .editorial-matrix {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 2.5rem;
+            border-top: 1.5px solid var(--border-dark);
             width: 100%;
         }
 
-        .comparison-col {
+        .matrix-col {
             display: flex;
             flex-direction: column;
-            gap: 1.5rem;
         }
 
-        .col-header-pill {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
+        .matrix-col:first-child {
+            border-right: 1px solid var(--border-rule);
+            padding-right: 3rem;
+        }
+
+        .matrix-col:last-child {
+            padding-left: 3rem;
+        }
+
+        .matrix-header {
+            padding: 1.5rem 0 1.25rem;
             font-family: var(--font-mono);
-            font-size: 0.8125rem;
+            font-size: 0.78rem;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.1em;
-            padding: 0.65rem 1.25rem;
-            border-radius: 12px;
-            width: fit-content;
+            letter-spacing: 0.12em;
+            color: var(--ink-muted);
+            border-bottom: 1px solid var(--border-rule);
         }
 
-        .col-left-pill {
-            background: rgba(148, 163, 184, 0.08);
-            color: #94a3b8;
-            border: 1px solid rgba(148, 163, 184, 0.15);
+        .matrix-header.highlight-header {
+            color: var(--signal-red);
         }
 
-        .col-right-pill {
-            background: rgba(59, 130, 246, 0.12);
-            color: #93c5fd;
-            border: 1px solid rgba(59, 130, 246, 0.25);
-        }
-
-        .brief-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-glass);
-            border-radius: 20px;
-            padding: 2rem;
-            backdrop-filter: blur(16px);
+        .matrix-row {
+            padding: 1.75rem 0;
+            border-bottom: 1px solid var(--border-rule);
             display: flex;
             flex-direction: column;
-            gap: 0.85rem;
-            position: relative;
-            transition: all 0.25s ease;
+            gap: 0.45rem;
         }
 
-        .brief-card:hover {
-            border-color: rgba(255, 255, 255, 0.18);
-            transform: translateY(-2px);
-            background: rgba(26, 30, 44, 0.85);
-        }
-
-        .brief-card-num {
+        .matrix-num {
             font-family: var(--font-mono);
-            font-size: 0.75rem;
+            font-size: 0.72rem;
             font-weight: 700;
-            color: var(--accent-red);
-            letter-spacing: 0.1em;
+            color: var(--ink-muted);
+            letter-spacing: 0.08em;
         }
 
-        .brief-card-title {
-            font-size: 1.25rem;
+        .matrix-title {
+            font-size: 1.15rem;
             font-weight: 700;
-            color: #fff;
-            letter-spacing: -0.02em;
+            color: var(--ink-primary);
             line-height: 1.3;
         }
 
-        .brief-card-desc {
+        .matrix-desc {
             font-size: 0.95rem;
-            color: var(--text-secondary);
-            line-height: 1.6;
+            color: var(--ink-secondary);
+            line-height: 1.55;
         }
 
-        /* The Reframe Callout (Punchline - Greatest Weight) */
-        .reframe-banner-card {
-            position: relative;
-            background: linear-gradient(135deg, rgba(225, 29, 72, 0.12) 0%, rgba(17, 24, 39, 0.85) 60%, rgba(8, 9, 13, 0.95) 100%);
-            border: 1.5px solid rgba(225, 29, 72, 0.35);
-            border-radius: 28px;
-            padding: 3.5rem 3.5rem;
-            overflow: hidden;
-            box-shadow: 
-                0 24px 60px rgba(225, 29, 72, 0.12),
-                inset 0 1px 0 rgba(255, 255, 255, 0.15);
+        /* Central Reframe (Greatest Visual Weight) */
+        .reframe-spotlight {
+            padding: 3rem 0;
+            border-top: 2px solid var(--border-dark);
+            border-bottom: 2px solid var(--border-dark);
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
         }
 
-        .reframe-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
+        .reframe-tag {
             font-family: var(--font-mono);
-            font-size: 0.75rem;
+            font-size: 0.78rem;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.14em;
-            color: #fb7185;
-            background: rgba(225, 29, 72, 0.15);
-            border: 1px solid rgba(225, 29, 72, 0.3);
-            padding: 0.35rem 0.85rem;
-            border-radius: 999px;
-            margin-bottom: 1.5rem;
+            color: var(--signal-red);
         }
 
-        .reframe-punchline {
-            font-size: clamp(1.85rem, 3.4vw, 2.85rem);
-            font-weight: 800;
-            color: #ffffff;
-            line-height: 1.22;
-            letter-spacing: -0.03em;
-            margin-bottom: 1.25rem;
+        .reframe-statement {
+            font-family: var(--font-editorial);
+            font-size: clamp(2.25rem, 4.2vw, 3.6rem);
+            font-weight: 400;
+            color: var(--ink-primary);
+            line-height: 1.15;
+            letter-spacing: -0.015em;
         }
 
-        .reframe-punchline span.highlight {
-            background: linear-gradient(120deg, #fca5a5, #f43f5e);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        .reframe-statement strong {
+            font-weight: 400;
+            color: var(--signal-red);
+            font-style: italic;
         }
 
-        .reframe-subtext {
-            font-size: 1.15rem;
-            color: #cbd5e1;
-            line-height: 1.6;
+        .reframe-secondary {
+            font-size: 1.25rem;
+            font-weight: 500;
+            color: var(--ink-secondary);
+            line-height: 1.5;
             max-width: 820px;
         }
 
         /* ==========================================================================
-           SECTION 3: THE PROCESS & DOUBLE DIAMOND
+           SECTION 3: THE PROCESS
            ========================================================================== */
-        .process-layout {
+        .process-content {
             display: flex;
             flex-direction: column;
             gap: 3.5rem;
             width: 100%;
+            margin: auto 0;
         }
 
-        .caption-card {
+        .caption-banner {
             display: flex;
-            align-items: center;
-            gap: 1.25rem;
-            padding: 1.25rem 2rem;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid var(--border-glass);
-            border-radius: 16px;
-            width: fit-content;
+            align-items: baseline;
+            gap: 1rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-rule);
         }
 
-        .caption-icon {
-            font-size: 1.2rem;
+        .caption-tag {
+            font-family: var(--font-mono);
+            font-size: 0.78rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--signal-red);
+            flex-shrink: 0;
         }
 
-        .caption-text {
-            font-size: 1.15rem;
+        .caption-sentence {
+            font-size: 1.35rem;
             font-weight: 600;
-            color: #f1f5f9;
+            color: var(--ink-primary);
             letter-spacing: -0.01em;
+            line-height: 1.4;
         }
 
-        .diamond-diagram-container {
-            background: var(--bg-card);
-            border: 1px solid var(--border-glass);
-            border-radius: 28px;
-            padding: 3rem 2.5rem;
-            backdrop-filter: blur(20px);
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+        .diagram-art-frame {
+            padding: 2.5rem 1.5rem;
+            background: #fff;
+            border: 1px solid var(--border-rule);
+            border-radius: 12px;
         }
 
-        /* 7 Phases Breakdown Cards */
-        .phases-grid {
+        /* 7 Phases Editorial Table */
+        .phases-row {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
-            gap: 1rem;
+            border-top: 1px solid var(--border-rule);
+            border-bottom: 1px solid var(--border-rule);
             width: 100%;
-            margin-top: 2rem;
         }
 
-        .phase-step-card {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid var(--border-glass);
-            border-radius: 14px;
-            padding: 1.15rem 1rem;
+        .phase-col {
+            padding: 1.25rem 0.85rem;
+            border-right: 1px solid var(--border-rule);
             display: flex;
             flex-direction: column;
-            gap: 0.5rem;
-            transition: all 0.2s ease;
+            gap: 0.4rem;
         }
 
-        .phase-step-card:hover {
-            background: rgba(255, 255, 255, 0.05);
-            border-color: rgba(255, 255, 255, 0.2);
-            transform: translateY(-2px);
+        .phase-col:last-child {
+            border-right: none;
         }
 
-        .phase-num {
+        .phase-idx {
             font-family: var(--font-mono);
-            font-size: 0.72rem;
+            font-size: 0.7rem;
             font-weight: 700;
-            color: #94a3b8;
+            color: var(--ink-muted);
         }
 
-        .phase-name {
-            font-size: 0.92rem;
+        .phase-title {
+            font-size: 0.95rem;
             font-weight: 700;
-            color: #fff;
+            color: var(--ink-primary);
             line-height: 1.25;
         }
 
-        .phase-type {
+        .phase-meta {
             font-size: 0.75rem;
-            color: #64748b;
+            color: var(--ink-secondary);
+            line-height: 1.4;
         }
 
-        /* Floating Mode Switch Notification (Top right indicator) */
-        .shortcut-badge {
-            font-family: var(--font-mono);
-            font-size: 0.75rem;
-            color: #94a3b8;
-            padding: 0.35rem 0.75rem;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--border-glass);
-            border-radius: 8px;
-        }
-
-        /* ==========================================================================
-           PRINT / PDF EXPORT STYLES
-           ========================================================================== */
+        /* Print / PDF Styles */
         @media print {
             body, html {
-                background: #08090d !important;
-                color: #fff !important;
+                background: #fff !important;
+                color: #000 !important;
                 -webkit-print-color-adjust: exact !important;
                 print-color-adjust: exact !important;
             }
@@ -671,26 +572,38 @@
             }
 
             .device-phone-chassis {
-                transform: none !important;
-                box-shadow: 0 0 0 1px #333 !important;
+                box-shadow: 0 0 0 1px #ccc !important;
             }
         }
 
-        /* Responsive breakpoints */
+        /* Responsive Breakpoints */
         @media (max-width: 1024px) {
-            .hero-grid {
+            .hero-layout {
                 grid-template-columns: 1fr;
                 gap: 3rem;
             }
-            .asked-vs-testing-grid {
+            .editorial-matrix {
                 grid-template-columns: 1fr;
             }
-            .phases-grid {
+            .matrix-col:first-child {
+                border-right: none;
+                border-bottom: 1px solid var(--border-rule);
+                padding-right: 0;
+                padding-bottom: 2rem;
+            }
+            .matrix-col:last-child {
+                padding-left: 0;
+                padding-top: 2rem;
+            }
+            .phases-row {
                 grid-template-columns: repeat(2, 1fr);
+            }
+            .phase-col:nth-child(2n) {
+                border-right: none;
             }
             .pres-section {
                 min-height: auto;
-                padding: 3rem 0;
+                padding: 4rem 0;
             }
         }
     </style>
@@ -1032,64 +945,61 @@
     </div>
 
     <!-- ==========================================================================
-         MODE 2: HIGH-END EDITORIAL PRESENTATION WEBSITE
+         MODE 2: LIGHT-MODE EDITORIAL PRESENTATION WEBSITE
          ========================================================================== -->
     <div id="presentation-viewport">
-        <div class="ambient-mesh"></div>
 
-        <!-- Sticky Top Navigation Bar -->
+        <!-- Top Navigation -->
         <header class="pres-nav">
             <div class="pres-nav-brand">
-                <div class="pres-logo-icon">H</div>
                 <span class="pres-nav-title">Harbor</span>
-                <span class="pres-nav-badge">Paytm Design Internship 2027</span>
+                <span class="pres-nav-badge">Paytm Design Internship 2027 · Design Task</span>
             </div>
-            <div class="pres-nav-actions">
-                <button class="btn-live-prototype" onclick="togglePresentationMode(false)">
-                    <span class="pulse-dot"></span>
-                    <span>Switch to Interactive Prototype</span>
-                </button>
-            </div>
+            <button class="btn-live-prototype" onclick="togglePresentationMode(false)">
+                <span class="pulse-dot"></span>
+                <span>Switch to Interactive Prototype</span>
+            </button>
         </header>
 
         <main class="pres-container">
 
             <!-- ------------------------------------------------------------------
-                 SECTION 1: COVER / HERO
+                 SECTION 1: COVER
                  ------------------------------------------------------------------ -->
             <section class="pres-section" id="section-cover">
-                <div class="hero-grid">
+                <div>
+                    <div class="pres-kicker">Paytm Design Internship 2027 · Design Task</div>
+                </div>
+
+                <div class="hero-layout">
                     <div class="hero-left">
-                        <div class="pres-kicker">Paytm Design Internship 2027 · Design Task</div>
                         <h1 class="pres-title">Harbor</h1>
                         <p class="pres-subline">A superhero emergency alert app. One tap, and the right help is moving.</p>
 
-                        <div class="hero-stats-row">
-                            <div class="hero-stat-item">
-                                <span class="hero-stat-label">Response Trigger</span>
-                                <span class="hero-stat-value">1-Tap Immediate</span>
+                        <div class="hero-meta-table">
+                            <div class="hero-meta-col">
+                                <span class="hero-meta-label">Primary Trigger</span>
+                                <span class="hero-meta-value">Single Tap SOS</span>
                             </div>
-                            <div class="hero-stat-item">
-                                <span class="hero-stat-label">Interface Paradigm</span>
-                                <span class="hero-stat-value">Panic-First Sensory</span>
+                            <div class="hero-meta-col">
+                                <span class="hero-meta-label">Product Stance</span>
+                                <span class="hero-meta-value">Panic-First Sensory</span>
                             </div>
-                            <div class="hero-stat-item">
-                                <span class="hero-stat-label">Core Lifecycle</span>
-                                <span class="hero-stat-value">5 Dynamic States</span>
+                            <div class="hero-meta-col">
+                                <span class="hero-meta-label">Lifecycle</span>
+                                <span class="hero-meta-value">5 Verified States</span>
                             </div>
                         </div>
 
-                        <div style="display: flex; gap: 1rem; align-items: center;">
-                            <button class="btn-live-prototype" onclick="togglePresentationMode(false)" style="padding: 0.75rem 1.5rem; font-size: 0.95rem;">
-                                <span class="pulse-dot"></span>
+                        <div>
+                            <button class="btn-live-prototype" onclick="togglePresentationMode(false)" style="padding: 0.8rem 1.6rem; font-size: 0.95rem;">
                                 <span>Launch Interactive Prototype ↗</span>
                             </button>
                         </div>
                     </div>
 
-                    <!-- Right Visual: Large, Authentic Home Screen Mockup -->
+                    <!-- Visual: Large Home Screen Mockup -->
                     <div class="hero-mockup-wrapper">
-                        <div class="mockup-backdrop-glow"></div>
                         <div class="device-phone-chassis">
                             <div class="device-screen-bezel">
                                 <div style="width: 100%; height: 100%; position: relative; background: rgb(250, 249, 247);">
@@ -1123,7 +1033,7 @@
                     </div>
                 </div>
 
-                <!-- Footer Mirror 1 -->
+                <!-- Footer: First place reviewer sees the link -->
                 <footer class="pres-footer">
                     <div>Vikhyat Kaushik · October 2026</div>
                     <div>
@@ -1137,86 +1047,82 @@
                  SECTION 2: THE BRIEF
                  ------------------------------------------------------------------ -->
             <section class="pres-section" id="section-brief">
-                <div class="brief-layout">
-                    <div>
-                        <div class="pres-kicker">Problem Framing &amp; Objectives</div>
-                        <h2 class="pres-title" style="font-size: clamp(2.5rem, 4.5vw, 4rem);">The brief</h2>
-                    </div>
+                <div>
+                    <div class="pres-kicker">Objective &amp; Problem Reframe</div>
+                    <h2 class="pres-title" style="font-size: clamp(3rem, 5.5vw, 5rem); margin-bottom: 0;">The brief</h2>
+                </div>
 
-                    <!-- Visual: The "asked vs really testing" Two-Column -->
-                    <div class="asked-vs-testing-grid">
+                <div class="brief-content">
+                    <!-- Visual: The "asked vs really testing" two-column -->
+                    <div class="editorial-matrix">
 
-                        <!-- Left Column: Deliverables As Written -->
-                        <div class="comparison-col">
-                            <div class="col-header-pill col-left-pill">
-                                <span>Deliverables as Written</span>
+                        <!-- Left Column: The 3 deliverables as written -->
+                        <div class="matrix-col">
+                            <div class="matrix-header">The Deliverables (As Written)</div>
+
+                            <div class="matrix-row">
+                                <span class="matrix-num">01 / DISPATCH &amp; LIFECYCLE</span>
+                                <h3 class="matrix-title">Reach superheroes fast &amp; track request lifecycle</h3>
+                                <p class="matrix-desc">Reach heroes fast; track full request stages: raised, verified, assigned, responded, resolved.</p>
                             </div>
 
-                            <div class="brief-card">
-                                <span class="brief-card-num">DELIVERABLE 01</span>
-                                <h3 class="brief-card-title">Reach superheroes fast &amp; track request lifecycle</h3>
-                                <p class="brief-card-desc">Full lifecycle tracking: raised, verified, assigned, responded, resolved with real-time updates.</p>
+                            <div class="matrix-row">
+                                <span class="matrix-num">02 / EDGE CASE</span>
+                                <h3 class="matrix-title">Include one critical edge case</h3>
+                                <p class="matrix-desc">Identify an unpredictable crisis condition (e.g. escalating threat severity) and design resilient system handling.</p>
                             </div>
 
-                            <div class="brief-card">
-                                <span class="brief-card-num">DELIVERABLE 02</span>
-                                <h3 class="brief-card-title">Include one critical edge case</h3>
-                                <p class="brief-card-desc">Identify an unpredictable crisis condition (e.g. escalating threat severity, powers out of control) and build resilient system handling.</p>
-                            </div>
-
-                            <div class="brief-card">
-                                <span class="brief-card-num">DELIVERABLE 03</span>
-                                <h3 class="brief-card-title">Deliver interactive prototype link + PDF note</h3>
-                                <p class="brief-card-desc">A functional, testable user flow accompanied by documented design rationale and clear behavioral assumptions.</p>
+                            <div class="matrix-row">
+                                <span class="matrix-num">03 / ARTIFACTS</span>
+                                <h3 class="matrix-title">Deliver interactive prototype link + PDF</h3>
+                                <p class="matrix-desc">Deliver a functional interactive prototype link accompanied by a PDF document detailing user flow, design decisions, and assumptions.</p>
                             </div>
                         </div>
 
-                        <!-- Right Column: What Each One Is Really Testing -->
-                        <div class="comparison-col">
-                            <div class="col-header-pill col-right-pill">
-                                <span>What Each One Is Really Testing</span>
+                        <!-- Right Column: What each one is really testing -->
+                        <div class="matrix-col">
+                            <div class="matrix-header highlight-header">What Each One Is Really Testing</div>
+
+                            <div class="matrix-row">
+                                <span class="matrix-num" style="color: var(--signal-red);">EVALUATING STRESS UX</span>
+                                <h3 class="matrix-title">Designing for panic</h3>
+                                <p class="matrix-desc">Under mortal threat, cognitive load drops to zero and motor control degrades. Shaking hands cannot navigate forms. Speed must precede triage.</p>
                             </div>
 
-                            <div class="brief-card" style="border-left: 3px solid #3b82f6;">
-                                <span class="brief-card-num" style="color: #60a5fa;">EVALUATING UX UNDER ADVERSITY</span>
-                                <h3 class="brief-card-title">Designing for panic</h3>
-                                <p class="brief-card-desc">When a user is under mortal threat, cognitive bandwidth drops to zero. Fine motor control degrades. Shaking hands cannot navigate dropdowns.</p>
+                            <div class="matrix-row">
+                                <span class="matrix-num" style="color: var(--signal-red);">EVALUATING SYSTEM TRANSPARENCY</span>
+                                <h3 class="matrix-title">Legible dispatch</h3>
+                                <p class="matrix-desc">Clear hero tier assignment, live distance ETA, and sensory certainty without information overload or panic-inducing ambiguity.</p>
                             </div>
 
-                            <div class="brief-card" style="border-left: 3px solid #a855f7;">
-                                <span class="brief-card-num" style="color: #c084fc;">EVALUATING SYSTEM CLARITY</span>
-                                <h3 class="brief-card-title">Legible dispatch</h3>
-                                <p class="brief-card-desc">Transparent hero routing that provides absolute certainty without sensory overload: showing hero tiers, ETA distance, and live location sharing.</p>
-                            </div>
-
-                            <div class="brief-card" style="border-left: 3px solid #22c55e;">
-                                <span class="brief-card-num" style="color: #4ade80;">EVALUATING EMOTIONAL ANCHOR</span>
-                                <h3 class="brief-card-title">Calm while waiting</h3>
-                                <p class="brief-card-desc">The most dangerous window is the gap between alert and arrival. The interface must provide safety protocols and non-revealing stealth modes.</p>
+                            <div class="matrix-row">
+                                <span class="matrix-num" style="color: var(--signal-red);">EVALUATING PSYCHOLOGICAL SAFETY</span>
+                                <h3 class="matrix-title">Calm while waiting</h3>
+                                <p class="matrix-desc">The most vulnerable moments are during transit. The interface must provide protective stealth, discreet reporting, and actionable reassurance.</p>
                             </div>
                         </div>
 
                     </div>
 
-                    <!-- The Reframe Line: Greatest Visual Weight -->
-                    <div class="reframe-banner-card">
-                        <div class="reframe-badge">The Central Reframe</div>
-                        <h3 class="reframe-punchline">
-                            This is not a dispatch dashboard. It is a <span class="highlight">panic-first product</span>.
+                    <!-- Reframe Line: Greatest Weight on the Page -->
+                    <div class="reframe-spotlight">
+                        <div class="reframe-tag">The Reframe</div>
+                        <h3 class="reframe-statement">
+                            This is not a dispatch dashboard. It is a <strong>panic-first product</strong>.
                         </h3>
-                        <p class="reframe-subtext">
+                        <p class="reframe-secondary">
                             Design for shaking hands, then earn trust while they wait.
                         </p>
                     </div>
-
-                    <!-- Footer -->
-                    <footer class="pres-footer" style="padding-top: 2rem;">
-                        <div>Vikhyat Kaushik · October 2026</div>
-                        <div>
-                            <a href="https://v1khyat.github.io/PayTm-Design-Task/" class="prototype-link" target="_blank" onclick="event.preventDefault(); togglePresentationMode(false);">Interactive prototype link ↗</a>
-                        </div>
-                    </footer>
                 </div>
+
+                <!-- Footer -->
+                <footer class="pres-footer">
+                    <div>Vikhyat Kaushik · October 2026</div>
+                    <div>
+                        <a href="https://v1khyat.github.io/PayTm-Design-Task/" class="prototype-link" target="_blank" onclick="event.preventDefault(); togglePresentationMode(false);">Interactive prototype link ↗</a>
+                    </div>
+                </footer>
             </section>
 
 
@@ -1224,186 +1130,173 @@
                  SECTION 3: THE PROCESS
                  ------------------------------------------------------------------ -->
             <section class="pres-section" id="section-process">
-                <div class="process-layout">
-                    <div>
-                        <div class="pres-kicker">Methodology &amp; Double Diamond</div>
-                        <h2 class="pres-title" style="font-size: clamp(2.5rem, 4.5vw, 4rem);">How this was designed</h2>
-                    </div>
+                <div>
+                    <div class="pres-kicker">Design Methodology</div>
+                    <h2 class="pres-title" style="font-size: clamp(3rem, 5.5vw, 5rem); margin-bottom: 0;">How this was designed</h2>
+                </div>
 
-                    <!-- Caption Line Card -->
-                    <div class="caption-card">
-                        <span class="caption-icon">⚡</span>
-                        <span class="caption-text">Breadth first, then depth. Dozens of concepts explored; one flow taken deep.</span>
+                <div class="process-content">
+                    <!-- Caption Line -->
+                    <div class="caption-banner">
+                        <span class="caption-tag">Guiding Principle</span>
+                        <p class="caption-sentence">Breadth first, then depth. Dozens of concepts explored; one flow taken deep.</p>
                     </div>
 
                     <!-- Double Diamond Diagram Visual -->
-                    <div class="diamond-diagram-container">
-                        <svg viewBox="0 0 1000 340" fill="none" xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: auto; max-height: 280px; display: block; margin: 0 auto;">
+                    <div class="diagram-art-frame">
+                        <svg viewBox="0 0 1000 340" fill="none" xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: auto; max-height: 300px; display: block; margin: 0 auto;">
   <defs>
-    <!-- Gradients -->
-    <linearGradient id="d1Grad" x1="60" y1="170" x2="480" y2="170" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.15" />
-      <stop offset="50%" stop-color="#60a5fa" stop-opacity="0.25" />
-      <stop offset="100%" stop-color="#3b82f6" stop-opacity="0.1" />
+    <linearGradient id="d1Light" x1="60" y1="170" x2="480" y2="170" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#f5f5f4" stop-opacity="0.8" />
+      <stop offset="100%" stop-color="#ebebe8" stop-opacity="0.9" />
     </linearGradient>
-    <linearGradient id="d2Grad" x1="480" y1="170" x2="900" y2="170" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="#ef4444" stop-opacity="0.12" />
-      <stop offset="50%" stop-color="#f87171" stop-opacity="0.28" />
-      <stop offset="100%" stop-color="#ef4444" stop-opacity="0.12" />
+    <linearGradient id="d2Light" x1="480" y1="170" x2="900" y2="170" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#fef2f2" stop-opacity="0.8" />
+      <stop offset="100%" stop-color="#fee2e2" stop-opacity="0.9" />
     </linearGradient>
-    <linearGradient id="lineGrad" x1="60" y1="170" x2="900" y2="170" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="#60a5fa" />
-      <stop offset="48%" stop-color="#93c5fd" />
-      <stop offset="52%" stop-color="#fca5a5" />
-      <stop offset="100%" stop-color="#ef4444" />
-    </linearGradient>
-    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
-      <feGaussianBlur stdDeviation="4" result="blur" />
-      <feComposite in="SourceGraphic" in2="blur" operator="over" />
-    </filter>
   </defs>
 
   <!-- Diamond 1 Background Fill -->
-  <polygon points="70,170 270,35 470,170 270,305" fill="url(#d1Grad)" stroke="#3b82f6" stroke-width="1.5" stroke-dasharray="4 4" stroke-opacity="0.4" />
+  <polygon points="70,170 270,35 470,170 270,305" fill="url(#d1Light)" stroke="#18181b" stroke-width="1.5" stroke-dasharray="4 4" stroke-opacity="0.25" />
   
   <!-- Diamond 2 Background Fill -->
-  <polygon points="490,170 690,35 890,170 690,305" fill="url(#d2Grad)" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="4 4" stroke-opacity="0.4" />
+  <polygon points="490,170 690,35 890,170 690,305" fill="url(#d2Light)" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="4 4" stroke-opacity="0.25" />
 
   <!-- Center Horizontal Baseline -->
-  <line x1="50" y1="170" x2="910" y2="170" stroke="url(#lineGrad)" stroke-width="2" stroke-opacity="0.5" stroke-dasharray="2 4" />
+  <line x1="50" y1="170" x2="910" y2="170" stroke="#d4d4d8" stroke-width="1.5" stroke-dasharray="2 4" />
 
-  <!-- Diamond 1 Solid Edges (Active journey) -->
-  <polyline points="70,170 270,35 470,170" stroke="#60a5fa" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
-  <polyline points="70,170 270,305 470,170" stroke="#60a5fa" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+  <!-- Diamond 1 Solid Edges -->
+  <polyline points="70,170 270,35 470,170" stroke="#18181b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+  <polyline points="70,170 270,305 470,170" stroke="#18181b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
 
-  <!-- Diamond 2 Solid Edges (Active journey) -->
-  <polyline points="490,170 690,35 890,170" stroke="#f87171" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
-  <polyline points="490,170 690,305 890,170" stroke="#f87171" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+  <!-- Diamond 2 Solid Edges -->
+  <polyline points="490,170 690,35 890,170" stroke="#dc2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+  <polyline points="490,170 690,305 890,170" stroke="#dc2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
 
   <!-- Diamond Headers / Stages -->
-  <g font-family="Inter, -apple-system, sans-serif" font-size="11" font-weight="700" letter-spacing="0.1em" text-anchor="middle">
-    <rect x="200" y="8" width="140" height="20" rx="10" fill="#1e293b" stroke="#3b82f6" stroke-width="1" stroke-opacity="0.4" />
-    <text x="270" y="22" fill="#93c5fd">1. DISCOVER &amp; DEFINE</text>
+  <g font-family="'Plus Jakarta Sans', -apple-system, sans-serif" font-size="11" font-weight="700" letter-spacing="0.1em" text-anchor="middle">
+    <rect x="195" y="8" width="150" height="22" rx="11" fill="#fff" stroke="#18181b" stroke-width="1" />
+    <text x="270" y="23" fill="#18181b">1. DISCOVER &amp; DEFINE</text>
     
-    <rect x="620" y="8" width="140" height="20" rx="10" fill="#2d1517" stroke="#ef4444" stroke-width="1" stroke-opacity="0.4" />
-    <text x="690" y="22" fill="#fca5a5">2. DEVELOP &amp; DELIVER</text>
+    <rect x="615" y="8" width="150" height="22" rx="11" fill="#fff" stroke="#dc2626" stroke-width="1" />
+    <text x="690" y="23" fill="#dc2626">2. DEVELOP &amp; DELIVER</text>
   </g>
 
   <!-- Widening / Convergence Markers -->
-  <g font-family="Inter, -apple-system, sans-serif" font-size="9" font-weight="600" letter-spacing="0.05em">
-    <text x="170" y="160" fill="#64748b" text-anchor="middle">WIDENING ↗</text>
-    <text x="370" y="160" fill="#64748b" text-anchor="middle">CONVERGING ↘</text>
-    <text x="590" y="160" fill="#64748b" text-anchor="middle">WIDENING ↗</text>
-    <text x="790" y="160" fill="#64748b" text-anchor="middle">CONVERGING ↘</text>
+  <g font-family="'JetBrains Mono', monospace" font-size="9" font-weight="600" letter-spacing="0.08em">
+    <text x="170" y="158" fill="#71717a" text-anchor="middle">WIDENING ↗</text>
+    <text x="370" y="158" fill="#71717a" text-anchor="middle">CONVERGING ↘</text>
+    <text x="590" y="158" fill="#dc2626" text-anchor="middle" fill-opacity="0.8">WIDENING ↗</text>
+    <text x="790" y="158" fill="#dc2626" text-anchor="middle" fill-opacity="0.8">CONVERGING ↘</text>
   </g>
 
   <!-- PHASE 1: Sense intent -->
   <g transform="translate(95, 120)">
-    <circle cx="0" cy="0" r="14" fill="#1e293b" stroke="#60a5fa" stroke-width="2" />
-    <text x="0" y="4" font-family="Inter, sans-serif" font-size="10" font-weight="700" fill="#fff" text-anchor="middle">01</text>
-    <text x="0" y="-22" font-family="Inter, sans-serif" font-size="12" font-weight="700" fill="#f8fafc" text-anchor="middle">Sense intent</text>
-    <text x="0" y="28" font-family="Inter, sans-serif" font-size="9.5" fill="#94a3b8" text-anchor="middle">Deconstruct prompt</text>
+    <circle cx="0" cy="0" r="14" fill="#fff" stroke="#18181b" stroke-width="2" />
+    <text x="0" y="4" font-family="'JetBrains Mono', monospace" font-size="9.5" font-weight="700" fill="#18181b" text-anchor="middle">01</text>
+    <text x="0" y="-22" font-family="'Plus Jakarta Sans', sans-serif" font-size="12" font-weight="700" fill="#18181b" text-anchor="middle">Sense intent</text>
+    <text x="0" y="28" font-family="'Plus Jakarta Sans', sans-serif" font-size="9.5" font-weight="500" fill="#71717a" text-anchor="middle">Deconstruct prompt</text>
   </g>
 
   <!-- PHASE 2: Know context -->
   <g transform="translate(230, 80)">
-    <circle cx="0" cy="0" r="14" fill="#1e293b" stroke="#60a5fa" stroke-width="2" />
-    <text x="0" y="4" font-family="Inter, sans-serif" font-size="10" font-weight="700" fill="#fff" text-anchor="middle">02</text>
-    <text x="0" y="-20" font-family="Inter, sans-serif" font-size="12" font-weight="700" fill="#f8fafc" text-anchor="middle">Know context</text>
-    <text x="0" y="28" font-family="Inter, sans-serif" font-size="9.5" fill="#94a3b8" text-anchor="middle">Hero chaos &amp; distress</text>
+    <circle cx="0" cy="0" r="14" fill="#fff" stroke="#18181b" stroke-width="2" />
+    <text x="0" y="4" font-family="'JetBrains Mono', monospace" font-size="9.5" font-weight="700" fill="#18181b" text-anchor="middle">02</text>
+    <text x="0" y="-20" font-family="'Plus Jakarta Sans', sans-serif" font-size="12" font-weight="700" fill="#18181b" text-anchor="middle">Know context</text>
+    <text x="0" y="28" font-family="'Plus Jakarta Sans', sans-serif" font-size="9.5" font-weight="500" fill="#71717a" text-anchor="middle">Hero chaos &amp; distress</text>
   </g>
 
   <!-- PHASE 3: Know people -->
   <g transform="translate(250, 240)">
-    <circle cx="0" cy="0" r="14" fill="#1e293b" stroke="#60a5fa" stroke-width="2" />
-    <text x="0" y="4" font-family="Inter, sans-serif" font-size="10" font-weight="700" fill="#fff" text-anchor="middle">03</text>
-    <text x="0" y="28" font-family="Inter, sans-serif" font-size="12" font-weight="700" fill="#f8fafc" text-anchor="middle">Know people</text>
-    <text x="0" y="-20" font-family="Inter, sans-serif" font-size="9.5" fill="#94a3b8" text-anchor="middle">Panicked civilians</text>
+    <circle cx="0" cy="0" r="14" fill="#fff" stroke="#18181b" stroke-width="2" />
+    <text x="0" y="4" font-family="'JetBrains Mono', monospace" font-size="9.5" font-weight="700" fill="#18181b" text-anchor="middle">03</text>
+    <text x="0" y="28" font-family="'Plus Jakarta Sans', sans-serif" font-size="12" font-weight="700" fill="#18181b" text-anchor="middle">Know people</text>
+    <text x="0" y="-20" font-family="'Plus Jakarta Sans', sans-serif" font-size="9.5" font-weight="500" fill="#71717a" text-anchor="middle">Panicked civilians</text>
   </g>
 
   <!-- PHASE 4: Frame insights (Converge point) -->
   <g transform="translate(480, 170)">
-    <circle cx="0" cy="0" r="18" fill="#0f172a" stroke="#a855f7" stroke-width="3" filter="url(#glow)" />
-    <text x="0" y="4" font-family="Inter, sans-serif" font-size="11" font-weight="800" fill="#c084fc" text-anchor="middle">04</text>
-    <rect x="-65" y="-55" width="130" height="24" rx="12" fill="#1e1b4b" stroke="#a855f7" stroke-width="1.2" />
-    <text x="0" y="-39" font-family="Inter, sans-serif" font-size="11" font-weight="800" fill="#e9d5ff" text-anchor="middle">Frame insights</text>
-    <text x="0" y="38" font-family="Inter, sans-serif" font-size="9.5" font-weight="600" fill="#c084fc" text-anchor="middle">Panic-first pivot</text>
+    <circle cx="0" cy="0" r="18" fill="#18181b" stroke="#18181b" stroke-width="2" />
+    <text x="0" y="4" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="800" fill="#fff" text-anchor="middle">04</text>
+    <rect x="-65" y="-55" width="130" height="24" rx="12" fill="#18181b" />
+    <text x="0" y="-39" font-family="'Plus Jakarta Sans', sans-serif" font-size="11" font-weight="700" fill="#fff" text-anchor="middle">Frame insights</text>
+    <text x="0" y="38" font-family="'Plus Jakarta Sans', sans-serif" font-size="9.5" font-weight="600" fill="#dc2626" text-anchor="middle">Panic-first pivot</text>
   </g>
 
   <!-- PHASE 5: Explore concepts -->
   <g transform="translate(630, 80)">
-    <circle cx="0" cy="0" r="14" fill="#2d1517" stroke="#f87171" stroke-width="2" />
-    <text x="0" y="4" font-family="Inter, sans-serif" font-size="10" font-weight="700" fill="#fff" text-anchor="middle">05</text>
-    <text x="0" y="-20" font-family="Inter, sans-serif" font-size="12" font-weight="700" fill="#f8fafc" text-anchor="middle">Explore concepts</text>
-    <text x="0" y="28" font-family="Inter, sans-serif" font-size="9.5" fill="#94a3b8" text-anchor="middle">1-tap vs category triage</text>
+    <circle cx="0" cy="0" r="14" fill="#fff" stroke="#dc2626" stroke-width="2" />
+    <text x="0" y="4" font-family="'JetBrains Mono', monospace" font-size="9.5" font-weight="700" fill="#dc2626" text-anchor="middle">05</text>
+    <text x="0" y="-20" font-family="'Plus Jakarta Sans', sans-serif" font-size="12" font-weight="700" fill="#18181b" text-anchor="middle">Explore concepts</text>
+    <text x="0" y="28" font-family="'Plus Jakarta Sans', sans-serif" font-size="9.5" font-weight="500" fill="#71717a" text-anchor="middle">1-tap vs category triage</text>
   </g>
 
   <!-- PHASE 6: Frame solution -->
   <g transform="translate(710, 240)">
-    <circle cx="0" cy="0" r="14" fill="#2d1517" stroke="#f87171" stroke-width="2" />
-    <text x="0" y="4" font-family="Inter, sans-serif" font-size="10" font-weight="700" fill="#fff" text-anchor="middle">06</text>
-    <text x="0" y="28" font-family="Inter, sans-serif" font-size="12" font-weight="700" fill="#f8fafc" text-anchor="middle">Frame solution</text>
-    <text x="0" y="-20" font-family="Inter, sans-serif" font-size="9.5" fill="#94a3b8" text-anchor="middle">Immediate dispatch + updates</text>
+    <circle cx="0" cy="0" r="14" fill="#fff" stroke="#dc2626" stroke-width="2" />
+    <text x="0" y="4" font-family="'JetBrains Mono', monospace" font-size="9.5" font-weight="700" fill="#dc2626" text-anchor="middle">06</text>
+    <text x="0" y="28" font-family="'Plus Jakarta Sans', sans-serif" font-size="12" font-weight="700" fill="#18181b" text-anchor="middle">Frame solution</text>
+    <text x="0" y="-20" font-family="'Plus Jakarta Sans', sans-serif" font-size="9.5" font-weight="500" fill="#71717a" text-anchor="middle">Immediate dispatch + updates</text>
   </g>
 
   <!-- PHASE 7: Realise offer (Final convergent delivery) -->
   <g transform="translate(865, 170)">
-    <circle cx="0" cy="0" r="16" fill="#14532d" stroke="#22c55e" stroke-width="2.5" filter="url(#glow)" />
-    <text x="0" y="4" font-family="Inter, sans-serif" font-size="11" font-weight="800" fill="#fff" text-anchor="middle">07</text>
-    <rect x="-55" y="-52" width="110" height="24" rx="12" fill="#052e16" stroke="#22c55e" stroke-width="1.2" />
-    <text x="0" y="-36" font-family="Inter, sans-serif" font-size="11" font-weight="800" fill="#86efac" text-anchor="middle">Realise offer</text>
-    <text x="0" y="36" font-family="Inter, sans-serif" font-size="9.5" font-weight="600" fill="#4ade80" text-anchor="middle">Harbor Prototype</text>
+    <circle cx="0" cy="0" r="16" fill="#dc2626" stroke="#dc2626" stroke-width="2" />
+    <text x="0" y="4" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="800" fill="#fff" text-anchor="middle">07</text>
+    <rect x="-55" y="-52" width="110" height="24" rx="12" fill="#fff" stroke="#dc2626" stroke-width="1.5" />
+    <text x="0" y="-36" font-family="'Plus Jakarta Sans', sans-serif" font-size="11" font-weight="800" fill="#dc2626" text-anchor="middle">Realise offer</text>
+    <text x="0" y="36" font-family="'Plus Jakarta Sans', sans-serif" font-size="9.5" font-weight="600" fill="#18181b" text-anchor="middle">Harbor Prototype</text>
   </g>
 </svg>
                     </div>
 
-                    <!-- 7 Phases Structured Breakdown -->
-                    <div class="phases-grid">
-                        <div class="phase-step-card">
-                            <span class="phase-num">01 · DIVERGE</span>
-                            <span class="phase-name">Sense intent</span>
-                            <span class="phase-type">Deconstructing core objectives &amp; constraints</span>
+                    <!-- 7 Phases Row -->
+                    <div class="phases-row">
+                        <div class="phase-col">
+                            <span class="phase-idx">01 · DIVERGE</span>
+                            <h4 class="phase-title">Sense intent</h4>
+                            <p class="phase-meta">Deconstructing prompt objectives</p>
                         </div>
-                        <div class="phase-step-card">
-                            <span class="phase-num">02 · RESEARCH</span>
-                            <span class="phase-name">Know context</span>
-                            <span class="phase-type">Disaster zones &amp; superhero dynamics</span>
+                        <div class="phase-col">
+                            <span class="phase-idx">02 · RESEARCH</span>
+                            <h4 class="phase-title">Know context</h4>
+                            <p class="phase-meta">Disaster realities &amp; hero tiers</p>
                         </div>
-                        <div class="phase-step-card">
-                            <span class="phase-num">03 · EMPATHY</span>
-                            <span class="phase-name">Know people</span>
-                            <span class="phase-type">Physiological state during acute terror</span>
+                        <div class="phase-col">
+                            <span class="phase-idx">03 · EMPATHY</span>
+                            <h4 class="phase-title">Know people</h4>
+                            <p class="phase-meta">Physiology of terrified victims</p>
                         </div>
-                        <div class="phase-step-card" style="border-color: rgba(168, 85, 247, 0.4); background: rgba(168, 85, 247, 0.05);">
-                            <span class="phase-num" style="color: #c084fc;">04 · CONVERGE</span>
-                            <span class="phase-name">Frame insights</span>
-                            <span class="phase-type">The panic-first reframe pivot</span>
+                        <div class="phase-col" style="background: var(--canvas-subtle);">
+                            <span class="phase-idx" style="color: var(--signal-red);">04 · CONVERGE</span>
+                            <h4 class="phase-title">Frame insights</h4>
+                            <p class="phase-meta">The panic-first product pivot</p>
                         </div>
-                        <div class="phase-step-card">
-                            <span class="phase-num">05 · DIVERGE</span>
-                            <span class="phase-name">Explore concepts</span>
-                            <span class="phase-type">Voice vs button, triage vs instant dispatch</span>
+                        <div class="phase-col">
+                            <span class="phase-idx">05 · DIVERGE</span>
+                            <h4 class="phase-title">Explore concepts</h4>
+                            <p class="phase-meta">Forms vs one-tap dispatch</p>
                         </div>
-                        <div class="phase-step-card">
-                            <span class="phase-num">06 · ITERATE</span>
-                            <span class="phase-name">Frame solution</span>
-                            <span class="phase-type">Immediate SOS + progressive enrichment</span>
+                        <div class="phase-col">
+                            <span class="phase-idx">06 · ITERATE</span>
+                            <h4 class="phase-title">Frame solution</h4>
+                            <p class="phase-meta">Immediate alert + progressive details</p>
                         </div>
-                        <div class="phase-step-card" style="border-color: rgba(34, 197, 94, 0.4); background: rgba(34, 197, 94, 0.05);">
-                            <span class="phase-num" style="color: #4ade80;">07 · CONVERGE</span>
-                            <span class="phase-name">Realise offer</span>
-                            <span class="phase-type">Harbor interactive prototype delivery</span>
+                        <div class="phase-col" style="background: #fef2f2;">
+                            <span class="phase-idx" style="color: var(--signal-red);">07 · CONVERGE</span>
+                            <h4 class="phase-title">Realise offer</h4>
+                            <p class="phase-meta">Harbor interactive delivery</p>
                         </div>
                     </div>
-
-                    <!-- Exact Mirrored Footer on Last Page -->
-                    <footer class="pres-footer" style="padding-top: 2rem;">
-                        <div>Vikhyat Kaushik · October 2026</div>
-                        <div>
-                            <a href="https://v1khyat.github.io/PayTm-Design-Task/" class="prototype-link" target="_blank" onclick="event.preventDefault(); togglePresentationMode(false);">Interactive prototype link ↗</a>
-                        </div>
-                    </footer>
                 </div>
+
+                <!-- Footer: Mirrored on the last page -->
+                <footer class="pres-footer">
+                    <div>Vikhyat Kaushik · October 2026</div>
+                    <div>
+                        <a href="https://v1khyat.github.io/PayTm-Design-Task/" class="prototype-link" target="_blank" onclick="event.preventDefault(); togglePresentationMode(false);">Interactive prototype link ↗</a>
+                    </div>
+                </footer>
             </section>
 
         </main>
@@ -1413,7 +1306,6 @@
          SCRIPT: NAVIGATION, OVERLAYS & KEYBOARD SHORTCUT 'P'
          ========================================================================== -->
     <script>
-        // Global toggle between Prototype and Presentation Mode
         let isPresentationMode = false;
 
         function togglePresentationMode(show) {
@@ -1439,7 +1331,6 @@
         // Listen for keyboard press 'P' or 'p' to toggle presentation mode
         window.addEventListener('keydown', (e) => {
             if (e.key === 'p' || e.key === 'P') {
-                // Ignore if user is currently typing in an input or textarea
                 if (['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
                 togglePresentationMode();
             } else if (e.key === 'Escape' && isPresentationMode) {
@@ -1447,7 +1338,7 @@
             }
         });
 
-        // Screen switching for Prototype
+        // Prototype Overlay Routing
         document.addEventListener("DOMContentLoaded", () => {
             function showScreen(id) {
                 document.querySelectorAll('#prototype-viewport .screen').forEach(s => s.style.display = 'none');
