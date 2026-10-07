@@ -1,0 +1,260 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: #d4d4d4;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ─── Phone Shell ─────────────────────────────────
+   container-type: size → all children use cqh/cqw
+   Figma frame: 851 × 1844px
+────────────────────────────────────────────────── */
+.phone {
+    container-type: size;
+    container-name: phone;
+    height: 90vh;
+    aspect-ratio: 851 / 1844;
+    background: rgb(250,249,247);   /* exact Figma bg */
+    box-shadow: 0 32px 80px rgba(0,0,0,0.22);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* ─── Status Bar ──────────────────────────────────
+   Figma: 106px tall = 5.75cqh
+────────────────────────────────────────────────── */
+.status-bar {
+    height: 5.75cqh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 6.1cqw 0 6.7cqw;   /* Figma: 57px left, 52px right */
+    flex-shrink: 0;
+}
+
+.status-time {
+    font-size: 1.85cqh;    /* Figma: 34px / 1844 = 1.84cqh */
+    font-weight: 700;
+    color: rgb(3,4,3);
+    letter-spacing: -0.02em;
+}
+
+.status-icons {
+    display: flex;
+    align-items: center;
+    gap: 1.5cqw;
+}
+
+.status-icons svg {
+    height: 1.6cqh;
+    width: auto;
+}
+
+/* ─── Header (Brand + Menu) ──────────────────────
+   Figma: starts at 106px, height 200px = 10.85cqh
+   Brand+menu is vertically centered in its 200px frame
+────────────────────────────────────────────────── */
+.app-header {
+    height: 10.85cqh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 6.1cqw 0 6.7cqw;
+    flex-shrink: 0;
+}
+
+.app-title {
+    font-size: 4.34cqh;    /* Figma: 80px / 1844 = 4.34cqh */
+    font-weight: 700;
+    color: rgb(3,4,3);
+    letter-spacing: -0.04em;
+    line-height: 1;
+}
+
+.menu-btn {
+    width: 4.99cqh;        /* Figma: 92px square */
+    height: 4.99cqh;
+    border-radius: 50%;
+    background: rgb(244,243,241);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: background 0.15s;
+}
+
+.menu-btn:hover  { background: rgb(235,233,230); }
+.menu-btn:active { background: rgb(220,218,215); }
+
+.menu-btn svg {
+    width: 2cqh;
+    height: auto;
+}
+
+/* ─── Spacer ─────────────────────────────────────
+   Figma: cards start at 28.74% from top.
+   Top so far: status(5.75) + header(10.85) = 16.6cqh
+   Remaining to card top: 28.74 - 16.6 = 12.14cqh
+   This spacer fills that gap.
+────────────────────────────────────────────────── */
+.spacer {
+    height: 12.14cqh;
+    flex-shrink: 0;
+}
+
+/* ─── Action Cards ────────────────────────────────
+   Figma: section starts at 28.74%, height 28.15cqh
+   Card margin: 5.05% from left → 5.05cqw each side
+   Gap between cards: 24px = 1.3cqh
+────────────────────────────────────────────────── */
+.cards-section {
+    padding: 0 5.05cqw;
+    display: flex;
+    flex-direction: column;
+    gap: 1.3cqh;
+    flex-shrink: 0;
+}
+
+/* Figma card: 252px tall = 13.67cqh, radius 32px = 1.74cqh */
+.action-card {
+    background: rgb(244,243,241);
+    border-radius: 1.74cqh;
+    height: 13.67cqh;
+    display: flex;
+    align-items: center;
+    /* Figma: icon 30px from left edge of card */
+    padding: 0 4.6cqw 0 3.53cqw;
+    gap: 0;
+    cursor: pointer;
+    transition: background 0.12s;
+}
+
+.action-card:active { background: rgb(228,226,223); }
+
+/* ─── Icon tile ───────────────────────────────────
+   Figma: 138×138px = 7.48cqh square, radius 28px = 1.52cqh
+   bg: rgb(235,233,230)
+────────────────────────────────────────────────── */
+.card-icon-box {
+    width: 7.48cqh;
+    height: 7.48cqh;
+    border-radius: 1.52cqh;
+    background: rgb(235,233,230);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-right: 3.8cqw;   /* gap between icon and text */
+}
+
+.card-icon-box svg {
+    height: 3.6cqh;
+    width: auto;
+}
+
+.card-text {
+    flex: 1;
+    min-width: 0;
+}
+
+/* Figma title: 38px = 2.06cqh, weight 700 */
+.card-text h2 {
+    font-size: 2.06cqh;
+    font-weight: 700;
+    color: rgb(3,4,3);
+    letter-spacing: -0.01em;
+    margin-bottom: 0.5cqh;
+    line-height: 1.25;
+}
+
+/* Figma description: 28px = 1.52cqh, weight 400, color rgb(137,142,152) */
+.card-text p {
+    font-size: 1.52cqh;
+    font-weight: 400;
+    color: rgb(137,142,152);
+    line-height: 1.4;
+}
+
+.card-chevron {
+    flex-shrink: 0;
+    height: 1.8cqh;
+    width: auto;
+    color: rgb(3,4,3);
+    opacity: 0.5;
+    margin-left: 2cqw;
+}
+
+/* ─── SOS Card ────────────────────────────────────
+   Figma: section starts at 56.89%, height 35.03cqh
+   Card top margin inside section: 32px = 1.74cqh
+   Card margin sides: 4.58cqw
+   Card height: 33.3cqh, radius: 32px = 1.74cqh
+   bg: rgb(216,59,48)
+────────────────────────────────────────────────── */
+.sos-section {
+    flex: 1;               /* fills remaining space exactly like Figma */
+    padding: 1.74cqh 4.58cqw 0;
+    flex-shrink: 0;
+}
+
+.sos-card {
+    background: rgb(216,59,48);
+    border-radius: 1.74cqh;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: filter 0.15s ease;
+}
+
+.sos-card:active { filter: brightness(0.88); }
+
+/* Figma SOS text: 164px = 8.89cqh, weight 900 */
+.sos-title {
+    font-size: 8.89cqh;
+    font-weight: 900;
+    color: #fff;
+    letter-spacing: -0.04em;
+    line-height: 1;
+    margin-bottom: 1.2cqh;
+}
+
+/* Figma subtitle: 24px = 1.3cqh, weight 700, color rgb(243,187,179) */
+.sos-sub {
+    font-size: 1.3cqh;
+    font-weight: 700;
+    color: rgb(243,187,179);
+    letter-spacing: 0.2em;
+}
+
+/* ─── Home Indicator ──────────────────────────────
+   Figma: area 149px = 8.08cqh
+────────────────────────────────────────────────── */
+.home-bar {
+    height: 8.08cqh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.home-indicator {
+    width: 36%;
+    height: 0.65cqh;
+    background: rgb(180,177,176);
+    border-radius: 100px;
+}
