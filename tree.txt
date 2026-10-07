@@ -1,0 +1,428 @@
+
+--- Home ---
+FRAME Harbor home
+  FRAME Header
+    FRAME Status bar
+      TEXT Time - 9:41
+      FRAME Device status
+        FRAME ios-signal
+          VECTOR Vector
+        FRAME ios-wifi-signal
+          VECTOR Vector
+        FRAME ios-battery-full
+          VECTOR Vector
+    FRAME Brand and menu
+      TEXT Brand - Harbor
+      FRAME Menu
+        VECTOR Menu icon
+  FRAME Quick actions
+    FRAME Action card
+      FRAME Icon tile
+        VECTOR Guide icon
+      FRAME Action description
+        TEXT Title - What to do if...
+        TEXT Description - Quick guides for common situations.
+      VECTOR Open action
+    FRAME Action card
+      FRAME Icon tile
+        VECTOR Report icon
+      FRAME Action description
+        TEXT Title - Report a problem
+        TEXT Description - Describe what you see.
+      VECTOR Open action
+  FRAME Emergency action
+    FRAME SOS request help
+      TEXT SOS - SOS
+      TEXT Help instruction - PRESS TO REQUEST HELP
+  FRAME Home indicator area
+    RECTANGLE Home indicator
+
+--- Sending ---
+FRAME Harbor — Sending alert
+  FRAME Status bar
+    TEXT Time - 9:41
+    FRAME Device status
+      VECTOR Cellular signal
+      VECTOR Wi-Fi
+      VECTOR Battery
+  FRAME Countdown
+    ELLIPSE Countdown track
+    VECTOR Countdown progress
+    TEXT Seconds remaining - 2
+    TEXT Sending status - Sending alert...
+  FRAME Cancel alert
+    TEXT Action label - Cancel
+  RECTANGLE Home indicator
+
+--- Active ---
+FRAME Harbor — SOS active
+  FRAME Status bar
+    TEXT Time - 9:41
+    FRAME Device status
+      VECTOR Cellular signal
+      VECTOR Wi-Fi
+      VECTOR Battery
+  FRAME Response status
+    FRAME Responders
+      FRAME Sharing status
+        TEXT Description - Sharing Location, Mic and Video
+        FRAME vibrate
+          VECTOR Vector
+      FRAME Nearest help
+        FRAME Icon tile
+          VECTOR Icon
+        FRAME Arrival information
+          TEXT Description - Help is just
+          TEXT Distance - 20 m away
+      FRAME Nearby responders
+        FRAME Icon tile
+          VECTOR Icon
+        FRAME Responder counts
+          TEXT Heroes - 5 Heroes are on your way
+          TEXT Description - 8 Watchers are near
+      FRAME Assigned hero
+        ELLIPSE Hero portrait
+        FRAME Hero information
+          TEXT Hero arrival - Genos is 600 m away
+          TEXT Description - Class A Hero, 127 Situations handled
+  FRAME Situation feedback
+    FRAME Situation controls
+      TEXT Description - The Current Situation is
+      FRAME Situation choices
+        FRAME Situation choice
+          FRAME trending-up
+            VECTOR Vector
+          TEXT Choice label - Better
+        FRAME Situation choice
+          FRAME trending-down
+            VECTOR Vector
+          TEXT Choice label - Worse
+      FRAME Cancel SOS
+        FRAME x
+          VECTOR Vector
+        TEXT Action label - Cancel SOS
+      FRAME Add details hint
+        TEXT Description - Swipe up anywhere to add details
+  RECTANGLE Home indicator
+
+--- Category ---
+FRAME Harbor — Situation category
+  FRAME Status bar
+    TEXT Time - 9:41
+    FRAME Device status
+      VECTOR Cellular signal
+      VECTOR Wi-Fi
+      VECTOR Battery
+  FRAME Report introduction
+    FRAME Progress
+      FRAME Progress track
+        RECTANGLE Progress value
+      TEXT Step label - Step 1 of 2
+    FRAME Instructions
+      TEXT Title - What do you see?
+      TEXT Description - Choose the option that best describes the situation.
+      TEXT Description - Your mic is on, so you can also just speak if it’s safe.
+  FRAME Situation options
+    FRAME Option row
+      FRAME Situation option
+        FRAME Icon tile
+          VECTOR Icon
+        FRAME Option information
+          TEXT Option label - Fire or smoke
+          TEXT Description - Flames, smoke, or a burning smell
+      FRAME Situation option
+        FRAME Icon tile
+          VECTOR Icon
+        FRAME Option information
+          TEXT Option label - Someone hurt
+          TEXT Description - An injured or collapsed person
+    FRAME Option row
+      FRAME Situation option
+        FRAME Icon tile
+          VECTOR Icon
+        FRAME Option information
+          TEXT Option label - Crime or suspicious
+          TEXT Description - Theft, assault, or something looks wrong
+      FRAME Situation option
+        FRAME Icon tile
+          VECTOR Icon
+        FRAME Option information
+          TEXT Option label - Disaster or collapse
+          TEXT Description - Crash, collapse, quake, or flood
+    FRAME Option row
+      FRAME Situation option
+        FRAME Icon tile
+          VECTOR Icon
+        FRAME Option information
+          TEXT Option label - Someone missing
+          TEXT Description - A person you can’t find
+      FRAME Situation option
+        FRAME Icon tile
+          VECTOR Icon
+        FRAME Option information
+          TEXT Option label - Villain or monster
+          TEXT Description - Someone or something attacking with powers
+    FRAME Option row
+      FRAME Situation option
+        FRAME Icon tile
+          VECTOR Icon
+        FRAME Option information
+          TEXT Option label - Powers out of control
+          TEXT Description - Someone who can’t control their powers
+      FRAME Situation option
+        FRAME Icon tile
+          VECTOR Icon
+        FRAME Option information
+          TEXT Option label - Battle nearby
+          TEXT Description - Heroes fighting close to you
+    FRAME Other situation
+      FRAME Icon tile
+        VECTOR Icon
+      FRAME Option information
+        TEXT Option label - Something else
+        TEXT Description - None of these match
+  RECTANGLE Home indicator
+
+--- Details ---
+FRAME Harbor — Fire details
+  FRAME Status bar
+    TEXT Time - 9:41
+    FRAME Device status
+      VECTOR Cellular signal
+      VECTOR Wi-Fi
+      VECTOR Battery
+  FRAME Report details
+    FRAME Progress inset
+      FRAME Progress
+        FRAME Progress track
+          RECTANGLE Progress value
+        TEXT Step label - Step 2 of 2
+    RECTANGLE Section spacing
+    FRAME Selected category
+      FRAME Icon tile
+        VECTOR Icon
+      TEXT Category label - Fire or smoke
+      FRAME Change category
+        TEXT Action label - Change
+    FRAME Visible conditions
+      FRAME Question
+        TEXT Title - What do you see?
+        TEXT Description - Tell us what’s visible right now.
+      FRAME Visible condition choices
+        FRAME Detail choice
+          FRAME Icon tile
+            VECTOR Icon
+          FRAME Choice information
+            TEXT Choice label - Flames
+            TEXT Description - Visible fire
+        FRAME Detail choice
+          FRAME Icon tile
+            FRAME cloud
+              VECTOR Vector
+          FRAME Choice information
+            TEXT Choice label - Only smoke
+            TEXT Description - No visible flames
+        FRAME Detail choice
+          FRAME Icon tile
+            TEXT Question icon - ?
+          FRAME Choice information
+            TEXT Choice label - Not sure
+            TEXT Description - I can’t tell
+    FRAME People inside
+      FRAME Question
+        TEXT Title - Anyone inside?
+        TEXT Description - Are there people in the building or area?
+      FRAME Occupancy choices
+        FRAME Detail choice
+          FRAME Icon tile
+            VECTOR Icon
+          FRAME Choice information
+            TEXT Choice label - Yes
+            TEXT Description - People are inside
+        FRAME Detail choice
+          FRAME Icon tile
+            VECTOR Icon
+          FRAME Choice information
+            TEXT Choice label - No
+            TEXT Description - No one inside
+        FRAME Detail choice
+          FRAME Icon tile
+            TEXT Question icon - ?
+          FRAME Choice information
+            TEXT Choice label - Not sure
+            TEXT Description - I’m not sure
+    FRAME Additional details
+      FRAME Question
+        TEXT Title - Anything else we should know?
+        TEXT Description - Add any details that could help responders.
+      FRAME Message and voice note
+        FRAME pencil
+          VECTOR Vector
+        TEXT Message placeholder - Type a message...
+        RECTANGLE Divider
+        FRAME audio-lines
+          VECTOR Vector
+        TEXT Voice note label - Record voice note
+      FRAME Location
+        FRAME Icon tile
+          VECTOR Icon
+        FRAME Location information
+          TEXT Label - Location
+          TEXT Location value - Current Location, Z City
+        FRAME Adjust location
+          TEXT Action label - Adjust
+    RECTANGLE Section spacing
+    FRAME Send details
+      VECTOR Icon
+      TEXT Action label - Send details
+  RECTANGLE Home indicator
+
+--- Worse ---
+FRAME Harbor — SOS situation worse
+  FRAME Status bar
+    TEXT Time - 9:41
+    FRAME Device status
+      VECTOR Cellular signal
+      VECTOR Wi-Fi
+      VECTOR Battery
+  FRAME Response status
+    FRAME Responders
+      FRAME Sharing status
+        TEXT Description - Sharing Location, Mic and Video
+        FRAME vibrate
+          VECTOR Vector
+      FRAME Rescue arrival
+        FRAME Icon tile
+          VECTOR Icon
+        FRAME Arrival information
+          TEXT Arrival title - Rescue is near you
+          TEXT Description - First responder arriving in ~2 min
+      FRAME Nearby responders
+        FRAME Icon tile
+          VECTOR Icon
+        FRAME Responder counts
+          TEXT Heroes - 8 Heroes are on their way
+          TEXT Description - More help is being dispatched
+          TEXT Description - 12 Watchers are near
+      FRAME Assigned hero
+        ELLIPSE Hero portrait
+        FRAME Hero information
+          TEXT Hero arrival - Tatsumaki is on her way
+          TEXT Description - S Tier Hero · Arriving in ~4 min
+      FRAME Assigned hero
+        ELLIPSE Hero portrait
+        FRAME Hero information
+          TEXT Hero arrival - Genos is 480 m away
+          TEXT Description - A Tier Hero · 127 Situations handled
+  FRAME Situation feedback
+    FRAME Situation controls
+      TEXT Description - The current situation is worse
+      FRAME Situation choices
+        FRAME Situation choice
+          FRAME trending-up
+            VECTOR Vector
+          TEXT Choice label - Better
+        FRAME Situation choice
+          FRAME trending-down
+            VECTOR Vector
+          TEXT Choice label - Worse
+      FRAME Cancel SOS
+        FRAME x
+          VECTOR Vector
+        TEXT Action label - Cancel SOS
+      FRAME Add details hint
+        TEXT Description - Swipe up anywhere to add details
+  RECTANGLE Home indicator
+
+--- Safe ---
+FRAME Harbor — You’re safe
+  FRAME Status bar
+    TEXT Time - 9:41
+    FRAME Device status
+      VECTOR Cellular signal
+      VECTOR Wi-Fi
+      VECTOR Battery
+  FRAME Safety confirmation
+    TEXT Title - You’re out.
+    TEXT Safety title - You’re safe.
+  FRAME Response outcome
+    FRAME Threat zone
+      FRAME Threat tier
+        FRAME shield
+          VECTOR Vector
+        TEXT Tier letter - A
+      FRAME Threat information
+        TEXT Description - You were in an
+        TEXT Threat level - A Tier threat zone.
+    FRAME Alert impact
+      FRAME Icon tile
+        VECTOR Icon
+      FRAME Impact information
+        TEXT Impact title - Pressing SOS was the right call.
+        TEXT Description - Your alert helped 3 nearby people get to safety too.
+    FRAME Medical assistance
+      FRAME Medical arrival
+        FRAME Icon tile
+          VECTOR Icon
+        FRAME Arrival information
+          TEXT Arrival title - A medical team is on the way.
+          TEXT Description - Arriving in ~3 min.
+      FRAME Medical team route
+        VECTOR River
+        RECTANGLE City block
+        RECTANGLE City block
+        RECTANGLE City block
+        RECTANGLE City block
+        RECTANGLE City block
+        RECTANGLE City block
+        RECTANGLE City block
+        RECTANGLE City block
+        RECTANGLE Park
+        RECTANGLE Park
+        VECTOR Street network
+        VECTOR Ambulance route
+        ELLIPSE Location radius
+        ELLIPSE Current location
+        ELLIPSE Medical team radius
+        FRAME Medical team marker
+          FRAME ambulance
+            VECTOR Vector
+    FRAME Response summary
+      FRAME Icon tile
+        FRAME clock
+          VECTOR Vector
+      FRAME Response time
+        TEXT Description - Response summary
+        TEXT Duration - 9 min
+      RECTANGLE Divider
+      FRAME Responding hero
+        ELLIPSE Hero portrait
+        TEXT Hero name - Tatsumaki
+        TEXT Hero tier - S Tier Hero
+      FRAME Responding hero
+        ELLIPSE Hero portrait
+        TEXT Hero name - Genos
+        TEXT Hero tier - A Tier Hero
+    FRAME Help feedback
+      FRAME Icon tile
+        VECTOR Icon
+      FRAME Feedback question
+        TEXT Title - Was the help right?
+        TEXT Description - Your feedback helps us improve.
+      FRAME Rating stars
+        FRAME star
+          VECTOR Vector
+        FRAME star
+          VECTOR Vector
+        FRAME star
+          VECTOR Vector
+        FRAME star
+          VECTOR Vector
+        FRAME star
+          VECTOR Vector
+    FRAME Done
+      FRAME Completion icon
+        FRAME check
+          VECTOR Vector
+      TEXT Action label - Done
+  RECTANGLE Home indicator

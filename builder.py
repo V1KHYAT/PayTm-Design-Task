@@ -73,7 +73,10 @@ def collect_html(node, frame_x, frame_y, frame_w, frame_h, out_list):
         # This completely prevents arbitrary browser wrapping and overlapping!
         chars = node.get("characters", "").replace("\n", "<br>")
         
-        css = f"position:absolute; left:{left}%; top:{top}%; width:max-content; height:max-content; font-size:{font_size}cqh; font-weight:{font_weight}; color:{color}; text-align:{text_align}; line-height: 1.15; display:flex; flex-direction:column; justify-content:{'center' if text_align=='center' else 'flex-start'}; white-space:nowrap; overflow:visible;"
+        lh_px = style.get("lineHeightPx", style.get("fontSize", 16) * 1.15)
+        lh_ratio = lh_px / style.get("fontSize", 16) if style.get("fontSize", 16) > 0 else 1.15
+        
+        css = f"position:absolute; left:{left}%; top:{top}%; width:max-content; height:max-content; font-size:{font_size}cqh; font-weight:{font_weight}; color:{color}; text-align:{text_align}; line-height:{lh_ratio}; display:flex; flex-direction:column; justify-content:{'center' if text_align=='center' else 'flex-start'}; white-space:nowrap; overflow:visible;"
         
         out_list.append(f"<div style='{css}'><span>{chars}</span></div>")
         return
