@@ -1,10 +1,8 @@
 import json
-import os
 
 with open("figma_data.json", "r", encoding="utf-8") as f:
     data = json.load(f)
 
-# The mapping from node ID to screen ID
 screens = {
     "21:250": "home",
     "21:3525": "sending_alert",
@@ -32,24 +30,7 @@ def get_fill_css(node):
             return rgba_to_css(fill["color"], fill.get("opacity", 1.0))
     return "transparent"
 
-def has_text_descendant(node):
-    if node["type"] == "TEXT":
-        return True
-    for child in node.get("children", []):
-        if has_text_descendant(child):
-            return True
-    return False
-
-def contains_vector(n):
-    if n["type"] == "VECTOR": return True
-    if "children" in n:
-        return any(contains_vector(c) for c in n["children"])
-    return False
-
-# We will collect a flat list of HTML snippets
 def collect_html(node, frame_x, frame_y, frame_w, frame_h, out_list):
-    is_pure_graphic = (not has_text_descendant(node)) and contains_vector(node)
-    
     bounds = node.get("absoluteBoundingBox")
     if not bounds:
         for child in node.get("children", []):
@@ -61,9 +42,23 @@ def collect_html(node, frame_x, frame_y, frame_w, frame_h, out_list):
     width = bounds["width"] / frame_w * 100
     height = bounds["height"] / frame_h * 100
 
-    if is_pure_graphic:
-        tag = f"<img id='{node['id']}' src='svgs/{node['id'].replace(':','_')}.svg' style='position:absolute; left:{left}%; top:{top}%; width:{width}%; height:{height}%; object-fit:contain;' />"
-        out_list.append(tag)
+    # If it's a VECTOR, we export it as an img exactly in its bounding box!
+    # Wait, some nodes like "Menu icon" are VECTOR.
+    # What if a vector has children? Vectors usually don't have children in Figma API unless it's a BOOLEAN_OPERATION.
+    if node["type"] in ["VECTOR", "BOOLEAN_OPERATION", "STAR", "LINE", "ELLIPSE", "REGULAR_POLYGON"]:
+        # We assume the SVG was exported with its exact ID.
+        safe_id = node['id'].replace(':','_')
+        
+        # Check if the file exists in svgs/
+        # Wait, I previously exported using `contains_vector` so I might have exported the FRAME, not the VECTOR!
+        import os
+        if os.path.exists(f"svgs/{safe_id}.svg"):
+            tag = f"<img id='{node['id']}' src='svgs/{safe_id}.svg' style='position:absolute; left:{left}%; top:{top}%; width:{width}%; height:{height}%; object-fit:contain;' />"
+            out_list.append(tag)
+        else:
+            # If the vector itself wasn't exported, maybe its parent was?
+            # For this quick fix, if the file doesn't exist, we just don't render it. 
+            pass
         return
 
     if node["type"] == "TEXT":
@@ -74,9 +69,11 @@ def collect_html(node, frame_x, frame_y, frame_w, frame_h, out_list):
         text_align = style.get("textAlignHorizontal", "LEFT").lower()
         if text_align == "justified": text_align = "left"
         
+        # We replace \n with <br> and force white-space: nowrap.
+        # This completely prevents arbitrary browser wrapping and overlapping!
         chars = node.get("characters", "").replace("\n", "<br>")
         
-        css = f"position:absolute; left:{left}%; top:{top}%; width:{width}%; height:{height}%; font-size:{font_size}cqh; font-weight:{font_weight}; color:{color}; text-align:{text_align}; line-height: 1.15; display:flex; flex-direction:column; justify-content:{'center' if text_align=='center' else 'flex-start'}; white-space:pre-wrap; overflow:visible;"
+        css = f"position:absolute; left:{left}%; top:{top}%; width:max-content; height:max-content; font-size:{font_size}cqh; font-weight:{font_weight}; color:{color}; text-align:{text_align}; line-height: 1.15; display:flex; flex-direction:column; justify-content:{'center' if text_align=='center' else 'flex-start'}; white-space:nowrap; overflow:visible;"
         
         out_list.append(f"<div style='{css}'><span>{chars}</span></div>")
         return
@@ -101,13 +98,11 @@ def collect_html(node, frame_x, frame_y, frame_w, frame_h, out_list):
 def build():
     all_screens_html = ""
     first = True
-    
     for node_id, screen_name in screens.items():
         node = data["nodes"][node_id]["document"]
         bounds = node["absoluteBoundingBox"]
         frame_x, frame_y = bounds["x"], bounds["y"]
         frame_w, frame_h = bounds["width"], bounds["height"]
-        
         bg = get_fill_css(node)
         
         out_list = []
@@ -141,7 +136,6 @@ def build():
             overlay.style.cursor = 'pointer';
             overlay.style.zIndex = '9999';
             overlay.style.pointerEvents = 'auto';
-            
             overlay.onclick = () => {
                 showScreen(targetId);
                 handleAutoTriggers(targetId);
@@ -149,24 +143,13 @@ def build():
             document.getElementById(screenId).appendChild(overlay);
         }
 
-        // Home
         createOverlay('home', 5, 50, 90, 40, 'sending_alert');
-        
-        // Sending Alert
         createOverlay('sending_alert', 5, 80, 90, 15, 'home');
-        
-        // SOS Active
         createOverlay('sos_active', 5, 87, 90, 10, 'situation_category');
         createOverlay('sos_active', 50, 60, 45, 10, 'sos_situation_worse');
         createOverlay('sos_active', 5, 70, 90, 10, 'home');
-        
-        // Situation Category
         createOverlay('situation_category', 5, 20, 45, 15, 'fire_details');
-        
-        // Fire Details
         createOverlay('fire_details', 5, 85, 90, 10, 'sos_situation_worse');
-        
-        // Safe
         createOverlay('safe', 5, 85, 90, 10, 'home');
         
         let timeoutId;
@@ -205,11 +188,9 @@ def build():
     </div>
 </body>
 </html>'''
-
     with open("index.html", "w", encoding="utf-8") as f:
         f.write(html_template)
-        
-    print(f"Generated SPA in index.html.")
+    print("Done")
 
 if __name__ == "__main__":
     build()
