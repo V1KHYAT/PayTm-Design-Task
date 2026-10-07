@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Harbor — Fire Details</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .category-header {
+            padding: 4cqh 6cqw;
+            display: flex;
+            align-items: center;
+            gap: 4cqw;
+        }
+        .back-btn {
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+        .form-container {
+            padding: 2cqh 6cqw;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+        .label {
+            font-size: 2cqh;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 2cqh;
+        }
+    </style>
+</head>
+<body>
+    <div class="phone dark-mode">
+
+        <!-- Status Bar -->
+        <div class="status-bar">
+            <span class="status-time">9:41</span>
+            <div class="status-icons">
+                <svg viewBox="0 0 17 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="0" y="6" width="3" height="6" rx="0.5" fill="rgb(3,4,3)"/>
+                    <rect x="4.5" y="4" width="3" height="8" rx="0.5" fill="rgb(3,4,3)"/>
+                    <rect x="9" y="2" width="3" height="10" rx="0.5" fill="rgb(3,4,3)"/>
+                    <rect x="13.5" y="0" width="3" height="12" rx="0.5" fill="rgb(3,4,3)"/>
+                </svg>
+                <svg viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M8 3C10.2 3 12.2 3.9 13.6 5.4L15 4C13.2 2.1 10.7 1 8 1C5.3 1 2.8 2.1 1 4L2.4 5.4C3.8 3.9 5.8 3 8 3Z" fill="rgb(3,4,3)"/>
+                    <path d="M8 6C9.4 6 10.6 6.6 11.5 7.5L12.9 6.1C11.6 4.8 9.9 4 8 4C6.1 4 4.4 4.8 3.1 6.1L4.5 7.5C5.4 6.6 6.6 6 8 6Z" fill="rgb(3,4,3)"/>
+                    <circle cx="8" cy="10.5" r="1.5" fill="rgb(3,4,3)"/>
+                </svg>
+                <svg viewBox="0 0 25 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="0.5" y="0.5" width="21" height="11" rx="3.5" stroke="rgb(3,4,3)" stroke-opacity="0.35"/>
+                    <rect x="2" y="2" width="17" height="8" rx="2" fill="rgb(3,4,3)"/>
+                    <path d="M23 4.5V7.5C23.8 7.2 24.5 6.4 24.5 5.5C24.5 4.6 23.8 3.8 23 4.5Z" fill="rgb(3,4,3)" fill-opacity="0.4"/>
+                </svg>
+            </div>
+        </div>
+
+        <div class="category-header">
+            <a href="situation_category.html" class="back-btn">
+                <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+            </a>
+            <h2 style="font-size: 2.5cqh; color: var(--text-primary);">Fire Details</h2>
+        </div>
+
+        <div class="form-container">
+            <div class="label">What do you see?</div>
+            <textarea class="form-input" placeholder="Describe the fire, location, and if anyone is trapped..."></textarea>
+            
+            <div style="flex:1;"></div>
+            
+            <a href="updates.html" class="primary-btn" style="margin-bottom: 2cqh;">Submit Details</a>
+        </div>
+
+        <!-- Home Indicator -->
+        <div class="home-bar">
+            <div class="home-indicator"></div>
+        </div>
+
+    </div>
+</body>
+</html>
