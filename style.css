@@ -1,423 +1,122 @@
-:root {
-    --bg-color: rgb(250,249,247);
-    --text-primary: rgb(3,4,3);
-    --text-secondary: rgb(137,142,152);
-    --surface: rgb(244,243,241);
-    --surface-variant: rgb(235,233,230);
-    --surface-active: rgb(228,226,223);
-    --icon-color: rgb(3,4,3);
-    --chevron-color: rgba(3,4,3, 0.5);
-    --indicator-bg: rgb(180,177,176);
-}
-
-.dark-mode {
-    --bg-color: #000000;
-    --text-primary: #FFFFFF;
-    --text-secondary: #A0A0A5;
-    --surface: #1C1C1E;
-    --surface-variant: #2C2C2E;
-    --surface-active: #3A3A3C;
-    --icon-color: #FFFFFF;
-    --chevron-color: rgba(255,255,255, 0.5);
-    --indicator-bg: #555555;
-}
-
-*, *::before, *::after {
+* {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    -webkit-tap-highlight-color: transparent;
+}
+
+:root {
+    --px: 0.0542299cqh;
+    
+    --bg-color: rgb(250,249,247);
+    --text-primary: rgb(3,4,3);
+    --text-secondary: rgb(153,153,153);
+    
+    --surface-active: rgb(255,255,255);
+    --surface-variant: rgb(246,244,242);
+}
+
+.dark-mode {
+    --bg-color: rgb(16,19,20);
+    --text-primary: rgb(250,250,250);
+    --text-secondary: rgb(180,184,188);
 }
 
 body {
+    background-color: #000;
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
     min-height: 100vh;
-    background: #d4d4d4;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    -webkit-font-smoothing: antialiased;
+    font-family: 'Inter', -apple-system, sans-serif;
+    overflow: hidden;
 }
 
-/* ─── Phone Shell ───────────────────────────────── */
 .phone {
-    container-type: size;
-    container-name: phone;
-    height: 90vh;
-    aspect-ratio: 851 / 1844;
+    aspect-ratio: 852 / 1844;
+    height: 100vh;
+    max-width: 100vw;
+    max-height: calc(100vw * (1844 / 852));
     background: var(--bg-color);
-    box-shadow: 0 32px 80px rgba(0,0,0,0.22);
+    position: relative;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
-    position: relative;
-    transition: background 0.3s ease;
+    container-type: size;
+    margin: 0 auto;
 }
 
-/* ─── Status Bar ────────────────────────────────── */
+.screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    flex-direction: column;
+    background: var(--bg-color);
+}
+
+.screen.active {
+    display: flex;
+}
+
+/* Status Bar: 106px height */
 .status-bar {
-    height: 5.75cqh;
+    height: calc(106 * var(--px));
+    padding: 0 calc(54 * var(--px));
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 6.1cqw 0 6.7cqw;
     flex-shrink: 0;
     z-index: 10;
 }
 
 .status-time {
-    font-size: 1.85cqh;
+    font-size: calc(34 * var(--px));
     font-weight: 700;
     color: var(--text-primary);
-    letter-spacing: -0.02em;
-    transition: color 0.3s ease;
 }
 
 .status-icons {
     display: flex;
+    gap: calc(12 * var(--px));
     align-items: center;
-    gap: 1.5cqw;
 }
-
 .status-icons svg {
-    height: 1.6cqh;
-    width: auto;
+    height: calc(26 * var(--px));
 }
-
-.status-icons svg rect, .status-icons svg path, .status-icons svg circle {
+.status-icons path, .status-icons rect, .status-icons circle {
     fill: var(--text-primary);
-    transition: fill 0.3s ease;
 }
-
-.status-icons svg rect[stroke] {
+.status-icons .stroke-only {
     stroke: var(--text-primary);
-    transition: stroke 0.3s ease;
+    fill: none;
 }
 
-/* ─── Header (Brand + Menu) ────────────────────── */
-.app-header {
-    height: 10.85cqh;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 6.1cqw 0 6.7cqw;
-    flex-shrink: 0;
-}
-
-.app-title {
-    font-size: 4.34cqh;
-    font-weight: 700;
-    color: var(--text-primary);
-    letter-spacing: -0.04em;
-    line-height: 1;
-    transition: color 0.3s ease;
-}
-
-.menu-btn {
-    width: 4.99cqh;
-    height: 4.99cqh;
-    border-radius: 50%;
-    background: var(--surface);
-    border: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    transition: background 0.15s;
-}
-
-.menu-btn:hover  { background: var(--surface-variant); }
-.menu-btn:active { background: var(--surface-active); }
-
-.menu-btn svg rect {
-    fill: var(--text-primary);
-}
-
-/* ─── Spacer ───────────────────────────────────── */
-.spacer {
-    height: 12.14cqh;
-    flex-shrink: 0;
-}
-
-/* ─── Action Cards ──────────────────────────────── */
-.cards-section {
-    padding: 0 5.05cqw;
-    display: flex;
-    flex-direction: column;
-    gap: 1.3cqh;
-    flex-shrink: 0;
-}
-
-.action-card {
-    background: var(--surface);
-    border-radius: 1.74cqh;
-    height: 13.67cqh;
-    display: flex;
-    align-items: center;
-    padding: 0 4.6cqw 0 3.53cqw;
-    gap: 0;
-    cursor: pointer;
-    transition: background 0.12s, transform 0.1s;
-    text-decoration: none;
-}
-
-.action-card:active { 
-    background: var(--surface-active); 
-    transform: scale(0.98);
-}
-
-.card-icon-box {
-    width: 7.48cqh;
-    height: 7.48cqh;
-    border-radius: 1.52cqh;
-    background: var(--surface-variant);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    margin-right: 3.8cqw;
-}
-
-.card-icon-box svg path, .card-icon-box svg rect, .card-icon-box svg line {
-    stroke: var(--icon-color);
-}
-
-.card-icon-box svg {
-    height: 3.6cqh;
-    width: auto;
-}
-
-.card-text {
-    flex: 1;
-    min-width: 0;
-}
-
-.card-text h2 {
-    font-size: 2.06cqh;
-    font-weight: 700;
-    color: var(--text-primary);
-    letter-spacing: -0.01em;
-    margin-bottom: 0.5cqh;
-    line-height: 1.25;
-}
-
-.card-text p {
-    font-size: 1.52cqh;
-    font-weight: 400;
-    color: var(--text-secondary);
-    line-height: 1.4;
-}
-
-.card-chevron {
-    flex-shrink: 0;
-    height: 1.8cqh;
-    width: auto;
-    margin-left: 2cqw;
-}
-
-.card-chevron path {
-    stroke: var(--chevron-color);
-}
-
-/* ─── SOS Card ──────────────────────────────────── */
-.sos-section {
-    flex: 1;
-    padding: 1.74cqh 4.58cqw 0;
-    flex-shrink: 0;
-}
-
-.sos-card {
-    background: rgb(216,59,48);
-    border-radius: 1.74cqh;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: filter 0.15s ease, transform 0.1s;
-    text-decoration: none;
-}
-
-.sos-card:active { 
-    filter: brightness(0.88); 
-    transform: scale(0.98);
-}
-
-.sos-title {
-    font-size: 8.89cqh;
-    font-weight: 900;
-    color: #fff;
-    letter-spacing: -0.04em;
-    line-height: 1;
-    margin-bottom: 1.2cqh;
-}
-
-.sos-sub {
-    font-size: 1.3cqh;
-    font-weight: 700;
-    color: rgb(243,187,179);
-    letter-spacing: 0.2em;
-}
-
-/* ─── Home Indicator ────────────────────────────── */
+/* Home Bar: 12px height, 290px width, 36px from bottom (approx) */
 .home-bar {
-    height: 8.08cqh;
+    position: absolute;
+    bottom: calc(24 * var(--px));
+    left: 0;
+    width: 100%;
     display: flex;
     justify-content: center;
-    align-items: center;
-    flex-shrink: 0;
+    pointer-events: none;
     z-index: 10;
 }
-
 .home-indicator {
-    width: 36%;
-    height: 0.65cqh;
-    background: var(--indicator-bg);
-    border-radius: 100px;
+    width: calc(290 * var(--px));
+    height: calc(12 * var(--px));
+    background: var(--text-primary);
+    border-radius: calc(1000 * var(--px));
+    opacity: 0.3;
+}
+.dark-mode .home-indicator {
+    background: rgb(240,240,240);
+    opacity: 1;
 }
 
-/* ─── New Screen Components ────────────────────────────── */
-
-.center-content {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 0 6cqw;
-}
-
-.countdown-ring {
-    width: 25cqh;
-    height: 25cqh;
-    border-radius: 50%;
-    border: 1cqh solid var(--surface-active);
-    border-top-color: rgb(216,59,48);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 10cqh;
-    font-weight: 800;
-    color: var(--text-primary);
-    margin-bottom: 4cqh;
-    animation: spin 3s linear infinite;
-}
-
-.countdown-number {
-    animation: counter-spin 3s linear infinite;
-}
-
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-@keyframes counter-spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(-360deg); }
-}
-
-.cancel-btn {
-    background: var(--surface);
-    color: var(--text-primary);
-    font-size: 2cqh;
-    font-weight: 700;
-    padding: 2cqh 10cqw;
-    border-radius: 5cqh;
-    text-decoration: none;
-    transition: background 0.2s;
-}
-
-.cancel-btn:active {
-    background: var(--surface-variant);
-}
-
-.large-title {
-    font-size: 4.5cqh;
-    font-weight: 800;
-    color: var(--text-primary);
-    margin-bottom: 1.5cqh;
-}
-
-.subtitle {
-    font-size: 2cqh;
-    color: var(--text-secondary);
-    margin-bottom: 4cqh;
-}
-
-.swipe-up {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1cqh;
-    color: var(--text-secondary);
-    font-size: 1.8cqh;
-    font-weight: 600;
-    margin-top: auto;
-    margin-bottom: 4cqh;
-    animation: bounce 2s infinite;
-}
-
-@keyframes bounce {
-    0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-    40% { transform: translateY(-1.5cqh); }
-    60% { transform: translateY(-0.7cqh); }
-}
-
-.form-input {
-    width: 100%;
-    background: var(--surface);
-    border: none;
-    border-radius: 1.5cqh;
-    padding: 2cqh;
-    font-size: 1.8cqh;
-    color: var(--text-primary);
-    margin-bottom: 2cqh;
-    min-height: 15cqh;
-    resize: none;
-    font-family: inherit;
-}
-
-.form-input:focus {
-    outline: none;
-    box-shadow: 0 0 0 2px rgb(216,59,48);
-}
-
-.primary-btn {
-    width: 100%;
-    background: rgb(216,59,48);
-    color: #ffffff;
-    border: none;
-    border-radius: 1.5cqh;
-    padding: 2cqh;
-    font-size: 2cqh;
-    font-weight: 700;
-    cursor: pointer;
-    text-align: center;
-    text-decoration: none;
-}
-
-.primary-btn:active {
-    filter: brightness(0.9);
-}
-
-.tatsumaki-card {
-    background: var(--surface);
-    border-radius: 2cqh;
-    padding: 2.5cqh;
-    width: 100%;
-    margin-bottom: 2cqh;
-    border-left: 0.5cqh solid rgb(216,59,48);
-    transform: translateY(-2cqh);
-    opacity: 0;
-    animation: dropIn 0.5s forwards;
-}
-
-@keyframes dropIn {
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
-}
+/* Typography */
+.text-bold { font-weight: 700; }
+.text-normal { font-weight: 400; }

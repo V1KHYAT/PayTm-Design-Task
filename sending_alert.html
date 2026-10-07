@@ -3,76 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Harbor — Sending Alert</title>
+    <title>Harbor</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="figma_additions.css">
+    <style>
+        body { margin:0; padding:0; background:#000; display:flex; justify-content:center; align-items:center; height:100vh; overflow:hidden; }
+        .phone-wrapper { position:relative; width:100%; height:100%; max-height:100vh; max-width:calc(100vh * (852 / 1844)); background:rgb(250,249,247); overflow:hidden; font-family:'Inter', sans-serif; container-type: size; user-select:none; margin: 0 auto; aspect-ratio: 852/1844; }
+        .phone-wrapper * { pointer-events: none; } /* Let overlays handle clicks */
+    </style>
 </head>
 <body>
-    <div class="phone" style="background: rgb(250,249,247);">
-
-        <!-- Status Bar -->
-        <div class="status-bar">
-            <span class="status-time">9:41</span>
-            <div class="status-icons">
-                <svg viewBox="0 0 17 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect x="0" y="6" width="3" height="6" rx="0.5" fill="rgb(3,4,3)"/>
-                    <rect x="4.5" y="4" width="3" height="8" rx="0.5" fill="rgb(3,4,3)"/>
-                    <rect x="9" y="2" width="3" height="10" rx="0.5" fill="rgb(3,4,3)"/>
-                    <rect x="13.5" y="0" width="3" height="12" rx="0.5" fill="rgb(3,4,3)"/>
-                </svg>
-                <svg viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M8 3C10.2 3 12.2 3.9 13.6 5.4L15 4C13.2 2.1 10.7 1 8 1C5.3 1 2.8 2.1 1 4L2.4 5.4C3.8 3.9 5.8 3 8 3Z" fill="rgb(3,4,3)"/>
-                    <path d="M8 6C9.4 6 10.6 6.6 11.5 7.5L12.9 6.1C11.6 4.8 9.9 4 8 4C6.1 4 4.4 4.8 3.1 6.1L4.5 7.5C5.4 6.6 6.6 6 8 6Z" fill="rgb(3,4,3)"/>
-                    <circle cx="8" cy="10.5" r="1.5" fill="rgb(3,4,3)"/>
-                </svg>
-                <svg viewBox="0 0 25 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect x="0.5" y="0.5" width="21" height="11" rx="3.5" stroke="rgb(3,4,3)" stroke-opacity="0.35"/>
-                    <rect x="2" y="2" width="17" height="8" rx="2" fill="rgb(3,4,3)"/>
-                    <path d="M23 4.5V7.5C23.8 7.2 24.5 6.4 24.5 5.5C24.5 4.6 23.8 3.8 23 4.5Z" fill="rgb(3,4,3)" fill-opacity="0.4"/>
-                </svg>
-            </div>
-        </div>
-
-        <div class="sending-alert-content">
-            <div class="countdown-wrapper">
-                <svg class="countdown-svg" viewBox="0 0 680 690">
-                    <!-- Base ring -->
-                    <ellipse cx="340" cy="345" rx="320" ry="325" fill="none" stroke="rgb(235,233,230)" stroke-width="24"/>
-                    <!-- Progress ring -->
-                    <ellipse cx="340" cy="345" rx="320" ry="325" fill="none" stroke="rgb(216,59,48)" stroke-width="24" stroke-dasharray="2026" stroke-dashoffset="600" stroke-linecap="round" transform="rotate(-90 340 345)" class="progress-ring-anim"/>
-                </svg>
-                <div class="countdown-text">
-                    <div id="countdown" style="font-size: 13.23cqh; font-weight: 700; color: rgb(3,4,3); line-height: 1;">2</div>
-                    <div style="font-size: 2.06cqh; font-weight: 400; color: rgb(153,153,153); margin-top: 1cqh;">Sending alert...</div>
-                </div>
-            </div>
-            
-            <a href="index.html" class="figma-cancel-btn">
-                <span>Cancel</span>
-            </a>
-        </div>
-
-        <!-- Home Indicator -->
-        <div class="home-bar">
-            <div class="home-indicator"></div>
-        </div>
-
+    <div class="phone-wrapper">
+        <div style='position:absolute; left:0.0%; top:0.0%; width:100.0%; height:100.0%; pointer-events:none; background:rgb(250,249,247);'></div>
+<div style='position:absolute; left:10.56338028169014%; top:1.6811279826464207%; width:8.098591549295776%; height:2.386117136659436%; font-size:1.843817787418655cqh; font-weight:700; color:rgb(3,4,3); text-align:left; line-height: 1.15; display:flex; flex-direction:column; justify-content:flex-start; white-space:pre-wrap; overflow:visible;'><span>9:41</span></div>
+<img id='21:3528' src='svgs/21_3528.svg' style='position:absolute; left:74.17840375586854%; top:2.1691973969631237%; width:18.544600938967136%; height:1.4099783080260302%; object-fit:contain;' />
+<img id='21:3534' src='svgs/21_3534.svg' style='position:absolute; left:15.140845070422534%; top:25.75921908893709%; width:72.41784037558685%; height:35.24945770065076%; object-fit:contain;' />
+<div style='position:absolute; left:10.093896713615024%; top:35.00542299349241%; width:79.81220657276995%; height:14.099783080260304%; font-size:13.232104121475055cqh; font-weight:700; color:rgb(3,4,3); text-align:center; line-height: 1.15; display:flex; flex-direction:column; justify-content:center; white-space:pre-wrap; overflow:visible;'><span>2</span></div>
+<div style='position:absolute; left:10.093896713615024%; top:49.10520607375271%; width:79.81220657276995%; height:2.6572668112798263%; font-size:2.0607375271149677cqh; font-weight:400; color:rgb(153,153,153); text-align:center; line-height: 1.15; display:flex; flex-direction:column; justify-content:center; white-space:pre-wrap; overflow:visible;'><span>Sending alert...</span></div>
+<div style='position:absolute; left:4.577464788732395%; top:82.10412147505423%; width:90.84507042253522%; height:9.761388286334057%; pointer-events:none; background:rgb(216,59,48); border-radius:1.735357917570499cqh;'></div>
+<div style='position:absolute; left:39.201877934272304%; top:85.0054229934924%; width:21.5962441314554%; height:3.9587852494577005%; font-size:3.036876355748373cqh; font-weight:700; color:rgb(255,255,255); text-align:left; line-height: 1.15; display:flex; flex-direction:column; justify-content:flex-start; white-space:pre-wrap; overflow:visible;'><span>Cancel</span></div>
+<div style='position:absolute; left:32.98122065727699%; top:97.72234273318871%; width:34.037558685446015%; height:0.6507592190889371%; pointer-events:none; background:rgb(180,177,176); border-radius:54.229934924078094cqh;'></div>
+        <script src="interactions.js"></script>
     </div>
-
-    <script>
-        let count = 2;
-        setInterval(() => {
-            count--;
-            if (count > 0) {
-                document.getElementById('countdown').innerText = count;
-            }
-        }, 1000);
-        setTimeout(() => {
-            window.location.href = 'sos_active.html';
-        }, 2000);
-    </script>
 </body>
 </html>

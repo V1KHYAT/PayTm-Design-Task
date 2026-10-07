@@ -3,378 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Harbor — You're Safe</title>
+    <title>Harbor</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
     <style>
-        .safe-container {
-            display: flex;
-            flex-direction: column;
-            width: 100%;
-            flex: 1;
-            overflow-y: auto;
-            scrollbar-width: none;
-            padding: 0 4.58cqw; /* 39px margin */
-        }
-        .safe-container::-webkit-scrollbar { display: none; }
-
-        .safe-header {
-            padding: 5cqh 0 3cqh;
-        }
-
-        .safe-title {
-            font-size: 4.55cqh; /* 84px */
-            font-weight: 700;
-            color: rgb(3,4,3);
-            line-height: 1.1;
-        }
-
-        .safe-subtitle {
-            font-size: 4.55cqh;
-            font-weight: 700;
-            color: rgb(40,141,224);
-            line-height: 1.1;
-        }
-
-        .safe-card {
-            background: #ffffff;
-            border-radius: 1.74cqh;
-            padding: 1.5cqh 2cqw; /* match roughly 26px padding */
-            display: flex;
-            align-items: center;
-            gap: 3cqw;
-            margin-bottom: 1.5cqh;
-        }
-
-        .icon-tile-large {
-            width: 6.94cqh; /* 128px */
-            height: 6.94cqh;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-
-        .card-text-block {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            flex: 1;
-        }
-
-        .card-desc {
-            color: rgb(124,124,121);
-            font-size: 1.52cqh; /* 28px */
-            line-height: 1.25;
-        }
-
-        .card-title {
-            color: rgb(3,4,3);
-            font-size: 2.06cqh; /* 38px */
-            font-weight: 700;
-            line-height: 1.25;
-            margin-top: 0.2cqh;
-        }
-
-        /* Medical Map Card */
-        .medical-card {
-            background: #ffffff;
-            border-radius: 1.74cqh;
-            padding: 1.5cqh 1.5cqw;
-            display: flex;
-            flex-direction: column;
-            gap: 1.5cqh;
-            margin-bottom: 1.5cqh;
-        }
-
-        .medical-header {
-            display: flex;
-            align-items: center;
-            gap: 3cqw;
-            padding: 0 1cqw;
-        }
-
-        .medical-map {
-            background: rgb(245,244,240);
-            border-radius: 1.5cqh;
-            height: 13.1cqh; /* 242px */
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .map-block {
-            background: rgb(238,237,232);
-            border-radius: 0.5cqh;
-            position: absolute;
-        }
-        
-        .map-park {
-            background: rgb(226,235,220);
-            position: absolute;
-        }
-
-        .map-route {
-            position: absolute;
-            height: 1cqh;
-            background: rgb(40,141,224);
-            border-radius: 1cqh;
-            width: 40%;
-        }
-
-        .user-dot {
-            width: 1.8cqh;
-            height: 1.8cqh;
-            background: rgb(40,141,224);
-            border-radius: 50%;
-            position: absolute;
-            left: 20%;
-            box-shadow: 0 0 0 2cqh rgba(143,190,247,0.4);
-        }
-
-        .ambulance-dot {
-            width: 3.14cqh;
-            height: 3.14cqh;
-            background: rgb(245,111,115);
-            border-radius: 50%;
-            position: absolute;
-            right: 25%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 0 0 3cqh rgba(247,140,140,0.3);
-        }
-
-        /* Summary Card */
-        .summary-card {
-            background: #ffffff;
-            border-radius: 1.74cqh;
-            padding: 2cqh 2cqw;
-            display: flex;
-            align-items: center;
-            margin-bottom: 1.5cqh;
-        }
-
-        .summary-hero {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            flex: 1;
-        }
-
-        .summary-hero-portrait {
-            width: 5.96cqh; /* 110px */
-            height: 5.96cqh;
-            border-radius: 50%;
-            background-size: cover;
-            margin-bottom: 0.5cqh;
-        }
-        
-        .hero-name { color: rgb(3,4,3); font-size: 1.14cqh; font-weight: 700; }
-        .hero-tier { font-size: 1.08cqh; }
-
-        /* Feedback Card */
-        .feedback-card {
-            background: #ffffff;
-            border-radius: 1.74cqh;
-            padding: 1.5cqh 2cqw;
-            display: flex;
-            align-items: center;
-            gap: 2cqw;
-            margin-bottom: 2cqh;
-        }
-
-        .stars {
-            display: flex;
-            gap: 0.5cqw;
-            margin-left: auto;
-        }
-        .stars svg { width: 2.4cqh; height: 2.4cqh; color: rgb(220,220,220); }
-
-        .done-btn {
-            background: rgb(165,205,251);
-            border-radius: 1.74cqh;
-            height: 5.85cqh; /* 108px */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 2cqw;
-            text-decoration: none;
-            margin-bottom: 3cqh;
-        }
-
-        .done-btn span {
-            color: rgb(3,4,3);
-            font-size: 1.95cqh; /* 36px */
-            font-weight: 700;
-        }
-
+        body { margin:0; padding:0; background:#000; display:flex; justify-content:center; align-items:center; height:100vh; overflow:hidden; }
+        .phone-wrapper { position:relative; width:100%; height:100%; max-height:100vh; max-width:calc(100vh * (852 / 1844)); background:rgb(250,249,247); overflow:hidden; font-family:'Inter', sans-serif; container-type: size; user-select:none; margin: 0 auto; aspect-ratio: 852/1844; }
+        .phone-wrapper * { pointer-events: none; } /* Let overlays handle clicks */
     </style>
 </head>
 <body>
-    <div class="phone" style="background: rgb(250,249,247);">
-
-        <!-- Status Bar -->
-        <div class="status-bar">
-            <span class="status-time" style="color: rgb(3,4,3);">9:41</span>
-            <div class="status-icons">
-                <svg viewBox="0 0 17 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect x="0" y="6" width="3" height="6" rx="0.5" fill="rgb(3,4,3)"/>
-                    <rect x="4.5" y="4" width="3" height="8" rx="0.5" fill="rgb(3,4,3)"/>
-                    <rect x="9" y="2" width="3" height="10" rx="0.5" fill="rgb(3,4,3)"/>
-                    <rect x="13.5" y="0" width="3" height="12" rx="0.5" fill="rgb(3,4,3)"/>
-                </svg>
-                <svg viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M8 3C10.2 3 12.2 3.9 13.6 5.4L15 4C13.2 2.1 10.7 1 8 1C5.3 1 2.8 2.1 1 4L2.4 5.4C3.8 3.9 5.8 3 8 3Z" fill="rgb(3,4,3)"/>
-                    <path d="M8 6C9.4 6 10.6 6.6 11.5 7.5L12.9 6.1C11.6 4.8 9.9 4 8 4C6.1 4 4.4 4.8 3.1 6.1L4.5 7.5C5.4 6.6 6.6 6 8 6Z" fill="rgb(3,4,3)"/>
-                    <circle cx="8" cy="10.5" r="1.5" fill="rgb(3,4,3)"/>
-                </svg>
-                <svg viewBox="0 0 25 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect x="0.5" y="0.5" width="21" height="11" rx="3.5" stroke="rgb(3,4,3)" stroke-opacity="0.35"/>
-                    <rect x="2" y="2" width="17" height="8" rx="2" fill="rgb(3,4,3)"/>
-                    <path d="M23 4.5V7.5C23.8 7.2 24.5 6.4 24.5 5.5C24.5 4.6 23.8 3.8 23 4.5Z" fill="rgb(3,4,3)" fill-opacity="0.4"/>
-                </svg>
-            </div>
-        </div>
-
-        <div class="safe-container">
-            <div class="safe-header">
-                <div class="safe-title">You're out.</div>
-                <div class="safe-subtitle">You're safe.</div>
-            </div>
-
-            <!-- Threat Zone -->
-            <div class="safe-card">
-                <div class="icon-tile-large" style="background: rgb(242,238,229);">
-                    <svg width="3.36cqh" height="3.36cqh" viewBox="0 0 24 24" fill="none" stroke="rgb(109,84,44)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-                    </svg>
-                </div>
-                <div class="card-text-block">
-                    <span class="card-desc">You were in an</span>
-                    <span class="card-title">A Tier threat zone.</span>
-                </div>
-            </div>
-
-            <!-- Alert Impact -->
-            <div class="safe-card">
-                <div class="icon-tile-large" style="background: rgb(237,243,233);">
-                    <svg width="3.36cqh" height="3.36cqh" viewBox="0 0 24 24" fill="none" stroke="rgb(32,107,76)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                        <circle cx="8.5" cy="7" r="4"></circle>
-                        <line x1="20" y1="8" x2="20" y2="14"></line>
-                        <line x1="23" y1="11" x2="17" y2="11"></line>
-                    </svg>
-                </div>
-                <div class="card-text-block">
-                    <span class="card-title" style="font-size: 1.84cqh; margin-top:0; margin-bottom: 0.3cqh;">Pressing SOS was the right call.</span>
-                    <span class="card-desc">Your alert helped 3 nearby people get to safety too.</span>
-                </div>
-            </div>
-
-            <!-- Medical Assistance -->
-            <div class="medical-card">
-                <div class="medical-header">
-                    <div class="icon-tile-large" style="width: 5.96cqh; height: 5.96cqh; background: rgb(255,240,240);">
-                        <svg width="2.9cqh" height="2.9cqh" viewBox="0 0 24 24" fill="none" stroke="rgb(240,115,119)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                            <line x1="12" y1="8" x2="12" y2="16"></line>
-                            <line x1="8" y1="12" x2="16" y2="12"></line>
-                        </svg>
-                    </div>
-                    <div class="card-text-block">
-                        <span class="card-title" style="font-size: 1.84cqh; margin-top:0;">A medical team is on the way.</span>
-                        <span class="card-desc">Arriving in ~3 min.</span>
-                    </div>
-                </div>
-                <div class="medical-map">
-                    <!-- Abstract map background -->
-                    <div class="map-block" style="width: 20%; height: 60%; left: 10%; top: 10%;"></div>
-                    <div class="map-block" style="width: 30%; height: 40%; right: 10%; bottom: 10%;"></div>
-                    <div class="map-park" style="width: 25%; height: 50%; left: 40%; top: 20%;"></div>
-                    
-                    <div class="map-route"></div>
-                    <div class="user-dot"></div>
-                    <div class="ambulance-dot">
-                        <svg width="1.8cqh" height="1.8cqh" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <rect x="2" y="7" width="20" height="10" rx="2" ry="2"></rect>
-                            <path d="M7 17v2"></path>
-                            <path d="M17 17v2"></path>
-                            <path d="M7 7V5"></path>
-                            <path d="M17 7V5"></path>
-                        </svg>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Response Summary -->
-            <div class="summary-card">
-                <div class="icon-tile-large" style="width: 5.2cqh; height: 5.2cqh; background: rgb(245,243,238); margin-right: 2cqw;">
-                    <svg width="2.6cqh" height="2.6cqh" viewBox="0 0 24 24" fill="none" stroke="rgb(3,4,3)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="10"></circle>
-                        <polyline points="12 6 12 12 16 14"></polyline>
-                    </svg>
-                </div>
-                <div class="card-text-block" style="flex: unset; width: 25cqw;">
-                    <span class="card-desc" style="font-size: 1.14cqh;">Response summary</span>
-                    <span class="card-title" style="font-size: 2.5cqh; margin-top:0;">9 min</span>
-                </div>
-                
-                <div style="width: 2px; height: 7.6cqh; background: rgb(238,238,234); margin: 0 3cqw;"></div>
-                
-                <div class="summary-hero">
-                    <div class="summary-hero-portrait" style="background-image: url('https://i.pravatar.cc/150?u=tatsumaki');"></div>
-                    <span class="hero-name">Tatsumaki</span>
-                    <span class="hero-tier" style="color: rgb(70,131,110);">S Tier Hero</span>
-                </div>
-                <div class="summary-hero">
-                    <div class="summary-hero-portrait" style="background-image: url('https://i.pravatar.cc/150?u=genos');"></div>
-                    <span class="hero-name">Genos</span>
-                    <span class="hero-tier" style="color: rgb(40,141,224);">A Tier Hero</span>
-                </div>
-            </div>
-
-            <!-- Help Feedback -->
-            <div class="feedback-card">
-                <div class="icon-tile-large" style="width: 5.42cqh; height: 5.42cqh; background: rgb(255,248,231);">
-                    <svg width="2.5cqh" height="2.5cqh" viewBox="0 0 24 24" fill="none" stroke="rgb(148,105,31)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
-                    </svg>
-                </div>
-                <div class="card-text-block">
-                    <span class="card-title" style="font-size: 1.52cqh; margin-top:0;">Was the help right?</span>
-                    <span class="card-desc" style="font-size: 1.14cqh;">Your feedback helps us improve.</span>
-                </div>
-                <div class="stars">
-                    <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-                    <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-                    <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-                    <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-                    <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-                </div>
-            </div>
-
-            <a href="index.html" class="done-btn">
-                <div style="width: 2.6cqh; height: 2.6cqh; background: rgb(3,4,3); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                    <svg width="1.4cqh" height="1.4cqh" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
-                        <polyline points="20 6 9 17 4 12"></polyline>
-                    </svg>
-                </div>
-                <span>Done</span>
-            </a>
-            
-        </div>
-
-        <!-- Home Indicator -->
-        <div class="home-bar">
-            <div class="home-indicator" style="background: rgb(3,4,3);"></div>
-        </div>
-
+    <div class="phone-wrapper">
+        <div style='position:absolute; left:0.0%; top:0.0%; width:100.0%; height:100.0%; pointer-events:none; background:rgb(250,249,247);'></div>
+<div style='position:absolute; left:10.56338028169014%; top:1.6811279826464207%; width:8.098591549295776%; height:2.386117136659436%; font-size:1.843817787418655cqh; font-weight:700; color:rgb(3,4,3); text-align:left; line-height: 1.15; display:flex; flex-direction:column; justify-content:flex-start; white-space:pre-wrap; overflow:visible;'><span>9:41</span></div>
+<img id='21:3809' src='svgs/21_3809.svg' style='position:absolute; left:74.17840375586854%; top:2.1691973969631237%; width:18.544600938967136%; height:1.4099783080260302%; object-fit:contain;' />
+<div style='position:absolute; left:7.276995305164319%; top:7.917570498915401%; width:85.44600938967136%; height:5.206073752711497%; font-size:4.55531453362256cqh; font-weight:700; color:rgb(3,4,3); text-align:left; line-height: 1.15; display:flex; flex-direction:column; justify-content:flex-start; white-space:pre-wrap; overflow:visible;'><span>You’re out.</span></div>
+<div style='position:absolute; left:7.276995305164319%; top:13.123644251626898%; width:85.44600938967136%; height:5.206073752711497%; font-size:4.55531453362256cqh; font-weight:700; color:rgb(40,141,224); text-align:left; line-height: 1.15; display:flex; flex-direction:column; justify-content:flex-start; white-space:pre-wrap; overflow:visible;'><span>You’re safe.</span></div>
+<div style='position:absolute; left:4.577464788732395%; top:20.498915401301517%; width:90.84507042253522%; height:9.761388286334057%; pointer-events:none; background:rgb(255,255,255); border-radius:1.735357917570499cqh;'></div>
+<div style='position:absolute; left:7.629107981220658%; top:21.908893709327547%; width:15.023474178403756%; height:6.941431670281996%; pointer-events:none; background:rgb(242,238,229); border-radius:54.229934924078094cqh;'></div>
+<img id='21:3922' src='svgs/21_3922.svg' style='position:absolute; left:11.502347417840376%; top:23.698481561822128%; width:7.276995305164319%; height:3.3622559652928414%; object-fit:contain;' />
+<div style='position:absolute; left:7.629107981220658%; top:24.349240780911064%; width:15.023474178403756%; height:1.735357917570499%; font-size:1.5184381778741864cqh; font-weight:700; color:rgb(109,84,44); text-align:center; line-height: 1.15; display:flex; flex-direction:column; justify-content:center; white-space:pre-wrap; overflow:visible;'><span>A</span></div>
+<div style='position:absolute; left:26.408450704225352%; top:22.80368763557484%; width:65.96244131455398%; height:1.9522776572668112%; font-size:1.5184381778741864cqh; font-weight:400; color:rgb(124,124,121); text-align:left; line-height: 1.15; display:flex; flex-direction:column; justify-content:flex-start; white-space:pre-wrap; overflow:visible;'><span>You were in an</span></div>
+<div style='position:absolute; left:26.408450704225352%; top:25.29826464208243%; width:65.96244131455398%; height:2.6572668112798263%; font-size:2.0607375271149677cqh; font-weight:700; color:rgb(3,4,3); text-align:left; line-height: 1.15; display:flex; flex-direction:column; justify-content:flex-start; white-space:pre-wrap; overflow:visible;'><span>A Tier threat zone.</span></div>
+<div style='position:absolute; left:4.577464788732395%; top:31.56182212581345%; width:90.84507042253522%; height:10.303687635574837%; pointer-events:none; background:rgb(255,255,255); border-radius:1.735357917570499cqh;'></div>
+<img id='21:3825' src='svgs/21_3825.svg' style='position:absolute; left:7.629107981220658%; top:33.242950108459866%; width:15.023474178403756%; height:6.941431670281996%; object-fit:contain;' />
+<div style='position:absolute; left:26.408450704225352%; top:33.29718004338395%; width:65.96244131455398%; height:2.386117136659436%; font-size:1.843817787418655cqh; font-weight:700; color:rgb(3,4,3); text-align:left; line-height: 1.15; display:flex; flex-direction:column; justify-content:flex-start; white-space:pre-wrap; overflow:visible;'><span>Pressing SOS was the right call.</span></div>
+<div style='position:absolute; left:26.408450704225352%; top:36.22559652928417%; width:65.96244131455398%; height:3.9045553145336225%; font-size:1.5184381778741864cqh; font-weight:400; color:rgb(124,124,121); text-align:left; line-height: 1.15; display:flex; flex-direction:column; justify-content:flex-start; white-space:pre-wrap; overflow:visible;'><span>Your alert helped 3 nearby people get to safety too.</span></div>
+<div style='position:absolute; left:4.577464788732395%; top:43.16702819956616%; width:90.84507042253522%; height:22.45119305856833%; pointer-events:none; background:rgb(255,255,255); border-radius:1.735357917570499cqh;'></div>
+<img id='21:3832' src='svgs/21_3832.svg' style='position:absolute; left:7.629107981220658%; top:44.36008676789588%; width:12.910798122065728%; height:5.965292841648591%; object-fit:contain;' />
+<div style='position:absolute; left:24.76525821596244%; top:44.90238611713666%; width:67.6056338028169%; height:2.386117136659436%; font-size:1.843817787418655cqh; font-weight:700; color:rgb(3,4,3); text-align:left; line-height: 1.15; display:flex; flex-direction:column; justify-content:flex-start; white-space:pre-wrap; overflow:visible;'><span>A medical team is on the way.</span></div>
+<div style='position:absolute; left:24.76525821596244%; top:47.83080260303688%; width:67.6056338028169%; height:1.9522776572668112%; font-size:1.5184381778741864cqh; font-weight:400; color:rgb(124,124,121); text-align:left; line-height: 1.15; display:flex; flex-direction:column; justify-content:flex-start; white-space:pre-wrap; overflow:visible;'><span>Arriving in ~3 min.</span></div>
+<img id='21:3837' src='svgs/21_3837.svg' style='position:absolute; left:7.629107981220658%; top:50.97613882863341%; width:84.74178403755869%; height:13.123644251626898%; object-fit:contain;' />
+<div style='position:absolute; left:4.577464788732395%; top:66.91973969631236%; width:90.84507042253522%; height:12.147505422993492%; pointer-events:none; background:rgb(255,255,255); border-radius:1.735357917570499cqh;'></div>
+<img id='21:3857' src='svgs/21_3857.svg' style='position:absolute; left:7.863849765258216%; top:70.39045553145337%; width:11.267605633802818%; height:5.206073752711497%; object-fit:contain;' />
+<div style='position:absolute; left:21.948356807511736%; top:70.41757049891541%; width:23.004694835680752%; height:1.4642082429501084%; font-size:1.13882863340564cqh; font-weight:400; color:rgb(112,115,111); text-align:left; line-height: 1.15; display:flex; flex-direction:column; justify-content:flex-start; white-space:pre-wrap; overflow:visible;'><span>Response summary</span></div>
+<div style='position:absolute; left:21.948356807511736%; top:72.31561822125813%; width:23.004694835680752%; height:3.2537960954446854%; font-size:2.4945770065075923cqh; font-weight:700; color:rgb(3,4,3); text-align:left; line-height: 1.15; display:flex; flex-direction:column; justify-content:flex-start; white-space:pre-wrap; overflow:visible;'><span>9 min</span></div>
+<div style='position:absolute; left:47.76995305164319%; top:69.19739696312365%; width:0.2347417840375587%; height:7.592190889370933%; pointer-events:none; background:rgb(238,238,234);'></div>
+<div style='position:absolute; left:50.82159624413145%; top:74.53904555314533%; width:19.248826291079812%; height:1.4642082429501084%; font-size:1.13882863340564cqh; font-weight:700; color:rgb(3,4,3); text-align:center; line-height: 1.15; display:flex; flex-direction:column; justify-content:center; white-space:pre-wrap; overflow:visible;'><span>Tatsumaki</span></div>
+<div style='position:absolute; left:50.82159624413145%; top:76.43709327548807%; width:19.248826291079812%; height:1.4099783080260302%; font-size:1.0845986984815619cqh; font-weight:400; color:rgb(70,131,110); text-align:center; line-height: 1.15; display:flex; flex-direction:column; justify-content:center; white-space:pre-wrap; overflow:visible;'><span>S Tier Hero</span></div>
+<div style='position:absolute; left:72.88732394366197%; top:74.53904555314533%; width:19.248826291079812%; height:1.4642082429501084%; font-size:1.13882863340564cqh; font-weight:700; color:rgb(3,4,3); text-align:center; line-height: 1.15; display:flex; flex-direction:column; justify-content:center; white-space:pre-wrap; overflow:visible;'><span>Genos</span></div>
+<div style='position:absolute; left:72.88732394366197%; top:76.43709327548807%; width:19.248826291079812%; height:1.4099783080260302%; font-size:1.0845986984815619cqh; font-weight:400; color:rgb(40,141,224); text-align:center; line-height: 1.15; display:flex; flex-direction:column; justify-content:center; white-space:pre-wrap; overflow:visible;'><span>A Tier Hero</span></div>
+<div style='position:absolute; left:4.577464788732395%; top:80.36876355748373%; width:90.84507042253522%; height:8.24295010845987%; pointer-events:none; background:rgb(255,255,255); border-radius:1.735357917570499cqh;'></div>
+<img id='21:3872' src='svgs/21_3872.svg' style='position:absolute; left:7.629107981220658%; top:81.77874186550976%; width:11.737089201877934%; height:5.42299349240781%; object-fit:contain;' />
+<div style='position:absolute; left:21.948356807511736%; top:82.51084598698482%; width:36.38497652582159%; height:1.9522776572668112%; font-size:1.5184381778741864cqh; font-weight:700; color:rgb(3,4,3); text-align:left; line-height: 1.15; display:flex; flex-direction:column; justify-content:flex-start; white-space:pre-wrap; overflow:visible;'><span>Was the help right?</span></div>
+<div style='position:absolute; left:21.948356807511736%; top:85.0054229934924%; width:36.38497652582159%; height:1.4642082429501084%; font-size:1.13882863340564cqh; font-weight:400; color:rgb(143,145,139); text-align:left; line-height: 1.15; display:flex; flex-direction:column; justify-content:flex-start; white-space:pre-wrap; overflow:visible;'><span>Your feedback helps us improve.</span></div>
+<img id='21:3877' src='svgs/21_3877.svg' style='position:absolute; left:60.91549295774647%; top:83.29718004338395%; width:31.455399061032864%; height:2.386117136659436%; object-fit:contain;' />
+<div style='position:absolute; left:4.577464788732395%; top:89.91323210412148%; width:90.84507042253522%; height:5.856832971800434%; pointer-events:none; background:rgb(165,205,251); border-radius:1.735357917570499cqh;'></div>
+<img id='21:3884' src='svgs/21_3884.svg' style='position:absolute; left:40.082159624413144%; top:91.54013015184381%; width:5.633802816901409%; height:2.6030368763557483%; object-fit:contain;' />
+<div style='position:absolute; left:49.23708920187793%; top:91.56724511930587%; width:10.68075117370892%; height:2.5488069414316703%; font-size:1.9522776572668112cqh; font-weight:700; color:rgb(3,4,3); text-align:left; line-height: 1.15; display:flex; flex-direction:column; justify-content:flex-start; white-space:pre-wrap; overflow:visible;'><span>Done</span></div>
+<div style='position:absolute; left:32.98122065727699%; top:97.72234273318871%; width:34.037558685446015%; height:0.6507592190889371%; pointer-events:none; background:rgb(3,4,3); border-radius:54.229934924078094cqh;'></div>
+        <script src="interactions.js"></script>
     </div>
 </body>
 </html>

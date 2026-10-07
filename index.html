@@ -3,108 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Harbor — SOS App</title>
+    <title>Harbor</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <style>
+        body { margin:0; padding:0; background:#000; display:flex; justify-content:center; align-items:center; height:100vh; overflow:hidden; }
+        .phone-wrapper { position:relative; width:100%; height:100%; max-height:100vh; max-width:calc(100vh * (852 / 1844)); background:rgb(250,249,247); overflow:hidden; font-family:'Inter', sans-serif; container-type: size; user-select:none; margin: 0 auto; aspect-ratio: 852/1844; }
+        .phone-wrapper * { pointer-events: none; } /* Let overlays handle clicks */
+    </style>
 </head>
 <body>
-    <div class="phone">
-
-        <!-- Status Bar — 5.75cqh -->
-        <div class="status-bar">
-            <span class="status-time">9:41</span>
-            <div class="status-icons">
-                <svg viewBox="0 0 17 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect x="0" y="6" width="3" height="6" rx="0.5" fill="rgb(3,4,3)"/>
-                    <rect x="4.5" y="4" width="3" height="8" rx="0.5" fill="rgb(3,4,3)"/>
-                    <rect x="9" y="2" width="3" height="10" rx="0.5" fill="rgb(3,4,3)"/>
-                    <rect x="13.5" y="0" width="3" height="12" rx="0.5" fill="rgb(3,4,3)"/>
-                </svg>
-                <svg viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M8 3C10.2 3 12.2 3.9 13.6 5.4L15 4C13.2 2.1 10.7 1 8 1C5.3 1 2.8 2.1 1 4L2.4 5.4C3.8 3.9 5.8 3 8 3Z" fill="rgb(3,4,3)"/>
-                    <path d="M8 6C9.4 6 10.6 6.6 11.5 7.5L12.9 6.1C11.6 4.8 9.9 4 8 4C6.1 4 4.4 4.8 3.1 6.1L4.5 7.5C5.4 6.6 6.6 6 8 6Z" fill="rgb(3,4,3)"/>
-                    <circle cx="8" cy="10.5" r="1.5" fill="rgb(3,4,3)"/>
-                </svg>
-                <svg viewBox="0 0 25 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect x="0.5" y="0.5" width="21" height="11" rx="3.5" stroke="rgb(3,4,3)" stroke-opacity="0.35"/>
-                    <rect x="2" y="2" width="17" height="8" rx="2" fill="rgb(3,4,3)"/>
-                    <path d="M23 4.5V7.5C23.8 7.2 24.5 6.4 24.5 5.5C24.5 4.6 23.8 3.8 23 4.5Z" fill="rgb(3,4,3)" fill-opacity="0.4"/>
-                </svg>
-            </div>
-        </div>
-
-        <!-- Header (Brand + Menu) — 10.85cqh -->
-        <header class="app-header">
-            <h1 class="app-title">Harbor</h1>
-            <button class="menu-btn" aria-label="Menu">
-                <svg viewBox="0 0 24 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect y="0" width="24" height="2.5" rx="1.25" fill="rgb(3,4,3)"/>
-                    <rect y="7.75" width="24" height="2.5" rx="1.25" fill="rgb(3,4,3)"/>
-                    <rect y="15.5" width="24" height="2.5" rx="1.25" fill="rgb(3,4,3)"/>
-                </svg>
-            </button>
-        </header>
-
-        <!-- Fixed spacer: Figma gap between header and cards -->
-        <div class="spacer"></div>
-
-        <!-- Action Cards — Figma: 28.15cqh tall section -->
-        <div class="cards-section">
-
-            <div class="action-card">
-                <div class="card-icon-box">
-                    <!-- Open Book — matches Figma Guide icon -->
-                    <svg viewBox="0 0 64 54" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M32 10C28 6 21 4 14 4C9 4 4.5 5.2 2 7V46C4.5 44.8 9 43.5 14 43.5C21 43.5 28 46 32 50M32 10V50M32 10C36 6 43 4 50 4C55 4 59.5 5.2 62 7V46C59.5 44.8 55 43.5 50 43.5C43 43.5 36 46 32 50" stroke="rgb(3,4,3)" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </div>
-                <div class="card-text">
-                    <h2>What to do if...</h2>
-                    <p>Quick guides for common situations.</p>
-                </div>
-                <svg class="card-chevron" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M1 1L7 7L1 13" stroke="rgb(3,4,3)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-            </div>
-
-            <div class="action-card">
-                <div class="card-icon-box">
-                    <!-- Document with lines — matches Figma Report icon -->
-                    <svg viewBox="0 0 50 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <rect x="2" y="2" width="46" height="56" rx="7" stroke="rgb(3,4,3)" stroke-width="4"/>
-                        <line x1="12" y1="20" x2="38" y2="20" stroke="rgb(3,4,3)" stroke-width="4" stroke-linecap="round"/>
-                        <line x1="12" y1="31" x2="38" y2="31" stroke="rgb(3,4,3)" stroke-width="4" stroke-linecap="round"/>
-                        <line x1="12" y1="42" x2="28" y2="42" stroke="rgb(3,4,3)" stroke-width="4" stroke-linecap="round"/>
-                    </svg>
-                </div>
-                <div class="card-text">
-                    <h2>Report a problem</h2>
-                    <p>Describe what you see.</p>
-                </div>
-                <svg class="card-chevron" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M1 1L7 7L1 13" stroke="rgb(3,4,3)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-            </div>
-
-        </div>
-
-        <!-- SOS — Figma: fills remaining height, card is 33.3cqh -->
-        <div class="sos-section">
-            <a href="sending_alert.html" class="sos-card">
-                <span class="sos-title">SOS</span>
-                <span class="sos-sub">PRESS TO REQUEST HELP</span>
-            </a>
-        </div>
-
-        <!-- Home Indicator — Figma: 8.08cqh area -->
-        <div class="home-bar">
-            <div class="home-indicator"></div>
-        </div>
-
+    <div class="phone-wrapper">
+        <div style='position:absolute; left:0.0%; top:0.0%; width:100.0%; height:100.0%; pointer-events:none; background:rgb(250,249,247);'></div>
+<div style='position:absolute; left:9.63572267920094%; top:1.762472885032538%; width:8.108108108108109%; height:2.1149674620390453%; font-size:1.843817787418655cqh; font-weight:700; color:rgb(3,4,3); text-align:left; line-height: 1.15; display:flex; flex-direction:column; justify-content:flex-start; white-space:pre-wrap; overflow:visible;'><span>9:41</span></div>
+<img id='21:254' src='svgs/21_254.svg' style='position:absolute; left:73.91304347826086%; top:1.8980477223427332%; width:18.80141010575793%; height:1.843817787418655%; object-fit:contain;' />
+<div style='position:absolute; left:6.698002350176263%; top:14.099783080260304%; width:30.904817861339602%; height:4.989154013015185%; font-size:4.3383947939262475cqh; font-weight:700; color:rgb(3,4,3); text-align:left; line-height: 1.15; display:flex; flex-direction:column; justify-content:flex-start; white-space:pre-wrap; overflow:visible;'><span>Harbor</span></div>
+<img id='21:260' src='svgs/21_260.svg' style='position:absolute; left:83.07873090481786%; top:14.099783080260304%; width:10.81081081081081%; height:4.989154013015185%; object-fit:contain;' />
+<div style='position:absolute; left:5.052878965922444%; top:28.74186550976139%; width:90.24676850763808%; height:13.665943600867678%; pointer-events:none; background:rgb(244,243,241); border-radius:1.735357917570499cqh;'></div>
+<img id='21:264' src='svgs/21_264.svg' style='position:absolute; left:8.578143360752057%; top:31.99566160520607%; width:15.981198589894241%; height:7.483731019522777%; object-fit:contain;' />
+<div style='position:absolute; left:29.024676850763807%; top:33.35140997830803%; width:54.99412455934195%; height:2.386117136659436%; font-size:2.0607375271149677cqh; font-weight:700; color:rgb(3,4,3); text-align:left; line-height: 1.15; display:flex; flex-direction:column; justify-content:flex-start; white-space:pre-wrap; overflow:visible;'><span>What to do if...</span></div>
+<div style='position:absolute; left:29.024676850763807%; top:36.27982646420824%; width:54.99412455934195%; height:1.843817787418655%; font-size:1.5184381778741864cqh; font-weight:400; color:rgb(137,142,152); text-align:left; line-height: 1.15; display:flex; flex-direction:column; justify-content:flex-start; white-space:pre-wrap; overflow:visible;'><span>Quick guides for common situations.</span></div>
+<img id='21:269' src='svgs/21_269.svg' style='position:absolute; left:88.48413631022328%; top:34.97830802603037%; width:1.8801410105757932%; height:1.5184381778741864%; object-fit:contain;' />
+<div style='position:absolute; left:5.052878965922444%; top:43.70932754880694%; width:90.24676850763808%; height:13.177874186550975%; pointer-events:none; background:rgb(244,243,241); border-radius:1.735357917570499cqh;'></div>
+<img id='21:271' src='svgs/21_271.svg' style='position:absolute; left:8.578143360752057%; top:46.719088937093275%; width:15.981198589894241%; height:7.483731019522777%; object-fit:contain;' />
+<div style='position:absolute; left:29.024676850763807%; top:48.07483731019523%; width:54.99412455934195%; height:2.386117136659436%; font-size:2.0607375271149677cqh; font-weight:700; color:rgb(3,4,3); text-align:left; line-height: 1.15; display:flex; flex-direction:column; justify-content:flex-start; white-space:pre-wrap; overflow:visible;'><span>Report a problem</span></div>
+<div style='position:absolute; left:29.024676850763807%; top:51.00325379609545%; width:54.99412455934195%; height:1.843817787418655%; font-size:1.5184381778741864cqh; font-weight:400; color:rgb(137,142,152); text-align:left; line-height: 1.15; display:flex; flex-direction:column; justify-content:flex-start; white-space:pre-wrap; overflow:visible;'><span>Describe what you see.</span></div>
+<img id='21:276' src='svgs/21_276.svg' style='position:absolute; left:88.48413631022328%; top:49.70173535791757%; width:1.8801410105757932%; height:1.5184381778741864%; object-fit:contain;' />
+<div style='position:absolute; left:4.582843713278495%; top:58.622559652928416%; width:91.06933019976499%; height:33.29718004338395%; pointer-events:none; background:rgb(216,59,48); border-radius:1.735357917570499cqh;'></div>
+<div style='position:absolute; left:30.19976498237368%; top:69.90238611713666%; width:39.83548766157462%; height:9.436008676789589%; font-size:8.893709327548807cqh; font-weight:900; color:rgb(255,255,255); text-align:left; line-height: 1.15; display:flex; flex-direction:column; justify-content:flex-start; white-space:pre-wrap; overflow:visible;'><span>SOS</span></div>
+<div style='position:absolute; left:23.619271445358404%; top:80.20607375271149%; width:52.99647473560517%; height:1.6268980477223427%; font-size:1.3015184381778742cqh; font-weight:700; color:rgb(243,187,179); text-align:left; line-height: 1.15; display:flex; flex-direction:column; justify-content:flex-start; white-space:pre-wrap; overflow:visible;'><span>PRESS TO REQUEST HELP</span></div>
+<div style='position:absolute; left:32.90246768507638%; top:97.72234273318871%; width:34.19506462984724%; height:0.6507592190889371%; pointer-events:none; background:rgb(180,177,176); border-radius:5.42299349240781cqh;'></div>
+        <script src="interactions.js"></script>
     </div>
-
-    <script src="script.js"></script>
 </body>
 </html>

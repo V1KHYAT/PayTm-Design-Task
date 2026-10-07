@@ -3,308 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Harbor — Situation Category</title>
+    <title>Harbor</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
     <style>
-        .category-container {
-            display: flex;
-            flex-direction: column;
-            width: 100%;
-            flex: 1;
-            overflow-y: auto;
-            scrollbar-width: none;
-            padding: 0 3.3cqw; /* match 28px left padding for grid */
-        }
-        .category-container::-webkit-scrollbar { display: none; }
-
-        .report-intro {
-            padding: 2cqh 0 4cqh;
-        }
-
-        .progress-bar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 2cqh;
-        }
-
-        .track {
-            width: 71cqw;
-            height: 0.76cqh;
-            background: rgb(24,28,30);
-            border-radius: 1cqh;
-            position: relative;
-        }
-        .value {
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 26.7%;
-            height: 100%;
-            background: #fff;
-            border-radius: 1cqh;
-        }
-
-        .step-label {
-            color: rgb(180,184,188);
-            font-size: 1.2cqh;
-        }
-
-        .intro-title {
-            color: rgb(250,250,250);
-            font-size: 3.03cqh; /* 56px */
-            font-weight: 700;
-            margin-bottom: 1.5cqh;
-        }
-
-        .intro-desc {
-            color: rgb(180,184,188);
-            font-size: 1.57cqh; /* 29px */
-            line-height: 1.3;
-            margin-bottom: 0.5cqh;
-        }
-
-        .intro-subdesc {
-            color: rgb(130,136,139);
-            font-size: 1.51cqh; /* 28px */
-            line-height: 1.3;
-        }
-
-        .options-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1.5cqh 2.5cqw;
-            margin-bottom: 1.5cqh;
-        }
-
-        .option-card {
-            background: rgb(24,28,30);
-            border-radius: 1.74cqh; /* 32px */
-            height: 11.7cqh; /* 216px */
-            padding: 1.5cqh 2cqw;
-            display: flex;
-            align-items: center;
-            gap: 2cqw;
-            text-decoration: none;
-            transition: background 0.15s, transform 0.1s;
-        }
-        .option-card:active {
-            background: rgb(34,38,40);
-            transform: scale(0.98);
-        }
-
-        .icon-tile {
-            width: 5.42cqh; /* 100px */
-            height: 5.42cqh;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-
-        .option-text {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .option-label {
-            color: rgb(250,250,250);
-            font-size: 1.25cqh; /* 23px */
-            font-weight: 700;
-            line-height: 1.2;
-            margin-bottom: 0.2cqh;
-        }
-
-        .option-desc {
-            color: rgb(180,184,188);
-            font-size: 1.08cqh; /* 20px */
-            line-height: 1.2;
-        }
-
-        .other-card {
-            background: rgb(24,28,30);
-            border-radius: 1.74cqh;
-            height: 9.65cqh; /* 178px */
-            padding: 0 4cqw;
-            display: flex;
-            align-items: center;
-            gap: 3cqw;
-            text-decoration: none;
-            margin-bottom: 4cqh;
-        }
-
+        body { margin:0; padding:0; background:#000; display:flex; justify-content:center; align-items:center; height:100vh; overflow:hidden; }
+        .phone-wrapper { position:relative; width:100%; height:100%; max-height:100vh; max-width:calc(100vh * (852 / 1844)); background:rgb(16,19,20); overflow:hidden; font-family:'Inter', sans-serif; container-type: size; user-select:none; margin: 0 auto; aspect-ratio: 852/1844; }
+        .phone-wrapper * { pointer-events: none; } /* Let overlays handle clicks */
     </style>
 </head>
 <body>
-    <div class="phone" style="background: rgb(16,19,20);">
-
-        <!-- Status Bar -->
-        <div class="status-bar">
-            <span class="status-time" style="color: rgb(250,250,250);">9:41</span>
-            <div class="status-icons">
-                <svg viewBox="0 0 17 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect x="0" y="6" width="3" height="6" rx="0.5" fill="rgb(250,250,250)"/>
-                    <rect x="4.5" y="4" width="3" height="8" rx="0.5" fill="rgb(250,250,250)"/>
-                    <rect x="9" y="2" width="3" height="10" rx="0.5" fill="rgb(250,250,250)"/>
-                    <rect x="13.5" y="0" width="3" height="12" rx="0.5" fill="rgb(250,250,250)"/>
-                </svg>
-                <svg viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M8 3C10.2 3 12.2 3.9 13.6 5.4L15 4C13.2 2.1 10.7 1 8 1C5.3 1 2.8 2.1 1 4L2.4 5.4C3.8 3.9 5.8 3 8 3Z" fill="rgb(250,250,250)"/>
-                    <path d="M8 6C9.4 6 10.6 6.6 11.5 7.5L12.9 6.1C11.6 4.8 9.9 4 8 4C6.1 4 4.4 4.8 3.1 6.1L4.5 7.5C5.4 6.6 6.6 6 8 6Z" fill="rgb(250,250,250)"/>
-                    <circle cx="8" cy="10.5" r="1.5" fill="rgb(250,250,250)"/>
-                </svg>
-                <svg viewBox="0 0 25 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect x="0.5" y="0.5" width="21" height="11" rx="3.5" stroke="rgb(250,250,250)" stroke-opacity="0.35"/>
-                    <rect x="2" y="2" width="17" height="8" rx="2" fill="rgb(250,250,250)"/>
-                    <path d="M23 4.5V7.5C23.8 7.2 24.5 6.4 24.5 5.5C24.5 4.6 23.8 3.8 23 4.5Z" fill="rgb(250,250,250)" fill-opacity="0.4"/>
-                </svg>
-            </div>
-        </div>
-
-        <div class="category-container">
-            <div class="report-intro">
-                <div class="progress-bar">
-                    <div class="track"><div class="value"></div></div>
-                    <span class="step-label">Step 1 of 2</span>
-                </div>
-                <h2 class="intro-title">What do you see?</h2>
-                <p class="intro-desc">Choose the option that best describes the situation.</p>
-                <p class="intro-subdesc">Your mic is on, so you can also just speak if it's safe.</p>
-            </div>
-
-            <div class="options-grid">
-                <a href="fire_details.html" class="option-card">
-                    <div class="icon-tile" style="background: rgb(60,45,38);">
-                        <svg width="2cqh" height="2.6cqh" viewBox="0 0 24 24" fill="none" stroke="rgb(255,190,144)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"></path>
-                        </svg>
-                    </div>
-                    <div class="option-text">
-                        <span class="option-label">Fire or smoke</span>
-                        <span class="option-desc">Flames, smoke, or<br>a burning smell</span>
-                    </div>
-                </a>
-
-                <a href="#" class="option-card">
-                    <div class="icon-tile" style="background: rgb(56,39,41);">
-                        <svg width="2.6cqh" height="2.6cqh" viewBox="0 0 24 24" fill="none" stroke="rgb(255,167,171)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                            <line x1="12" y1="8" x2="12" y2="16"></line>
-                            <line x1="8" y1="12" x2="16" y2="12"></line>
-                        </svg>
-                    </div>
-                    <div class="option-text">
-                        <span class="option-label">Someone hurt</span>
-                        <span class="option-desc">An injured or<br>collapsed person</span>
-                    </div>
-                </a>
-
-                <a href="#" class="option-card">
-                    <div class="icon-tile" style="background: rgb(42,40,57);">
-                        <svg width="2.6cqh" height="2.6cqh" viewBox="0 0 24 24" fill="none" stroke="rgb(205,179,255)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                        </svg>
-                    </div>
-                    <div class="option-text">
-                        <span class="option-label">Crime/suspicious</span>
-                        <span class="option-desc">Theft, assault, or<br>looks wrong</span>
-                    </div>
-                </a>
-
-                <a href="#" class="option-card">
-                    <div class="icon-tile" style="background: rgb(52,48,37);">
-                        <svg width="2.6cqh" height="2.6cqh" viewBox="0 0 24 24" fill="none" stroke="rgb(255,224,166)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                            <polyline points="22 4 12 14.01 9 11.01"></polyline>
-                        </svg>
-                    </div>
-                    <div class="option-text">
-                        <span class="option-label">Disaster/collapse</span>
-                        <span class="option-desc">Crash, collapse,<br>quake, or flood</span>
-                    </div>
-                </a>
-
-                <a href="#" class="option-card">
-                    <div class="icon-tile" style="background: rgb(37,49,58);">
-                        <svg width="2.6cqh" height="2.6cqh" viewBox="0 0 24 24" fill="none" stroke="rgb(205,233,249)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                            <circle cx="8.5" cy="7" r="4"></circle>
-                            <line x1="20" y1="8" x2="20" y2="14"></line>
-                            <line x1="23" y1="11" x2="17" y2="11"></line>
-                        </svg>
-                    </div>
-                    <div class="option-text">
-                        <span class="option-label">Someone missing</span>
-                        <span class="option-desc">A person you can't<br>find</span>
-                    </div>
-                </a>
-
-                <a href="#" class="option-card">
-                    <div class="icon-tile" style="background: rgb(48,43,62);">
-                        <svg width="2.6cqh" height="2.6cqh" viewBox="0 0 24 24" fill="none" stroke="rgb(215,191,255)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="12" cy="12" r="10"></circle>
-                            <path d="M16 12l-4-4-4 4M12 8v8"></path>
-                        </svg>
-                    </div>
-                    <div class="option-text">
-                        <span class="option-label">Villain or monster</span>
-                        <span class="option-desc">Attacking with<br>powers</span>
-                    </div>
-                </a>
-
-                <a href="#" class="option-card">
-                    <div class="icon-tile" style="background: rgb(38,55,44);">
-                        <svg width="2.6cqh" height="2.6cqh" viewBox="0 0 24 24" fill="none" stroke="rgb(200,243,187)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M11 21A10 10 0 1 1 21 11"></path>
-                            <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon>
-                        </svg>
-                    </div>
-                    <div class="option-text">
-                        <span class="option-label" style="font-size: 1.14cqh;">Powers out of control</span>
-                        <span class="option-desc">Can't control<br>their powers</span>
-                    </div>
-                </a>
-
-                <a href="#" class="option-card">
-                    <div class="icon-tile" style="background: rgb(39,49,60);">
-                        <svg width="2.6cqh" height="2.6cqh" viewBox="0 0 24 24" fill="none" stroke="rgb(196,211,255)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
-                        </svg>
-                    </div>
-                    <div class="option-text">
-                        <span class="option-label">Battle nearby</span>
-                        <span class="option-desc">Heroes fighting<br>close to you</span>
-                    </div>
-                </a>
-            </div>
-
-            <a href="#" class="other-card">
-                <div class="icon-tile" style="background: rgb(39,43,45);">
-                    <svg width="2.6cqh" height="0.6cqh" viewBox="0 0 24 24" fill="none" stroke="rgb(255,255,255)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="1"></circle>
-                        <circle cx="19" cy="12" r="1"></circle>
-                        <circle cx="5" cy="12" r="1"></circle>
-                    </svg>
-                </div>
-                <div class="option-text">
-                    <span class="option-label" style="font-size: 1.35cqh;">Something else</span>
-                    <span class="option-desc" style="font-size: 1.3cqh;">None of these match</span>
-                </div>
-            </a>
-            
-            <div style="height: 2cqh; flex-shrink: 0;"></div>
-        </div>
-
-        <!-- Home Indicator -->
-        <div class="home-bar">
-            <div class="home-indicator" style="background: rgb(240,240,240);"></div>
-        </div>
-
+    <div class="phone-wrapper">
+        <div style='position:absolute; left:0.0%; top:0.0%; width:100.0%; height:100.0%; pointer-events:none; background:rgb(16,19,20);'></div>
+<div style='position:absolute; left:10.56338028169014%; top:1.6811279826464207%; width:8.098591549295776%; height:2.386117136659436%; font-size:1.843817787418655cqh; font-weight:700; color:rgb(250,250,250); text-align:left; line-height: 1.15; display:flex; flex-direction:column; justify-content:flex-start; white-space:pre-wrap; overflow:visible;'><span>9:41</span></div>
+<img id='21:3590' src='svgs/21_3590.svg' style='position:absolute; left:74.17840375586854%; top:2.1691973969631237%; width:18.544600938967136%; height:1.4099783080260302%; object-fit:contain;' />
+<div style='position:absolute; left:6.338028169014084%; top:8.731019522776574%; width:71.0093896713615%; height:0.7592190889370932%; pointer-events:none; background:rgb(24,28,30); border-radius:0.5422993492407809cqh;'></div>
+<div style='position:absolute; left:6.338028169014084%; top:8.731019522776574%; width:19.014084507042252%; height:0.7592190889370932%; pointer-events:none; background:rgb(255,255,255); border-radius:0.5422993492407809cqh;'></div>
+<div style='position:absolute; left:81.10328638497653%; top:8.324295010845988%; width:12.55868544600939%; height:1.572668112798265%; font-size:1.193058568329718cqh; font-weight:400; color:rgb(180,184,188); text-align:left; line-height: 1.15; display:flex; flex-direction:column; justify-content:flex-start; white-space:pre-wrap; overflow:visible;'><span>Step 1 of 2</span></div>
+<div style='position:absolute; left:6.338028169014084%; top:14.099783080260304%; width:87.32394366197182%; height:3.9587852494577005%; font-size:3.036876355748373cqh; font-weight:700; color:rgb(250,250,250); text-align:left; line-height: 1.15; display:flex; flex-direction:column; justify-content:flex-start; white-space:pre-wrap; overflow:visible;'><span>What do you see?</span></div>
+<div style='position:absolute; left:6.338028169014084%; top:18.709327548806943%; width:87.32394366197182%; height:2.0607375271149677%; font-size:1.572668112798265cqh; font-weight:400; color:rgb(180,184,188); text-align:left; line-height: 1.15; display:flex; flex-direction:column; justify-content:flex-start; white-space:pre-wrap; overflow:visible;'><span>Choose the option that best describes the situation.</span></div>
+<div style='position:absolute; left:6.338028169014084%; top:21.420824295010846%; width:87.32394366197182%; height:1.9522776572668112%; font-size:1.5184381778741864cqh; font-weight:400; color:rgb(130,136,139); text-align:left; line-height: 1.15; display:flex; flex-direction:column; justify-content:flex-start; white-space:pre-wrap; overflow:visible;'><span>Your mic is on, so you can also just speak if it’s safe.</span></div>
+<div style='position:absolute; left:3.286384976525822%; top:25.108459869848154%; width:45.305164319248824%; height:11.713665943600867%; pointer-events:none; background:rgb(24,28,30); border-radius:1.735357917570499cqh;'></div>
+<img id='21:3606' src='svgs/21_3606.svg' style='position:absolute; left:6.338028169014084%; top:28.253796095444685%; width:11.737089201877934%; height:5.42299349240781%; object-fit:contain;' />
+<div style='position:absolute; left:21.5962441314554%; top:28.199566160520607%; width:26.056338028169012%; height:1.4099783080260302%; font-size:1.2472885032537961cqh; font-weight:700; color:rgb(250,250,250); text-align:left; line-height: 1.15; display:flex; flex-direction:column; justify-content:flex-start; white-space:pre-wrap; overflow:visible;'><span>Fire or smoke</span></div>
+<div style='position:absolute; left:21.5962441314554%; top:30.260303687635577%; width:26.056338028169012%; height:3.470715835140998%; font-size:1.0845986984815619cqh; font-weight:400; color:rgb(180,184,188); text-align:left; line-height: 1.15; display:flex; flex-direction:column; justify-content:flex-start; white-space:pre-wrap; overflow:visible;'><span>Flames, smoke, or<br>a burning smell</span></div>
+<div style='position:absolute; left:51.40845070422535%; top:25.108459869848154%; width:45.305164319248824%; height:11.713665943600867%; pointer-events:none; background:rgb(24,28,30); border-radius:1.735357917570499cqh;'></div>
+<img id='21:3612' src='svgs/21_3612.svg' style='position:absolute; left:54.460093896713616%; top:28.253796095444685%; width:11.737089201877934%; height:5.42299349240781%; object-fit:contain;' />
+<div style='position:absolute; left:69.71830985915493%; top:28.199566160520607%; width:26.056338028169012%; height:1.4099783080260302%; font-size:1.2472885032537961cqh; font-weight:700; color:rgb(250,250,250); text-align:left; line-height: 1.15; display:flex; flex-direction:column; justify-content:flex-start; white-space:pre-wrap; overflow:visible;'><span>Someone hurt</span></div>
+<div style='position:absolute; left:69.71830985915493%; top:30.260303687635577%; width:26.056338028169012%; height:3.470715835140998%; font-size:1.0845986984815619cqh; font-weight:400; color:rgb(180,184,188); text-align:left; line-height: 1.15; display:flex; flex-direction:column; justify-content:flex-start; white-space:pre-wrap; overflow:visible;'><span>An injured or<br>collapsed person</span></div>
+<div style='position:absolute; left:3.286384976525822%; top:38.1236442516269%; width:45.305164319248824%; height:11.713665943600867%; pointer-events:none; background:rgb(24,28,30); border-radius:1.735357917570499cqh;'></div>
+<img id='21:3619' src='svgs/21_3619.svg' style='position:absolute; left:6.338028169014084%; top:41.26898047722343%; width:11.737089201877934%; height:5.42299349240781%; object-fit:contain;' />
+<div style='position:absolute; left:21.5962441314554%; top:41.21475054229935%; width:26.056338028169012%; height:1.4099783080260302%; font-size:1.2472885032537961cqh; font-weight:700; color:rgb(250,250,250); text-align:left; line-height: 1.15; display:flex; flex-direction:column; justify-content:flex-start; white-space:pre-wrap; overflow:visible;'><span>Crime or suspicious</span></div>
+<div style='position:absolute; left:21.5962441314554%; top:43.275488069414315%; width:26.056338028169012%; height:3.470715835140998%; font-size:1.0845986984815619cqh; font-weight:400; color:rgb(180,184,188); text-align:left; line-height: 1.15; display:flex; flex-direction:column; justify-content:flex-start; white-space:pre-wrap; overflow:visible;'><span>Theft, assault, or<br>something looks wrong</span></div>
+<div style='position:absolute; left:51.40845070422535%; top:38.1236442516269%; width:45.305164319248824%; height:11.713665943600867%; pointer-events:none; background:rgb(24,28,30); border-radius:1.735357917570499cqh;'></div>
+<img id='21:3625' src='svgs/21_3625.svg' style='position:absolute; left:54.460093896713616%; top:41.26898047722343%; width:11.737089201877934%; height:5.42299349240781%; object-fit:contain;' />
+<div style='position:absolute; left:69.71830985915493%; top:41.21475054229935%; width:26.056338028169012%; height:1.4099783080260302%; font-size:1.2472885032537961cqh; font-weight:700; color:rgb(250,250,250); text-align:left; line-height: 1.15; display:flex; flex-direction:column; justify-content:flex-start; white-space:pre-wrap; overflow:visible;'><span>Disaster or collapse</span></div>
+<div style='position:absolute; left:69.71830985915493%; top:43.275488069414315%; width:26.056338028169012%; height:3.470715835140998%; font-size:1.0845986984815619cqh; font-weight:400; color:rgb(180,184,188); text-align:left; line-height: 1.15; display:flex; flex-direction:column; justify-content:flex-start; white-space:pre-wrap; overflow:visible;'><span>Crash, collapse,<br>quake, or flood</span></div>
+<div style='position:absolute; left:3.286384976525822%; top:51.138828633405645%; width:45.305164319248824%; height:11.713665943600867%; pointer-events:none; background:rgb(24,28,30); border-radius:1.735357917570499cqh;'></div>
+<img id='21:3632' src='svgs/21_3632.svg' style='position:absolute; left:6.338028169014084%; top:54.28416485900217%; width:11.737089201877934%; height:5.42299349240781%; object-fit:contain;' />
+<div style='position:absolute; left:21.5962441314554%; top:54.229934924078094%; width:26.056338028169012%; height:1.4099783080260302%; font-size:1.2472885032537961cqh; font-weight:700; color:rgb(250,250,250); text-align:left; line-height: 1.15; display:flex; flex-direction:column; justify-content:flex-start; white-space:pre-wrap; overflow:visible;'><span>Someone missing</span></div>
+<div style='position:absolute; left:21.5962441314554%; top:56.29067245119306%; width:26.056338028169012%; height:3.470715835140998%; font-size:1.0845986984815619cqh; font-weight:400; color:rgb(180,184,188); text-align:left; line-height: 1.15; display:flex; flex-direction:column; justify-content:flex-start; white-space:pre-wrap; overflow:visible;'><span>A person you can’t<br>find</span></div>
+<div style='position:absolute; left:51.40845070422535%; top:51.138828633405645%; width:45.305164319248824%; height:11.713665943600867%; pointer-events:none; background:rgb(24,28,30); border-radius:1.735357917570499cqh;'></div>
+<img id='21:3638' src='svgs/21_3638.svg' style='position:absolute; left:54.460093896713616%; top:54.28416485900217%; width:11.737089201877934%; height:5.42299349240781%; object-fit:contain;' />
+<div style='position:absolute; left:69.71830985915493%; top:54.229934924078094%; width:26.056338028169012%; height:1.4099783080260302%; font-size:1.2472885032537961cqh; font-weight:700; color:rgb(250,250,250); text-align:left; line-height: 1.15; display:flex; flex-direction:column; justify-content:flex-start; white-space:pre-wrap; overflow:visible;'><span>Villain or monster</span></div>
+<div style='position:absolute; left:69.71830985915493%; top:56.29067245119306%; width:26.056338028169012%; height:3.470715835140998%; font-size:1.0845986984815619cqh; font-weight:400; color:rgb(180,184,188); text-align:left; line-height: 1.15; display:flex; flex-direction:column; justify-content:flex-start; white-space:pre-wrap; overflow:visible;'><span>Someone or something<br>attacking with powers</span></div>
+<div style='position:absolute; left:3.286384976525822%; top:64.15401301518439%; width:45.305164319248824%; height:11.713665943600867%; pointer-events:none; background:rgb(24,28,30); border-radius:1.735357917570499cqh;'></div>
+<img id='21:3645' src='svgs/21_3645.svg' style='position:absolute; left:6.338028169014084%; top:67.29934924078091%; width:11.737089201877934%; height:5.42299349240781%; object-fit:contain;' />
+<div style='position:absolute; left:21.5962441314554%; top:67.29934924078091%; width:26.056338028169012%; height:1.3015184381778742%; font-size:1.13882863340564cqh; font-weight:700; color:rgb(250,250,250); text-align:left; line-height: 1.15; display:flex; flex-direction:column; justify-content:flex-start; white-space:pre-wrap; overflow:visible;'><span>Powers out of control</span></div>
+<div style='position:absolute; left:21.5962441314554%; top:69.25162689804772%; width:26.056338028169012%; height:3.470715835140998%; font-size:1.0845986984815619cqh; font-weight:400; color:rgb(180,184,188); text-align:left; line-height: 1.15; display:flex; flex-direction:column; justify-content:flex-start; white-space:pre-wrap; overflow:visible;'><span>Someone who can’t<br>control their powers</span></div>
+<div style='position:absolute; left:51.40845070422535%; top:64.15401301518439%; width:45.305164319248824%; height:11.713665943600867%; pointer-events:none; background:rgb(24,28,30); border-radius:1.735357917570499cqh;'></div>
+<img id='21:3651' src='svgs/21_3651.svg' style='position:absolute; left:54.460093896713616%; top:67.29934924078091%; width:11.737089201877934%; height:5.42299349240781%; object-fit:contain;' />
+<div style='position:absolute; left:69.71830985915493%; top:67.24511930585683%; width:26.056338028169012%; height:1.4099783080260302%; font-size:1.2472885032537961cqh; font-weight:700; color:rgb(250,250,250); text-align:left; line-height: 1.15; display:flex; flex-direction:column; justify-content:flex-start; white-space:pre-wrap; overflow:visible;'><span>Battle nearby</span></div>
+<div style='position:absolute; left:69.71830985915493%; top:69.3058568329718%; width:26.056338028169012%; height:3.470715835140998%; font-size:1.0845986984815619cqh; font-weight:400; color:rgb(180,184,188); text-align:left; line-height: 1.15; display:flex; flex-direction:column; justify-content:flex-start; white-space:pre-wrap; overflow:visible;'><span>Heroes fighting<br>close to you</span></div>
+<div style='position:absolute; left:3.286384976525822%; top:77.16919739696311%; width:93.42723004694837%; height:9.652928416485901%; pointer-events:none; background:rgb(24,28,30); border-radius:1.735357917570499cqh;'></div>
+<img id='21:3657' src='svgs/21_3657.svg' style='position:absolute; left:6.807511737089202%; top:79.28416485900217%; width:11.737089201877934%; height:5.42299349240781%; object-fit:contain;' />
+<div style='position:absolute; left:23.239436619718308%; top:79.96203904555314%; width:69.95305164319248%; height:1.735357917570499%; font-size:1.3557483731019524cqh; font-weight:700; color:rgb(250,250,250); text-align:left; line-height: 1.15; display:flex; flex-direction:column; justify-content:flex-start; white-space:pre-wrap; overflow:visible;'><span>Something else</span></div>
+<div style='position:absolute; left:23.239436619718308%; top:82.34815618221259%; width:69.95305164319248%; height:1.6811279826464207%; font-size:1.3015184381778742cqh; font-weight:400; color:rgb(180,184,188); text-align:left; line-height: 1.15; display:flex; flex-direction:column; justify-content:flex-start; white-space:pre-wrap; overflow:visible;'><span>None of these match</span></div>
+<div style='position:absolute; left:32.98122065727699%; top:97.72234273318871%; width:34.037558685446015%; height:0.6507592190889371%; pointer-events:none; background:rgb(240,240,240); border-radius:54.229934924078094cqh;'></div>
+        <script src="interactions.js"></script>
     </div>
 </body>
 </html>
