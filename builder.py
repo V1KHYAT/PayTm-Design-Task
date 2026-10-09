@@ -56,6 +56,19 @@ def collect_html(node, frame_x, frame_y, frame_w, frame_h, out_list):
 
     # Vectors & Shapes
     if node["type"] in ["VECTOR", "BOOLEAN_OPERATION", "STAR", "LINE", "ELLIPSE", "REGULAR_POLYGON"]:
+        # Unified Countdown Ring on sending_alert screen
+        if node.get("id") == "21:3533":
+            svg_tag = f'''<svg id="countdown-svg" viewBox="0 0 680 690" style="position:absolute; left:{left:.3f}%; top:{top:.3f}%; width:{width:.3f}%; height:{height:.3f}%; pointer-events:none; overflow:visible;" fill="none">
+    <path d="M340 20C516.457 20 660 165.231 660 345C660 524.769 516.457 670 340 670C163.543 670 20 524.769 20 345C20 165.231 163.543 20 340 20Z" stroke="#EBE9E6" stroke-width="40"/>
+    <path id="countdown-progress-ring" pathLength="100" d="M340 20C516.457 20 660 165.231 660 345C660 524.769 516.457 670 340 670C163.543 670 20 524.769 20 345C20 165.231 163.543 20 340 20Z" stroke="#D83B30" stroke-width="40" stroke-linecap="round" stroke-dasharray="100" stroke-dashoffset="0"/>
+</svg>'''
+            out_list.append(svg_tag)
+            return
+
+        if node.get("id") == "21:3534":
+            # Skip separate countdown progress vector since it is now rendered directly inside countdown-svg!
+            return
+
         safe_id = node['id'].replace(':','_')
         if os.path.exists(f"svgs/{safe_id}.svg"):
             tag = f"<img id='{node['id']}' src='svgs/{safe_id}.svg' style='position:absolute; left:{left:.3f}%; top:{top:.3f}%; width:{width:.3f}%; height:{height:.3f}%; object-fit:contain;' />"
@@ -94,9 +107,14 @@ def collect_html(node, frame_x, frame_y, frame_w, frame_h, out_list):
         else:
             wrap_css = "width:max-content; white-space:nowrap;"
 
+        extra_attr = ""
+        if node.get("id") == "21:3535" or node.get("name") == "Seconds remaining":
+            extra_attr = ' id="countdown-seconds"'
+            chars = "3"
+
         css = f"position:absolute; {pos_css} {wrap_css} height:max-content; font-size:{font_size:.3f}cqh; font-weight:{font_weight}; color:{color}; line-height:{lh_ratio:.3f}; display:flex; flex-direction:column; overflow:visible;"
 
-        out_list.append(f"<div style='{css}'><span>{chars}</span></div>")
+        out_list.append(f"<div{extra_attr} style='{css}'><span>{chars}</span></div>")
         return
 
     # Frame / Rectangle
@@ -153,11 +171,69 @@ def build():
 
     js_code = """
     document.addEventListener("DOMContentLoaded", () => {
+        let countdownAnimId = null;
+
+        function startCountdown() {
+            if (countdownAnimId) {
+                cancelAnimationFrame(countdownAnimId);
+                countdownAnimId = null;
+            }
+
+            const ring = document.getElementById('countdown-progress-ring');
+            const secondsEl = document.getElementById('countdown-seconds');
+            if (!ring || !secondsEl) return;
+
+            ring.style.strokeDashoffset = '0';
+            secondsEl.innerHTML = '<span>3</span>';
+
+            const duration = 3000;
+            const startTime = performance.now();
+
+            function tick(now) {
+                const elapsed = now - startTime;
+                const progress = Math.min(1, elapsed / duration);
+
+                // Smoothly drain the stroke from full (0) to empty (100)
+                ring.style.strokeDashoffset = (progress * 100).toFixed(2);
+
+                // Countdown numbers: 3 -> 2 -> 1
+                const remaining = Math.max(1, Math.ceil(3 - (elapsed / 1000)));
+                secondsEl.innerHTML = `<span>${remaining}</span>`;
+
+                if (progress < 1) {
+                    countdownAnimId = requestAnimationFrame(tick);
+                } else {
+                    countdownAnimId = null;
+                    showScreen('sos_active');
+                    handleAutoTriggers('sos_active');
+                }
+            }
+
+            countdownAnimId = requestAnimationFrame(tick);
+        }
+
+        function stopCountdown() {
+            if (countdownAnimId) {
+                cancelAnimationFrame(countdownAnimId);
+                countdownAnimId = null;
+            }
+            const ring = document.getElementById('countdown-progress-ring');
+            const secondsEl = document.getElementById('countdown-seconds');
+            if (ring) ring.style.strokeDashoffset = '0';
+            if (secondsEl) secondsEl.innerHTML = '<span>3</span>';
+        }
+
         function showScreen(id) {
             document.querySelectorAll('.screen').forEach(s => s.style.display = 'none');
             const target = document.getElementById(id);
             if (target) {
                 target.style.display = 'block';
+            }
+
+            if (id === 'sending_alert') {
+                startCountdown();
+            } else {
+                stopCountdown();
             }
         }
 
@@ -207,13 +283,11 @@ def build():
         // Safe screen -> Done button
         createOverlay('safe', 4.5, 89.9, 91.0, 5.9, 'home');
 
-        let timeoutId;
+        let worseTimeoutId;
         function handleAutoTriggers(screenId) {
-            clearTimeout(timeoutId);
-            if (screenId === 'sending_alert') {
-                timeoutId = setTimeout(() => showScreen('sos_active'), 2500);
-            } else if (screenId === 'sos_situation_worse') {
-                timeoutId = setTimeout(() => showScreen('safe'), 3200);
+            clearTimeout(worseTimeoutId);
+            if (screenId === 'sos_situation_worse') {
+                worseTimeoutId = setTimeout(() => showScreen('safe'), 3200);
             }
         }
     });

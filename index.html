@@ -79,9 +79,11 @@
 <img id='21:3529' src='svgs/21_3529.svg' style='position:absolute; left:74.178%; top:2.169%; width:4.930%; height:1.410%; object-fit:contain;' />
 <img id='21:3530' src='svgs/21_3530.svg' style='position:absolute; left:80.516%; top:2.169%; width:4.225%; height:1.410%; object-fit:contain;' />
 <img id='21:3531' src='svgs/21_3531.svg' style='position:absolute; left:86.150%; top:2.169%; width:6.573%; height:1.410%; object-fit:contain;' />
-<img id='21:3533' src='svgs/21_3533.svg' style='position:absolute; left:10.094%; top:24.675%; width:79.812%; height:37.419%; object-fit:contain;' />
-<img id='21:3534' src='svgs/21_3534.svg' style='position:absolute; left:15.141%; top:25.759%; width:72.418%; height:35.249%; object-fit:contain;' />
-<div style='position:absolute; left:50.000%; top:35.005%; transform:translateX(-50%); text-align:center; width:max-content; white-space:nowrap; height:max-content; font-size:13.232cqh; font-weight:700; color:rgb(3,4,3); line-height:1.066; display:flex; flex-direction:column; overflow:visible;'><span>2</span></div>
+<svg id="countdown-svg" viewBox="0 0 680 690" style="position:absolute; left:10.094%; top:24.675%; width:79.812%; height:37.419%; pointer-events:none; overflow:visible;" fill="none">
+    <path d="M340 20C516.457 20 660 165.231 660 345C660 524.769 516.457 670 340 670C163.543 670 20 524.769 20 345C20 165.231 163.543 20 340 20Z" stroke="#EBE9E6" stroke-width="40"/>
+    <path id="countdown-progress-ring" pathLength="100" d="M340 20C516.457 20 660 165.231 660 345C660 524.769 516.457 670 340 670C163.543 670 20 524.769 20 345C20 165.231 163.543 20 340 20Z" stroke="#D83B30" stroke-width="40" stroke-linecap="round" stroke-dasharray="100" stroke-dashoffset="0"/>
+</svg>
+<div id="countdown-seconds" style='position:absolute; left:50.000%; top:35.005%; transform:translateX(-50%); text-align:center; width:max-content; white-space:nowrap; height:max-content; font-size:13.232cqh; font-weight:700; color:rgb(3,4,3); line-height:1.066; display:flex; flex-direction:column; overflow:visible;'><span>3</span></div>
 <div style='position:absolute; left:50.000%; top:49.105%; transform:translateX(-50%); text-align:center; width:max-content; white-space:nowrap; height:max-content; font-size:2.061cqh; font-weight:400; color:rgb(153,153,153); line-height:1.300; display:flex; flex-direction:column; overflow:visible;'><span>Sending alert...</span></div>
 <div style='position:absolute; left:4.577%; top:82.104%; width:90.845%; height:9.761%; pointer-events:none; background:rgb(216,59,48); border-radius:1.735cqh;'></div>
 <div style='position:absolute; left:50.000%; top:85.005%; transform:translateX(-50%); text-align:center; width:max-content; white-space:nowrap; height:max-content; font-size:3.037cqh; font-weight:700; color:rgb(255,255,255); line-height:1.300; display:flex; flex-direction:column; overflow:visible;'><span>Cancel</span></div>
@@ -374,11 +376,69 @@
         <script>
             
     document.addEventListener("DOMContentLoaded", () => {
+        let countdownAnimId = null;
+
+        function startCountdown() {
+            if (countdownAnimId) {
+                cancelAnimationFrame(countdownAnimId);
+                countdownAnimId = null;
+            }
+
+            const ring = document.getElementById('countdown-progress-ring');
+            const secondsEl = document.getElementById('countdown-seconds');
+            if (!ring || !secondsEl) return;
+
+            ring.style.strokeDashoffset = '0';
+            secondsEl.innerHTML = '<span>3</span>';
+
+            const duration = 3000;
+            const startTime = performance.now();
+
+            function tick(now) {
+                const elapsed = now - startTime;
+                const progress = Math.min(1, elapsed / duration);
+
+                // Smoothly drain the stroke from full (0) to empty (100)
+                ring.style.strokeDashoffset = (progress * 100).toFixed(2);
+
+                // Countdown numbers: 3 -> 2 -> 1
+                const remaining = Math.max(1, Math.ceil(3 - (elapsed / 1000)));
+                secondsEl.innerHTML = `<span>${remaining}</span>`;
+
+                if (progress < 1) {
+                    countdownAnimId = requestAnimationFrame(tick);
+                } else {
+                    countdownAnimId = null;
+                    showScreen('sos_active');
+                    handleAutoTriggers('sos_active');
+                }
+            }
+
+            countdownAnimId = requestAnimationFrame(tick);
+        }
+
+        function stopCountdown() {
+            if (countdownAnimId) {
+                cancelAnimationFrame(countdownAnimId);
+                countdownAnimId = null;
+            }
+            const ring = document.getElementById('countdown-progress-ring');
+            const secondsEl = document.getElementById('countdown-seconds');
+            if (ring) ring.style.strokeDashoffset = '0';
+            if (secondsEl) secondsEl.innerHTML = '<span>3</span>';
+        }
+
         function showScreen(id) {
             document.querySelectorAll('.screen').forEach(s => s.style.display = 'none');
             const target = document.getElementById(id);
             if (target) {
                 target.style.display = 'block';
+            }
+
+            if (id === 'sending_alert') {
+                startCountdown();
+            } else {
+                stopCountdown();
             }
         }
 
@@ -428,13 +488,11 @@
         // Safe screen -> Done button
         createOverlay('safe', 4.5, 89.9, 91.0, 5.9, 'home');
 
-        let timeoutId;
+        let worseTimeoutId;
         function handleAutoTriggers(screenId) {
-            clearTimeout(timeoutId);
-            if (screenId === 'sending_alert') {
-                timeoutId = setTimeout(() => showScreen('sos_active'), 2500);
-            } else if (screenId === 'sos_situation_worse') {
-                timeoutId = setTimeout(() => showScreen('safe'), 3200);
+            clearTimeout(worseTimeoutId);
+            if (screenId === 'sos_situation_worse') {
+                worseTimeoutId = setTimeout(() => showScreen('safe'), 3200);
             }
         }
     });
