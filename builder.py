@@ -121,17 +121,9 @@ def collect_html(node, frame_x, frame_y, frame_w, frame_h, out_list):
     if node.get("id") in ["21:3553", "21:3559", "21:3565"]:
         card_num = "1" if node["id"] == "21:3553" else ("2" if node["id"] == "21:3559" else "3")
         if card_num == "1":
-            tips_html = '''<div id="bento-tips-container" style="position:absolute; left:7.277%; top:15.500%; width:85.446%; height:38.500%; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; pointer-events:none; z-index:5; transition:opacity 0.4s ease, transform 0.4s ease;">
-    <div style="display:inline-flex; align-items:center; gap:0.8cqh; background:rgba(34,197,94,0.14); border:1px solid rgba(34,197,94,0.32); border-radius:999px; padding:0.5cqh 1.6cqh; margin-bottom:2cqh;">
-        <span class="live-ping-dot" style="width:0.8cqh; height:0.8cqh; border-radius:50%; background:#22c55e;"></span>
-        <span style="font-size:1.15cqh; font-weight:700; color:#86efac; letter-spacing:0.08em; text-transform:uppercase;">Broadcasting SOS · Seeking Heroes</span>
-    </div>
-    <div class="calm-breath-orb" style="width:7.5cqh; height:7.5cqh; border-radius:50%; background:radial-gradient(circle, rgba(52,211,153,0.3) 0%, rgba(16,185,129,0.06) 70%, transparent 100%); border:1.5px solid rgba(52,211,153,0.45); display:flex; align-items:center; justify-content:center; margin-bottom:2.2cqh;">
-        <div style="width:2.8cqh; height:2.8cqh; border-radius:50%; background:#34d399; opacity:0.9;"></div>
-    </div>
-    <div id="bento-tip-text-box" style="display:flex; flex-direction:column; align-items:center; gap:0.7cqh; max-width:85%; transition:opacity 0.3s ease;">
-        <div id="bento-tip-title" style="font-size:1.95cqh; font-weight:700; color:#f3f4f6; line-height:1.3; text-wrap:balance;">Breathe in a 1-2 Pattern to remain calm.</div>
-        <div id="bento-tip-subtitle" style="font-size:1.3cqh; font-weight:400; color:#9ca3af; line-height:1.35;">Inhale 4s · Exhale 8s to steady your heart rate</div>
+            tips_html = '''<div id="bento-tips-container" style="position:absolute; left:7.277%; top:15.500%; width:85.446%; height:38.500%; display:flex; justify-content:center; align-items:center; text-align:center; pointer-events:none; z-index:5; transition:opacity 0.4s ease, transform 0.4s ease;">
+    <div id="bento-tip-text" style="font-size:1.6cqh; font-weight:500; color:#9ca3af; line-height:1.45; max-width:82%; text-wrap:balance; transition:opacity 0.3s ease;">
+        Breathe in a 1-2 Pattern to remain calm.
     </div>
 </div>'''
             out_list.append(tips_html)
@@ -282,14 +274,11 @@ def build():
                 tipsEl.style.opacity = '1';
                 tipsEl.style.transform = 'translateY(0)';
             }
-            const textBox = document.getElementById('bento-tip-text-box');
-            if (textBox) {
-                textBox.style.opacity = '1';
+            const tipText = document.getElementById('bento-tip-text');
+            if (tipText) {
+                tipText.style.opacity = '1';
+                tipText.textContent = "Breathe in a 1-2 Pattern to remain calm.";
             }
-            const tipTitle = document.getElementById('bento-tip-title');
-            const tipSub = document.getElementById('bento-tip-subtitle');
-            if (tipTitle) tipTitle.textContent = "Breathe in a 1-2 Pattern to remain calm.";
-            if (tipSub) tipSub.textContent = "Inhale 4s · Exhale 8s to steady your heart rate";
 
             for (let i = 1; i <= 3; i++) {
                 const card = document.getElementById(`update-card-${i}`);
@@ -303,9 +292,7 @@ def build():
             clearSosActiveUpdates();
 
             const tipsEl = document.getElementById('bento-tips-container');
-            const textBox = document.getElementById('bento-tip-text-box');
-            const tipTitle = document.getElementById('bento-tip-title');
-            const tipSub = document.getElementById('bento-tip-subtitle');
+            const tipText = document.getElementById('bento-tip-text');
 
             const card1 = document.getElementById('update-card-1');
             const card2 = document.getElementById('update-card-2');
@@ -313,12 +300,11 @@ def build():
 
             // Switch to Tip 2 after 1.8s
             sosTimeouts.push(setTimeout(() => {
-                if (textBox && tipTitle && tipSub) {
-                    textBox.style.opacity = '0';
+                if (tipText) {
+                    tipText.style.opacity = '0';
                     setTimeout(() => {
-                        tipTitle.textContent = "Stay low and keep your device silent.";
-                        tipSub.textContent = "Live audio & coordinates streaming to dispatch";
-                        textBox.style.opacity = '1';
+                        tipText.textContent = "Stay in safe cover and keep the line open.";
+                        tipText.style.opacity = '1';
                     }, 250);
                 }
             }, 1800));
@@ -477,45 +463,10 @@ def build():
             transform: translateY(0);
         }}
 
-        /* Calming breathing orb animation */
-        @keyframes calmBreath {{
-            0%, 100% {{
-                transform: scale(0.92);
-                opacity: 0.75;
-                box-shadow: 0 0 14px rgba(52, 211, 153, 0.2);
-            }}
-            50% {{
-                transform: scale(1.15);
-                opacity: 1;
-                box-shadow: 0 0 30px rgba(52, 211, 153, 0.5);
-            }}
-        }}
-        .calm-breath-orb {{
-            animation: calmBreath 4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-        }}
-
-        /* Live dispatch beacon ping animation */
-        @keyframes livePing {{
-            0%, 100% {{
-                opacity: 1;
-                transform: scale(1);
-            }}
-            50% {{
-                opacity: 0.35;
-                transform: scale(0.8);
-            }}
-        }}
-        .live-ping-dot {{
-            animation: livePing 1.8s ease-in-out infinite;
-        }}
-
         @media (prefers-reduced-motion: reduce) {{
             .update-card {{
                 transition: opacity 0.2s ease;
                 transform: none !important;
-            }}
-            .calm-breath-orb, .live-ping-dot {{
-                animation: none !important;
             }}
         }}
     </style>
