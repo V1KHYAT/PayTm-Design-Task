@@ -42,6 +42,26 @@
             pointer-events: none;
         }
 
+        /* Smooth page transition for all screens */
+        .screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            pointer-events: none;
+            visibility: hidden;
+            transition: opacity 0.28s cubic-bezier(0.16, 1, 0.3, 1), transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.28s;
+            transform: scale(0.992);
+        }
+        .screen.active {
+            opacity: 1;
+            pointer-events: auto;
+            visibility: visible;
+            transform: scale(1);
+        }
+
         /* Sequential responder cards animation */
         .update-card {
             opacity: 0;
@@ -54,8 +74,49 @@
             transform: translateY(0);
         }
 
+        /* Interactive selectable elements */
+        .selectable-item {
+            cursor: pointer;
+            pointer-events: auto;
+            transition: border-color 0.2s ease, background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+            box-sizing: border-box;
+            border: 1.5px solid transparent;
+        }
+        .selectable-item:active {
+            transform: scale(0.975);
+        }
+        .selectable-item.selected {
+            border: 1.5px solid #22c55e !important;
+            background: rgba(34, 197, 94, 0.10) !important;
+            box-shadow: 0 0 16px rgba(34, 197, 94, 0.20) !important;
+        }
+
+        /* Interactive button feedback */
+        .interactive-btn {
+            cursor: pointer;
+            pointer-events: auto;
+            transition: transform 0.15s ease, filter 0.15s ease;
+        }
+        .interactive-btn:active {
+            transform: scale(0.975);
+            filter: brightness(1.15);
+        }
+
+        /* Rating stars */
+        .rating-star {
+            cursor: pointer;
+            pointer-events: auto;
+            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.2s ease;
+        }
+        .rating-star:active {
+            transform: scale(1.2);
+        }
+        .rating-star.lit {
+            filter: drop-shadow(0 0 6px rgba(251, 191, 36, 0.8)) brightness(1.4) !important;
+        }
+
         @media (prefers-reduced-motion: reduce) {
-            .update-card {
+            .screen, .update-card {
                 transition: opacity 0.2s ease;
                 transform: none !important;
             }
@@ -65,7 +126,7 @@
 <body>
     <div class="phone-wrapper">
         
-        <div id="home" class="screen" style="display:block; width:100%; height:100%; position:absolute; top:0; left:0; background:rgb(250,249,247);">
+        <div id="home" class="screen active" style="width:100%; height:100%; position:absolute; top:0; left:0; background:rgb(250,249,247);">
             <div style='position:absolute; left:0.000%; top:0.000%; width:100.000%; height:100.000%; pointer-events:none; background:rgb(250,249,247);'></div>
 <div style='position:absolute; left:9.636%; top:1.762%; text-align:left; width:max-content; white-space:nowrap; height:max-content; font-size:1.844cqh; font-weight:700; color:rgb(3,4,3); line-height:1.150; display:flex; flex-direction:column; overflow:visible;'><span>9:41</span></div>
 <img id='21:285' src='svgs/21_285.svg' style='position:absolute; left:73.913%; top:2.302%; width:4.738%; height:1.127%; object-fit:contain;' />
@@ -92,7 +153,7 @@
 <div style='position:absolute; left:32.902%; top:97.722%; width:34.195%; height:0.651%; pointer-events:none; background:rgb(180,177,176); border-radius:5.423cqh;'></div>
         </div>
         
-        <div id="sending_alert" class="screen" style="display:none; width:100%; height:100%; position:absolute; top:0; left:0; background:rgb(250,249,247);">
+        <div id="sending_alert" class="screen" style="width:100%; height:100%; position:absolute; top:0; left:0; background:rgb(250,249,247);">
             <div style='position:absolute; left:0.000%; top:0.000%; width:100.000%; height:100.000%; pointer-events:none; background:rgb(250,249,247);'></div>
 <div style='position:absolute; left:10.563%; top:1.681%; text-align:left; width:max-content; white-space:nowrap; height:max-content; font-size:1.844cqh; font-weight:700; color:rgb(3,4,3); line-height:1.300; display:flex; flex-direction:column; overflow:visible;'><span>9:41</span></div>
 <img id='21:3529' src='svgs/21_3529.svg' style='position:absolute; left:74.178%; top:2.169%; width:4.930%; height:1.410%; object-fit:contain;' />
@@ -109,7 +170,7 @@
 <div style='position:absolute; left:32.981%; top:97.722%; width:34.038%; height:0.651%; pointer-events:none; background:rgb(180,177,176); border-radius:54.230cqh;'></div>
         </div>
         
-        <div id="sos_active" class="screen" style="display:none; width:100%; height:100%; position:absolute; top:0; left:0; background:rgb(16,19,20);">
+        <div id="sos_active" class="screen" style="width:100%; height:100%; position:absolute; top:0; left:0; background:rgb(16,19,20);">
             <div style='position:absolute; left:0.000%; top:0.000%; width:100.000%; height:100.000%; pointer-events:none; background:rgb(16,19,20);'></div>
 <div style='position:absolute; left:10.563%; top:1.681%; text-align:left; width:max-content; white-space:nowrap; height:max-content; font-size:1.844cqh; font-weight:700; color:rgb(250,250,250); line-height:1.300; display:flex; flex-direction:column; overflow:visible;'><span>9:41</span></div>
 <img id='21:3545' src='svgs/21_3545.svg' style='position:absolute; left:74.178%; top:2.169%; width:4.930%; height:1.410%; object-fit:contain;' />
@@ -158,14 +219,15 @@
 <div style='position:absolute; left:32.981%; top:97.722%; width:34.038%; height:0.651%; pointer-events:none; background:rgb(240,240,240); border-radius:54.230cqh;'></div>
         </div>
         
-        <div id="situation_category" class="screen" style="display:none; width:100%; height:100%; position:absolute; top:0; left:0; background:rgb(16,19,20);">
+        <div id="situation_category" class="screen" style="width:100%; height:100%; position:absolute; top:0; left:0; background:rgb(16,19,20);">
             <div style='position:absolute; left:0.000%; top:0.000%; width:100.000%; height:100.000%; pointer-events:none; background:rgb(16,19,20);'></div>
 <div style='position:absolute; left:10.563%; top:1.681%; text-align:left; width:max-content; white-space:nowrap; height:max-content; font-size:1.844cqh; font-weight:700; color:rgb(250,250,250); line-height:1.300; display:flex; flex-direction:column; overflow:visible;'><span>9:41</span></div>
 <img id='21:3591' src='svgs/21_3591.svg' style='position:absolute; left:74.178%; top:2.169%; width:4.930%; height:1.410%; object-fit:contain;' />
 <img id='21:3592' src='svgs/21_3592.svg' style='position:absolute; left:80.516%; top:2.169%; width:4.225%; height:1.410%; object-fit:contain;' />
 <img id='21:3593' src='svgs/21_3593.svg' style='position:absolute; left:86.150%; top:2.169%; width:6.573%; height:1.410%; object-fit:contain;' />
-<div style='position:absolute; left:6.338%; top:8.731%; width:71.009%; height:0.759%; pointer-events:none; background:rgb(24,28,30); border-radius:0.542cqh;'></div>
-<div style='position:absolute; left:6.338%; top:8.731%; width:19.014%; height:0.759%; pointer-events:none; background:rgb(255,255,255); border-radius:0.542cqh;'></div>
+<div id="progress-bar-step1-track" style="position:absolute; left:6.338%; top:8.731%; width:71.009%; height:0.759%; background:rgb(24,28,30); border-radius:999px; overflow:hidden; pointer-events:none;">
+    <div id="progress-bar-step1-fill" style="width:50%; height:100%; background:#fff; border-radius:999px; transition:width 0.35s cubic-bezier(0.16,1,0.3,1);"></div>
+</div>
 <div style='position:absolute; left:81.103%; top:8.324%; text-align:left; width:max-content; white-space:nowrap; height:max-content; font-size:1.193cqh; font-weight:400; color:rgb(180,184,188); line-height:1.300; display:flex; flex-direction:column; overflow:visible;'><span>Step 1 of 2</span></div>
 <div style='position:absolute; left:6.338%; top:14.100%; text-align:left; width:max-content; white-space:nowrap; height:max-content; font-size:3.037cqh; font-weight:700; color:rgb(250,250,250); line-height:1.300; display:flex; flex-direction:column; overflow:visible;'><span>What do you see?</span></div>
 <div style='position:absolute; left:6.338%; top:18.709%; text-align:left; width:max-content; white-space:nowrap; height:max-content; font-size:1.573cqh; font-weight:400; color:rgb(180,184,188); line-height:1.300; display:flex; flex-direction:column; overflow:visible;'><span>Choose the option that best describes the situation.</span></div>
@@ -218,14 +280,15 @@
 <div style='position:absolute; left:32.981%; top:97.722%; width:34.038%; height:0.651%; pointer-events:none; background:rgb(240,240,240); border-radius:54.230cqh;'></div>
         </div>
         
-        <div id="fire_details" class="screen" style="display:none; width:100%; height:100%; position:absolute; top:0; left:0; background:rgb(16,19,20);">
+        <div id="fire_details" class="screen" style="width:100%; height:100%; position:absolute; top:0; left:0; background:rgb(16,19,20);">
             <div style='position:absolute; left:0.000%; top:0.000%; width:100.000%; height:100.000%; pointer-events:none; background:rgb(16,19,20);'></div>
 <div style='position:absolute; left:10.563%; top:1.681%; text-align:left; width:max-content; white-space:nowrap; height:max-content; font-size:1.844cqh; font-weight:700; color:rgb(250,250,250); line-height:1.300; display:flex; flex-direction:column; overflow:visible;'><span>9:41</span></div>
 <img id='21:3668' src='svgs/21_3668.svg' style='position:absolute; left:74.178%; top:2.169%; width:4.930%; height:1.410%; object-fit:contain;' />
 <img id='21:3669' src='svgs/21_3669.svg' style='position:absolute; left:80.516%; top:2.169%; width:4.225%; height:1.410%; object-fit:contain;' />
 <img id='21:3670' src='svgs/21_3670.svg' style='position:absolute; left:86.150%; top:2.169%; width:6.573%; height:1.410%; object-fit:contain;' />
-<div style='position:absolute; left:6.338%; top:7.321%; width:71.009%; height:0.759%; pointer-events:none; background:rgb(24,28,30); border-radius:0.542cqh;'></div>
-<div style='position:absolute; left:6.338%; top:7.321%; width:51.408%; height:0.759%; pointer-events:none; background:rgb(255,255,255); border-radius:0.542cqh;'></div>
+<div id="progress-bar-step2-track" style="position:absolute; left:6.338%; top:7.321%; width:71.009%; height:0.759%; background:rgb(24,28,30); border-radius:999px; overflow:hidden; pointer-events:none;">
+    <div id="progress-bar-step2-fill" style="width:75%; height:100%; background:#fff; border-radius:999px; transition:width 0.4s cubic-bezier(0.16,1,0.3,1), background-color 0.3s ease;"></div>
+</div>
 <div style='position:absolute; left:81.103%; top:6.914%; text-align:left; width:max-content; white-space:nowrap; height:max-content; font-size:1.193cqh; font-weight:400; color:rgb(180,184,188); line-height:1.300; display:flex; flex-direction:column; overflow:visible;'><span>Step 2 of 2</span></div>
 <div style='position:absolute; left:5.164%; top:10.629%; width:89.671%; height:5.857%; pointer-events:none; background:rgb(24,28,30); border-radius:1.735cqh;'></div>
 <div style='position:absolute; left:7.981%; top:11.659%; width:8.216%; height:3.796%; pointer-events:none; background:rgb(60,45,38); border-radius:54.230cqh;'></div>
@@ -288,7 +351,7 @@
 <div style='position:absolute; left:32.981%; top:97.722%; width:34.038%; height:0.651%; pointer-events:none; background:rgb(240,240,240); border-radius:54.230cqh;'></div>
         </div>
         
-        <div id="sos_situation_worse" class="screen" style="display:none; width:100%; height:100%; position:absolute; top:0; left:0; background:rgb(16,19,20);">
+        <div id="sos_situation_worse" class="screen" style="width:100%; height:100%; position:absolute; top:0; left:0; background:rgb(16,19,20);">
             <div style='position:absolute; left:0.000%; top:0.000%; width:100.000%; height:100.000%; pointer-events:none; background:rgb(16,19,20);'></div>
 <div style='position:absolute; left:10.563%; top:1.681%; text-align:left; width:max-content; white-space:nowrap; height:max-content; font-size:1.844cqh; font-weight:700; color:rgb(250,250,250); line-height:1.300; display:flex; flex-direction:column; overflow:visible;'><span>9:41</span></div>
 <img id='21:3758' src='svgs/21_3758.svg' style='position:absolute; left:74.178%; top:2.169%; width:4.930%; height:1.410%; object-fit:contain;' />
@@ -297,25 +360,38 @@
 <div style='position:absolute; left:3.991%; top:6.725%; width:92.019%; height:53.254%; pointer-events:none; background:rgb(25,28,27); border-radius:1.735cqh;'></div>
 <div style='position:absolute; left:7.512%; top:9.300%; text-align:left; width:max-content; white-space:nowrap; height:max-content; font-size:1.464cqh; font-weight:400; color:rgb(180,184,188); line-height:1.300; display:flex; flex-direction:column; overflow:visible;'><span>Sharing Location, Mic and Video</span></div>
 <img id='21:3911' src='svgs/21_3911.svg' style='position:absolute; left:86.678%; top:9.395%; width:5.282%; height:1.708%; object-fit:contain;' />
+<div id="worse-message-container" style="position:absolute; left:6.808%; top:13.341%; width:86.385%; height:45.336%; display:flex; justify-content:center; align-items:center; text-align:center; pointer-events:none; z-index:5; transition:opacity 0.4s ease, transform 0.4s ease;">
+    <div id="worse-message-text" style="font-size:1.6cqh; font-weight:500; color:#9ca3af; line-height:1.45; max-width:82%; text-wrap:balance;">
+        Senior Heroes are on their way.
+    </div>
+</div>
+<div id="worse-card-1" class="update-card worse-card" style="position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none;">
 <div style='position:absolute; left:6.808%; top:13.341%; width:86.385%; height:10.846%; pointer-events:none; background:rgb(32,41,35); border-radius:1.735cqh;'></div>
 <div style='position:absolute; left:11.268%; top:15.293%; width:15.023%; height:6.941%; pointer-events:none; background:rgb(47,57,48); border-radius:54.230cqh;'></div>
 <img id='21:3768' src='svgs/21_3768.svg' style='position:absolute; left:15.845%; top:17.408%; width:5.869%; height:2.711%; object-fit:contain;' />
 <div style='position:absolute; left:31.690%; top:16.269%; text-align:left; width:max-content; white-space:nowrap; height:max-content; font-size:1.844cqh; font-weight:700; color:rgb(250,250,250); line-height:1.300; display:flex; flex-direction:column; overflow:visible;'><span>Rescue is near you</span></div>
 <div style='position:absolute; left:31.690%; top:19.306%; text-align:left; width:max-content; white-space:nowrap; height:max-content; font-size:1.518cqh; font-weight:400; color:rgb(180,184,188); line-height:1.300; display:flex; flex-direction:column; overflow:visible;'><span>First responder arriving in ~2 min</span></div>
+</div>
+<div id="worse-card-2" class="update-card worse-card" style="position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none;">
 <div style='position:absolute; left:6.808%; top:25.054%; width:86.385%; height:10.629%; pointer-events:none; background:rgb(42,37,33); border-radius:1.735cqh;'></div>
 <div style='position:absolute; left:11.268%; top:26.898%; width:15.023%; height:6.941%; pointer-events:none; background:rgb(56,52,44); border-radius:54.230cqh;'></div>
 <img id='21:3774' src='svgs/21_3774.svg' style='position:absolute; left:15.376%; top:29.268%; width:6.808%; height:2.202%; object-fit:contain;' />
 <div style='position:absolute; left:31.690%; top:26.952%; text-align:left; width:max-content; white-space:nowrap; height:max-content; font-size:1.844cqh; font-weight:700; color:rgb(250,250,250); line-height:1.300; display:flex; flex-direction:column; overflow:visible;'><span>8 Heroes are on their way</span></div>
 <div style='position:absolute; left:31.690%; top:29.772%; text-align:left; width:max-content; white-space:nowrap; height:max-content; font-size:1.464cqh; font-weight:400; color:rgb(180,184,188); line-height:1.300; display:flex; flex-direction:column; overflow:visible;'><span>More help is being dispatched</span></div>
 <div style='position:absolute; left:31.690%; top:32.104%; text-align:left; width:max-content; white-space:nowrap; height:max-content; font-size:1.302cqh; font-weight:400; color:rgb(180,184,188); line-height:1.300; display:flex; flex-direction:column; overflow:visible;'><span>12 Watchers are near</span></div>
+</div>
+<div id="worse-card-3" class="update-card worse-card" style="position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none;">
 <div style='position:absolute; left:6.808%; top:36.551%; width:86.385%; height:10.629%; pointer-events:none; background:rgb(32,39,43); border-radius:1.735cqh;'></div>
 <img id='21:3780' src='svgs/21_3780.svg' style='position:absolute; left:11.268%; top:38.395%; width:15.023%; height:6.941%; object-fit:contain;' />
 <div style='position:absolute; left:31.690%; top:39.371%; text-align:left; width:max-content; white-space:nowrap; height:max-content; font-size:1.844cqh; font-weight:700; color:rgb(250,250,250); line-height:1.300; display:flex; flex-direction:column; overflow:visible;'><span>Tatsumaki is on her way</span></div>
 <div style='position:absolute; left:31.690%; top:42.408%; text-align:left; width:max-content; white-space:nowrap; height:max-content; font-size:1.518cqh; font-weight:400; color:rgb(180,184,188); line-height:1.300; display:flex; flex-direction:column; overflow:visible;'><span>S Tier Hero · Arriving in ~4 min</span></div>
+</div>
+<div id="worse-card-4" class="update-card worse-card" style="position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none;">
 <div style='position:absolute; left:6.808%; top:48.048%; width:86.385%; height:10.629%; pointer-events:none; background:rgb(32,39,43); border-radius:1.735cqh;'></div>
 <img id='21:3785' src='svgs/21_3785.svg' style='position:absolute; left:11.268%; top:49.892%; width:15.023%; height:6.941%; object-fit:contain;' />
 <div style='position:absolute; left:31.690%; top:50.868%; text-align:left; width:max-content; white-space:nowrap; height:max-content; font-size:1.844cqh; font-weight:700; color:rgb(250,250,250); line-height:1.300; display:flex; flex-direction:column; overflow:visible;'><span>Genos is 480 m away</span></div>
 <div style='position:absolute; left:31.690%; top:53.905%; text-align:left; width:max-content; white-space:nowrap; height:max-content; font-size:1.518cqh; font-weight:400; color:rgb(180,184,188); line-height:1.300; display:flex; flex-direction:column; overflow:visible;'><span>A Tier Hero · 127 Situations handled</span></div>
+</div>
 <div style='position:absolute; left:4.225%; top:63.015%; text-align:left; width:max-content; white-space:nowrap; height:max-content; font-size:1.518cqh; font-weight:400; color:rgb(180,184,188); line-height:1.300; display:flex; flex-direction:column; overflow:visible;'><span>The current situation is worse</span></div>
 <div style='position:absolute; left:4.225%; top:66.486%; width:44.249%; height:9.328%; pointer-events:none; background:rgb(32,41,35); border-radius:1.735cqh; border: 0.054cqh solid rgb(57,66,58); box-sizing: border-box;'></div>
 <img id='21:3914' src='svgs/21_3914.svg' style='position:absolute; left:23.611%; top:68.890%; width:5.478%; height:1.265%; object-fit:contain;' />
@@ -331,7 +407,7 @@
 <div style='position:absolute; left:32.981%; top:97.722%; width:34.038%; height:0.651%; pointer-events:none; background:rgb(240,240,240); border-radius:54.230cqh;'></div>
         </div>
         
-        <div id="safe" class="screen" style="display:none; width:100%; height:100%; position:absolute; top:0; left:0; background:rgb(250,249,247);">
+        <div id="safe" class="screen" style="width:100%; height:100%; position:absolute; top:0; left:0; background:rgb(250,249,247);">
             <div style='position:absolute; left:0.000%; top:0.000%; width:100.000%; height:100.000%; pointer-events:none; background:rgb(250,249,247);'></div>
 <div style='position:absolute; left:10.563%; top:1.681%; text-align:left; width:max-content; white-space:nowrap; height:max-content; font-size:1.844cqh; font-weight:700; color:rgb(3,4,3); line-height:1.300; display:flex; flex-direction:column; overflow:visible;'><span>9:41</span></div>
 <img id='21:3810' src='svgs/21_3810.svg' style='position:absolute; left:74.178%; top:2.169%; width:4.930%; height:1.410%; object-fit:contain;' />
@@ -355,25 +431,26 @@
 <img id='21:3833' src='svgs/21_3833.svg' style='position:absolute; left:10.915%; top:45.879%; width:6.338%; height:2.928%; object-fit:contain;' />
 <div style='position:absolute; left:24.765%; top:44.902%; text-align:left; width:max-content; white-space:nowrap; height:max-content; font-size:1.844cqh; font-weight:700; color:rgb(3,4,3); line-height:1.300; display:flex; flex-direction:column; overflow:visible;'><span>A medical team is on the way.</span></div>
 <div style='position:absolute; left:24.765%; top:47.831%; text-align:left; width:max-content; white-space:nowrap; height:max-content; font-size:1.518cqh; font-weight:400; color:rgb(124,124,121); line-height:1.300; display:flex; flex-direction:column; overflow:visible;'><span>Arriving in ~3 min.</span></div>
-<div style='position:absolute; left:7.629%; top:50.976%; width:84.742%; height:13.124%; pointer-events:none; background:rgb(245,244,240); border-radius:1.518cqh;'></div>
-<img id='21:3838' src='svgs/21_3838.svg' style='position:absolute; left:24.648%; top:49.892%; width:31.103%; height:15.184%; object-fit:contain;' />
-<div style='position:absolute; left:5.282%; top:50.854%; width:13.347%; height:6.102%; pointer-events:none; background:rgb(238,237,232); border-radius:0.325cqh;'></div>
-<div style='position:absolute; left:19.366%; top:44.618%; width:13.347%; height:6.102%; pointer-events:none; background:rgb(238,237,232); border-radius:0.325cqh;'></div>
-<div style='position:absolute; left:20.540%; top:56.820%; width:13.347%; height:6.102%; pointer-events:none; background:rgb(238,237,232); border-radius:0.325cqh;'></div>
-<div style='position:absolute; left:47.535%; top:57.362%; width:13.347%; height:6.102%; pointer-events:none; background:rgb(238,237,232); border-radius:0.325cqh;'></div>
-<div style='position:absolute; left:62.793%; top:55.193%; width:13.347%; height:6.102%; pointer-events:none; background:rgb(238,237,232); border-radius:0.325cqh;'></div>
-<div style='position:absolute; left:69.836%; top:50.312%; width:13.347%; height:6.102%; pointer-events:none; background:rgb(238,237,232); border-radius:0.325cqh;'></div>
-<div style='position:absolute; left:76.878%; top:45.160%; width:13.347%; height:6.102%; pointer-events:none; background:rgb(238,237,232); border-radius:0.325cqh;'></div>
-<div style='position:absolute; left:87.441%; top:53.837%; width:13.347%; height:6.102%; pointer-events:none; background:rgb(238,237,232); border-radius:0.325cqh;'></div>
-<div style='position:absolute; left:24.061%; top:53.485%; width:13.620%; height:6.282%; pointer-events:none; background:rgb(226,235,220);'></div>
-<div style='position:absolute; left:56.455%; top:59.034%; width:14.995%; height:6.875%; pointer-events:none; background:rgb(226,235,220);'></div>
-<img id='21:3849' src='svgs/21_3849.svg' style='position:absolute; left:7.629%; top:50.976%; width:85.681%; height:13.124%; object-fit:contain;' />
-<img id='21:3850' src='svgs/21_3850.svg' style='position:absolute; left:33.451%; top:55.531%; width:35.211%; height:4.881%; object-fit:contain;' />
-<img id='21:3851' src='svgs/21_3851.svg' style='position:absolute; left:26.878%; top:57.158%; width:12.911%; height:5.965%; object-fit:contain;' />
-<img id='21:3852' src='svgs/21_3852.svg' style='position:absolute; left:31.573%; top:59.328%; width:3.991%; height:1.844%; object-fit:contain;' />
-<img id='21:3853' src='svgs/21_3853.svg' style='position:absolute; left:59.977%; top:51.627%; width:17.136%; height:7.918%; object-fit:contain;' />
-<div style='position:absolute; left:65.141%; top:54.013%; width:6.808%; height:3.145%; pointer-events:none; background:rgb(245,111,115); border-radius:54.230cqh;'></div>
-<img id='21:3926' src='svgs/21_3926.svg' style='position:absolute; left:66.882%; top:54.971%; width:3.326%; height:1.229%; object-fit:contain;' />
+<div id="medical-team-route-box" style="position:absolute; left:7.629%; top:50.976%; width:84.742%; height:13.124%; background:#f5f4f0; border-radius:1.518cqh; overflow:hidden; pointer-events:none;">
+<img id='21:3838' src='svgs/21_3838.svg' style='position:absolute; left:20.083%; top:-8.264%; width:36.704%; height:115.702%; object-fit:contain;' />
+<div style='position:absolute; left:-2.770%; top:-0.927%; width:15.750%; height:46.499%; pointer-events:none; background:rgb(238,237,232); border-radius:0.325cqh;'></div>
+<div style='position:absolute; left:13.850%; top:-48.448%; width:15.750%; height:46.499%; pointer-events:none; background:rgb(238,237,232); border-radius:0.325cqh;'></div>
+<div style='position:absolute; left:15.235%; top:44.527%; width:15.750%; height:46.499%; pointer-events:none; background:rgb(238,237,232); border-radius:0.325cqh;'></div>
+<div style='position:absolute; left:47.091%; top:48.659%; width:15.750%; height:46.499%; pointer-events:none; background:rgb(238,237,232); border-radius:0.325cqh;'></div>
+<div style='position:absolute; left:65.097%; top:32.130%; width:15.750%; height:46.499%; pointer-events:none; background:rgb(238,237,232); border-radius:0.325cqh;'></div>
+<div style='position:absolute; left:73.407%; top:-5.060%; width:15.750%; height:46.499%; pointer-events:none; background:rgb(238,237,232); border-radius:0.325cqh;'></div>
+<div style='position:absolute; left:81.717%; top:-44.316%; width:15.750%; height:46.499%; pointer-events:none; background:rgb(238,237,232); border-radius:0.325cqh;'></div>
+<div style='position:absolute; left:94.183%; top:21.800%; width:15.750%; height:46.499%; pointer-events:none; background:rgb(238,237,232); border-radius:0.325cqh;'></div>
+<div style='position:absolute; left:19.391%; top:19.115%; width:16.073%; height:47.872%; pointer-events:none; background:rgb(226,235,220);'></div>
+<div style='position:absolute; left:57.618%; top:61.400%; width:17.694%; height:52.383%; pointer-events:none; background:rgb(226,235,220);'></div>
+<img id='21:3849' src='svgs/21_3849.svg' style='position:absolute; left:0.000%; top:0.000%; width:101.108%; height:100.000%; object-fit:contain;' />
+<img id='21:3850' src='svgs/21_3850.svg' style='position:absolute; left:30.471%; top:34.711%; width:41.551%; height:37.190%; object-fit:contain;' />
+<img id='21:3851' src='svgs/21_3851.svg' style='position:absolute; left:22.715%; top:47.107%; width:15.235%; height:45.455%; object-fit:contain;' />
+<img id='21:3852' src='svgs/21_3852.svg' style='position:absolute; left:28.255%; top:63.636%; width:4.709%; height:14.050%; object-fit:contain;' />
+<img id='21:3853' src='svgs/21_3853.svg' style='position:absolute; left:61.773%; top:4.959%; width:20.222%; height:60.331%; object-fit:contain;' />
+<div style='position:absolute; left:67.867%; top:23.140%; width:8.033%; height:23.967%; pointer-events:none; background:rgb(245,111,115); border-radius:54.230cqh;'></div>
+<img id='21:3926' src='svgs/21_3926.svg' style='position:absolute; left:69.921%; top:30.441%; width:3.925%; height:9.365%; object-fit:contain;' />
+</div>
 <div style='position:absolute; left:4.577%; top:66.920%; width:90.845%; height:12.148%; pointer-events:none; background:rgb(255,255,255); border-radius:1.735cqh;'></div>
 <div style='position:absolute; left:7.864%; top:70.390%; width:11.268%; height:5.206%; pointer-events:none; background:rgb(245,243,238); border-radius:54.230cqh;'></div>
 <img id='21:3929' src='svgs/21_3929.svg' style='position:absolute; left:11.150%; top:71.909%; width:4.695%; height:2.169%; object-fit:contain;' />
@@ -440,7 +517,6 @@
                 } else {
                     countdownAnimId = null;
                     showScreen('sos_active');
-                    handleAutoTriggers('sos_active');
                 }
             }
 
@@ -479,6 +555,21 @@
                 const card = document.getElementById(`update-card-${i}`);
                 if (card) {
                     card.classList.remove('visible');
+                }
+            }
+        }
+
+        function setSosActiveCardsImmediately() {
+            clearSosActiveUpdates();
+            const tipsEl = document.getElementById('bento-tips-container');
+            if (tipsEl) {
+                tipsEl.style.opacity = '0';
+                tipsEl.style.pointerEvents = 'none';
+            }
+            for (let i = 1; i <= 3; i++) {
+                const card = document.getElementById(`update-card-${i}`);
+                if (card) {
+                    card.classList.add('visible');
                 }
             }
         }
@@ -524,11 +615,76 @@
             }, 7600));
         }
 
-        function showScreen(id) {
-            document.querySelectorAll('.screen').forEach(s => s.style.display = 'none');
+        let worseTimeouts = [];
+
+        function clearWorseUpdates() {
+            worseTimeouts.forEach(t => clearTimeout(t));
+            worseTimeouts = [];
+
+            const msgEl = document.getElementById('worse-message-container');
+            if (msgEl) {
+                msgEl.style.opacity = '1';
+                msgEl.style.transform = 'translateY(0)';
+            }
+
+            for (let i = 1; i <= 4; i++) {
+                const card = document.getElementById(`worse-card-${i}`);
+                if (card) {
+                    card.classList.remove('visible');
+                }
+            }
+        }
+
+        function startWorseUpdates() {
+            clearWorseUpdates();
+
+            const msgEl = document.getElementById('worse-message-container');
+            const card1 = document.getElementById('worse-card-1');
+            const card2 = document.getElementById('worse-card-2');
+            const card3 = document.getElementById('worse-card-3');
+            const card4 = document.getElementById('worse-card-4');
+
+            // Senior Heroes message initially displayed
+            // At ~2.0s: fade out message & slide in Card 1
+            worseTimeouts.push(setTimeout(() => {
+                if (msgEl) {
+                    msgEl.style.opacity = '0';
+                    msgEl.style.transform = 'translateY(-1cqh)';
+                }
+                if (card1) card1.classList.add('visible');
+            }, 2000));
+
+            // At ~3.8s: slide in Card 2
+            worseTimeouts.push(setTimeout(() => {
+                if (card2) card2.classList.add('visible');
+            }, 3800));
+
+            // At ~5.6s: slide in Card 3 (Tatsumaki)
+            worseTimeouts.push(setTimeout(() => {
+                if (card3) card3.classList.add('visible');
+            }, 5600));
+
+            // At ~7.4s: slide in Card 4 (Genos updated)
+            worseTimeouts.push(setTimeout(() => {
+                if (card4) card4.classList.add('visible');
+            }, 7400));
+
+            // Wait longer (~14s total) before smoothly transitioning to You're Safe screen
+            worseTimeouts.push(setTimeout(() => {
+                showScreen('safe');
+            }, 14000));
+        }
+
+        function showScreen(id, options = {}) {
+            document.querySelectorAll('.screen').forEach(s => {
+                if (s.id !== id) {
+                    s.classList.remove('active');
+                }
+            });
+
             const target = document.getElementById(id);
             if (target) {
-                target.style.display = 'block';
+                target.classList.add('active');
             }
 
             if (id === 'sending_alert') {
@@ -538,67 +694,317 @@
             }
 
             if (id === 'sos_active') {
-                startSosActiveUpdates();
+                if (options.cardsReady) {
+                    setSosActiveCardsImmediately();
+                } else {
+                    startSosActiveUpdates();
+                }
             } else {
                 clearSosActiveUpdates();
             }
-        }
 
-        function createOverlay(screenId, left, top, width, height, targetId) {
-            const screen = document.getElementById(screenId);
-            if (!screen) return;
-            const overlay = document.createElement('div');
-            overlay.style.position = 'absolute';
-            overlay.style.left = left + '%';
-            overlay.style.top = top + '%';
-            overlay.style.width = width + '%';
-            overlay.style.height = height + '%';
-            overlay.style.cursor = 'pointer';
-            overlay.style.zIndex = '9999';
-            overlay.style.pointerEvents = 'auto';
-            overlay.onclick = () => {
-                showScreen(targetId);
-                handleAutoTriggers(targetId);
-            };
-            screen.appendChild(overlay);
-        }
-
-        // Home screen -> SOS button
-        createOverlay('home', 4.5, 58.5, 91.0, 33.3, 'sending_alert');
-
-        // Sending alert -> Cancel button
-        createOverlay('sending_alert', 4.5, 82.1, 91.0, 9.8, 'home');
-
-        // SOS Active -> Worse button
-        createOverlay('sos_active', 51.4, 62.7, 44.0, 10.7, 'sos_situation_worse');
-
-        // SOS Active -> Cancel SOS button
-        createOverlay('sos_active', 4.5, 74.9, 91.0, 7.5, 'home');
-
-        // SOS Active -> Swipe up anywhere (bottom area)
-        createOverlay('sos_active', 0.0, 83.0, 100.0, 17.0, 'situation_category');
-
-        // Situation Category -> Fire or smoke card
-        createOverlay('situation_category', 4.5, 25.8, 44.0, 11.7, 'fire_details');
-
-        // Fire Details -> Send details button
-        createOverlay('fire_details', 5.1, 86.1, 89.7, 6.8, 'sos_situation_worse');
-
-        // SOS Situation Worse -> Cancel SOS button
-        createOverlay('sos_situation_worse', 4.5, 77.0, 91.0, 7.5, 'home');
-
-        // Safe screen -> Done button
-        createOverlay('safe', 4.5, 89.9, 91.0, 5.9, 'home');
-
-        let worseTimeoutId;
-        function handleAutoTriggers(screenId) {
-            clearTimeout(worseTimeoutId);
-            if (screenId === 'sos_situation_worse') {
-                worseTimeoutId = setTimeout(() => showScreen('safe'), 3200);
+            if (id === 'sos_situation_worse') {
+                startWorseUpdates();
+            } else {
+                clearWorseUpdates();
             }
         }
 
+        // Interactive selectable item creation helper
+        function createSelectable({ screenId, left, top, width, height, radius = '1.5cqh', group = null, selected = false, onClick = null }) {
+            const screen = document.getElementById(screenId);
+            if (!screen) return null;
+            const el = document.createElement('div');
+            el.className = 'selectable-item' + (selected ? ' selected' : '');
+            if (group) el.setAttribute('data-group', group);
+            el.style.position = 'absolute';
+            el.style.left = left + '%';
+            el.style.top = top + '%';
+            el.style.width = width + '%';
+            el.style.height = height + '%';
+            el.style.borderRadius = radius;
+            el.style.zIndex = '9999';
+
+            el.onclick = (e) => {
+                e.stopPropagation();
+                if (group) {
+                    screen.querySelectorAll(`[data-group="${group}"]`).forEach(item => item.classList.remove('selected'));
+                    el.classList.add('selected');
+                } else {
+                    el.classList.toggle('selected');
+                }
+                if (onClick) onClick(el);
+            };
+
+            screen.appendChild(el);
+            return el;
+        }
+
+        // Interactive button helper
+        function createButton({ screenId, left, top, width, height, radius = '1.5cqh', onClick }) {
+            const screen = document.getElementById(screenId);
+            if (!screen) return null;
+            const el = document.createElement('div');
+            el.className = 'interactive-btn';
+            el.style.position = 'absolute';
+            el.style.left = left + '%';
+            el.style.top = top + '%';
+            el.style.width = width + '%';
+            el.style.height = height + '%';
+            el.style.borderRadius = radius;
+            el.style.zIndex = '9999';
+            el.onclick = (e) => {
+                e.stopPropagation();
+                if (onClick) onClick(el);
+            };
+            screen.appendChild(el);
+            return el;
+        }
+
+        // ==========================================
+        // SCREEN INTERACTIONS & CONTROLS
+        // ==========================================
+
+        // 1. Home screen -> SOS button
+        createButton({
+            screenId: 'home',
+            left: 4.5, top: 58.5, width: 91.0, height: 33.3, radius: '3cqh',
+            onClick: () => showScreen('sending_alert')
+        });
+
+        // 2. Sending alert -> Cancel button
+        createButton({
+            screenId: 'sending_alert',
+            left: 4.5, top: 82.1, width: 91.0, height: 9.8, radius: '2cqh',
+            onClick: () => showScreen('home')
+        });
+
+        // 3. SOS Active screen
+        // Vibrate toggle
+        createSelectable({
+            screenId: 'sos_active',
+            left: 85.0, top: 8.5, width: 8.5, height: 4.5, radius: '50%', selected: true
+        });
+
+        // Better button
+        createSelectable({
+            screenId: 'sos_active',
+            left: 4.577, top: 62.690, width: 44.014, height: 10.738, radius: '1.7cqh', group: 'sos_active_status'
+        });
+
+        // Worse button -> triggers Worse flow
+        createButton({
+            screenId: 'sos_active',
+            left: 51.408, top: 62.690, width: 44.014, height: 10.738, radius: '1.7cqh',
+            onClick: () => showScreen('sos_situation_worse')
+        });
+
+        // Cancel SOS button
+        createButton({
+            screenId: 'sos_active',
+            left: 4.577, top: 74.946, width: 90.845, height: 7.484, radius: '2cqh',
+            onClick: () => showScreen('home')
+        });
+
+        // Swipe up anywhere (bottom area) -> opens situation_category form
+        createButton({
+            screenId: 'sos_active',
+            left: 0.0, top: 83.0, width: 100.0, height: 17.0,
+            onClick: () => showScreen('situation_category')
+        });
+
+        // 4. Situation Category (Step 1 of 2)
+        // Dismiss top area
+        createButton({
+            screenId: 'situation_category',
+            left: 0.0, top: 0.0, width: 100.0, height: 7.0,
+            onClick: () => showScreen('sos_active', { cardsReady: true })
+        });
+
+        // Category options (Fire or smoke + other 8 categories)
+        // Fire or smoke option
+        createSelectable({
+            screenId: 'situation_category',
+            left: 3.286, top: 25.108, width: 45.305, height: 11.714,
+            radius: '1.735cqh', group: 'categories', selected: true,
+            onClick: () => {
+                const p1 = document.getElementById('progress-bar-step1-fill');
+                if (p1) p1.style.width = '100%';
+                setTimeout(() => showScreen('fire_details'), 280);
+            }
+        });
+
+        const otherCategories = [
+            { left: 51.408, top: 25.108, w: 45.305, h: 11.714 },
+            { left: 3.286, top: 38.124, w: 45.305, h: 11.714 },
+            { left: 51.408, top: 38.124, w: 45.305, h: 11.714 },
+            { left: 3.286, top: 51.139, w: 45.305, h: 11.714 },
+            { left: 51.408, top: 51.139, w: 45.305, h: 11.714 },
+            { left: 3.286, top: 64.154, w: 45.305, h: 11.714 },
+            { left: 51.408, top: 64.154, w: 45.305, h: 11.714 },
+            { left: 3.286, top: 77.169, w: 93.427, h: 9.653 }
+        ];
+        otherCategories.forEach(pos => {
+            createSelectable({
+                screenId: 'situation_category',
+                left: pos.left, top: pos.top, width: pos.w, height: pos.h,
+                radius: '1.735cqh', group: 'categories',
+                onClick: () => {
+                    const p1 = document.getElementById('progress-bar-step1-fill');
+                    if (p1) p1.style.width = '100%';
+                    setTimeout(() => showScreen('fire_details'), 280);
+                }
+            });
+        });
+
+        // 5. Fire Details (Step 2 of 2)
+        // Change category button
+        createButton({
+            screenId: 'fire_details',
+            left: 76.878, top: 11.822, width: 15.141, height: 3.471, radius: '999px',
+            onClick: () => {
+                const p1 = document.getElementById('progress-bar-step1-fill');
+                if (p1) p1.style.width = '50%';
+                showScreen('situation_category');
+            }
+        });
+
+        // Condition choices ("What do you see?")
+        createSelectable({
+            screenId: 'fire_details',
+            left: 5.164, top: 26.952, width: 28.638, height: 11.280, radius: '1.518cqh', group: 'fire_visible', selected: true
+        });
+        createSelectable({
+            screenId: 'fire_details',
+            left: 36.150, top: 26.952, width: 28.169, height: 11.280, radius: '1.518cqh', group: 'fire_visible'
+        });
+        createSelectable({
+            screenId: 'fire_details',
+            left: 66.667, top: 26.952, width: 28.169, height: 11.280, radius: '1.518cqh', group: 'fire_visible'
+        });
+
+        // Occupancy choices ("Anyone inside?")
+        createSelectable({
+            screenId: 'fire_details',
+            left: 5.164, top: 47.939, width: 28.326, height: 11.280, radius: '1.518cqh', group: 'occupancy', selected: true
+        });
+        createSelectable({
+            screenId: 'fire_details',
+            left: 35.837, top: 47.939, width: 28.326, height: 11.280, radius: '1.518cqh', group: 'occupancy'
+        });
+        createSelectable({
+            screenId: 'fire_details',
+            left: 66.510, top: 47.939, width: 28.326, height: 11.280, radius: '1.518cqh', group: 'occupancy'
+        });
+
+        // Message & voice note box toggle
+        createSelectable({
+            screenId: 'fire_details',
+            left: 5.164, top: 68.384, width: 89.671, height: 7.918, radius: '1.518cqh'
+        });
+
+        // Adjust location button
+        createButton({
+            screenId: 'fire_details',
+            left: 76.174, top: 78.905, width: 15.845, height: 4.121, radius: '999px'
+        });
+
+        // Send details button -> animates progress to 100%, closes form, returns to sos_active with 3 cards
+        createButton({
+            screenId: 'fire_details',
+            left: 5.164, top: 86.171, width: 89.671, height: 6.725, radius: '1.735cqh',
+            onClick: (btn) => {
+                const p2 = document.getElementById('progress-bar-step2-fill');
+                if (p2) {
+                    p2.style.width = '100%';
+                    p2.style.backgroundColor = '#22c55e';
+                }
+                btn.style.filter = 'brightness(1.2)';
+                setTimeout(() => {
+                    showScreen('sos_active', { cardsReady: true });
+                }, 420);
+            }
+        });
+
+        // 6. SOS Situation Worse screen
+        // Vibrate toggle
+        createSelectable({
+            screenId: 'sos_situation_worse',
+            left: 85.0, top: 8.5, width: 8.5, height: 4.5, radius: '50%', selected: true
+        });
+
+        // Better button
+        createSelectable({
+            screenId: 'sos_situation_worse',
+            left: 4.225, top: 66.486, width: 44.0, height: 9.328, radius: '1.7cqh', group: 'worse_status'
+        });
+
+        // Worse button
+        createSelectable({
+            screenId: 'sos_situation_worse',
+            left: 51.291, top: 66.486, width: 44.484, height: 9.328, radius: '1.7cqh', group: 'worse_status', selected: true
+        });
+
+        // Cancel SOS button
+        createButton({
+            screenId: 'sos_situation_worse',
+            left: 4.225, top: 77.332, width: 91.549, height: 6.725, radius: '2cqh',
+            onClick: () => showScreen('home')
+        });
+
+        // 7. You're Safe screen
+        // 5 Rating stars
+        const starPositions = [
+            { left: 60.915, top: 83.297, w: 5.164, h: 2.386 },
+            { left: 67.488, top: 83.297, w: 5.164, h: 2.386 },
+            { left: 74.061, top: 83.297, w: 5.164, h: 2.386 },
+            { left: 80.634, top: 83.297, w: 5.164, h: 2.386 },
+            { left: 87.207, top: 83.297, w: 5.164, h: 2.386 }
+        ];
+        const starEls = [];
+        starPositions.forEach((pos, index) => {
+            const screen = document.getElementById('safe');
+            if (!screen) return;
+            const starEl = document.createElement('div');
+            starEl.className = 'rating-star';
+            starEl.style.position = 'absolute';
+            starEl.style.left = pos.left + '%';
+            starEl.style.top = pos.top + '%';
+            starEl.style.width = pos.w + '%';
+            starEl.style.height = pos.h + '%';
+            starEl.style.borderRadius = '50%';
+            starEl.style.zIndex = '9999';
+            starEl.onclick = (e) => {
+                e.stopPropagation();
+                starEls.forEach((el, i) => {
+                    if (i <= index) {
+                        el.classList.add('lit');
+                    } else {
+                        el.classList.remove('lit');
+                    }
+                });
+                const starSvgs = screen.querySelectorAll('[id^="21:393"], [id^="21:394"]');
+                starSvgs.forEach((svg, i) => {
+                    if (i <= index) {
+                        svg.style.filter = 'drop-shadow(0 0 5px #fbbf24) brightness(1.6)';
+                    } else {
+                        svg.style.filter = 'none';
+                    }
+                });
+            };
+            screen.appendChild(starEl);
+            starEls.push(starEl);
+        });
+
+        // Done button -> returns to Home
+        createButton({
+            screenId: 'safe',
+            left: 4.577, top: 89.913, width: 90.845, height: 5.857, radius: '2cqh',
+            onClick: () => showScreen('home')
+        });
+
         clearSosActiveUpdates();
+        clearWorseUpdates();
     });
     
         </script>
