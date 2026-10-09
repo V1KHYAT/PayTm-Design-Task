@@ -117,6 +117,54 @@ def collect_html(node, frame_x, frame_y, frame_w, frame_h, out_list):
         out_list.append(f"<div{extra_attr} style='{css}'><span>{chars}</span></div>")
         return
 
+    # Bento response cards inside sos_active (21:3541)
+    if node.get("id") in ["21:3553", "21:3559", "21:3565"]:
+        card_num = "1" if node["id"] == "21:3553" else ("2" if node["id"] == "21:3559" else "3")
+        if card_num == "1":
+            tips_html = '''<div id="bento-tips-container" style="position:absolute; left:7.277%; top:15.500%; width:85.446%; height:38.500%; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; pointer-events:none; z-index:5; transition:opacity 0.4s ease, transform 0.4s ease;">
+    <div style="display:inline-flex; align-items:center; gap:0.8cqh; background:rgba(34,197,94,0.14); border:1px solid rgba(34,197,94,0.32); border-radius:999px; padding:0.5cqh 1.6cqh; margin-bottom:2cqh;">
+        <span class="live-ping-dot" style="width:0.8cqh; height:0.8cqh; border-radius:50%; background:#22c55e;"></span>
+        <span style="font-size:1.15cqh; font-weight:700; color:#86efac; letter-spacing:0.08em; text-transform:uppercase;">Broadcasting SOS · Seeking Heroes</span>
+    </div>
+    <div class="calm-breath-orb" style="width:7.5cqh; height:7.5cqh; border-radius:50%; background:radial-gradient(circle, rgba(52,211,153,0.3) 0%, rgba(16,185,129,0.06) 70%, transparent 100%); border:1.5px solid rgba(52,211,153,0.45); display:flex; align-items:center; justify-content:center; margin-bottom:2.2cqh;">
+        <div style="width:2.8cqh; height:2.8cqh; border-radius:50%; background:#34d399; opacity:0.9;"></div>
+    </div>
+    <div id="bento-tip-text-box" style="display:flex; flex-direction:column; align-items:center; gap:0.7cqh; max-width:85%; transition:opacity 0.3s ease;">
+        <div id="bento-tip-title" style="font-size:1.95cqh; font-weight:700; color:#f3f4f6; line-height:1.3; text-wrap:balance;">Breathe in a 1-2 Pattern to remain calm.</div>
+        <div id="bento-tip-subtitle" style="font-size:1.3cqh; font-weight:400; color:#9ca3af; line-height:1.35;">Inhale 4s · Exhale 8s to steady your heart rate</div>
+    </div>
+</div>'''
+            out_list.append(tips_html)
+
+        sub_list = []
+        bg = get_fill_css(node)
+        stroke_css = get_stroke_css(node, frame_h)
+        radius = node.get("cornerRadius", 0)
+        radius_cqh = (radius / frame_h) * 100
+        if bg != "transparent" or radius_cqh > 0 or stroke_css:
+            css_parts = [
+                f"position:absolute;",
+                f"left:{left:.3f}%;",
+                f"top:{top:.3f}%;",
+                f"width:{width:.3f}%;",
+                f"height:{height:.3f}%;",
+                f"pointer-events:none;"
+            ]
+            if bg != "transparent":
+                css_parts.append(f"background:{bg};")
+            if radius_cqh > 0:
+                css_parts.append(f"border-radius:{radius_cqh:.3f}cqh;")
+            if stroke_css:
+                css_parts.append(stroke_css)
+            sub_list.append(f"<div style='{' '.join(css_parts)}'></div>")
+
+        for child in node.get("children", []):
+            collect_html(child, frame_x, frame_y, frame_w, frame_h, sub_list)
+
+        inner_card = "\n".join(sub_list)
+        out_list.append(f'<div id="update-card-{card_num}" class="update-card" style="position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none;">\n{inner_card}\n</div>')
+        return
+
     # Frame / Rectangle
     if node["type"] not in ["DOCUMENT", "CANVAS"]:
         bg = get_fill_css(node)
@@ -223,6 +271,78 @@ def build():
             if (secondsEl) secondsEl.innerHTML = '<span>3</span>';
         }
 
+        let sosTimeouts = [];
+
+        function clearSosActiveUpdates() {
+            sosTimeouts.forEach(t => clearTimeout(t));
+            sosTimeouts = [];
+
+            const tipsEl = document.getElementById('bento-tips-container');
+            if (tipsEl) {
+                tipsEl.style.opacity = '1';
+                tipsEl.style.transform = 'translateY(0)';
+            }
+            const textBox = document.getElementById('bento-tip-text-box');
+            if (textBox) {
+                textBox.style.opacity = '1';
+            }
+            const tipTitle = document.getElementById('bento-tip-title');
+            const tipSub = document.getElementById('bento-tip-subtitle');
+            if (tipTitle) tipTitle.textContent = "Breathe in a 1-2 Pattern to remain calm.";
+            if (tipSub) tipSub.textContent = "Inhale 4s · Exhale 8s to steady your heart rate";
+
+            for (let i = 1; i <= 3; i++) {
+                const card = document.getElementById(`update-card-${i}`);
+                if (card) {
+                    card.classList.remove('visible');
+                }
+            }
+        }
+
+        function startSosActiveUpdates() {
+            clearSosActiveUpdates();
+
+            const tipsEl = document.getElementById('bento-tips-container');
+            const textBox = document.getElementById('bento-tip-text-box');
+            const tipTitle = document.getElementById('bento-tip-title');
+            const tipSub = document.getElementById('bento-tip-subtitle');
+
+            const card1 = document.getElementById('update-card-1');
+            const card2 = document.getElementById('update-card-2');
+            const card3 = document.getElementById('update-card-3');
+
+            // Switch to Tip 2 after 1.8s
+            sosTimeouts.push(setTimeout(() => {
+                if (textBox && tipTitle && tipSub) {
+                    textBox.style.opacity = '0';
+                    setTimeout(() => {
+                        tipTitle.textContent = "Stay low and keep your device silent.";
+                        tipSub.textContent = "Live audio & coordinates streaming to dispatch";
+                        textBox.style.opacity = '1';
+                    }, 250);
+                }
+            }, 1800));
+
+            // Fade out tips container & slide in Card 1 at ~3.6s
+            sosTimeouts.push(setTimeout(() => {
+                if (tipsEl) {
+                    tipsEl.style.opacity = '0';
+                    tipsEl.style.transform = 'translateY(-1cqh)';
+                }
+                if (card1) card1.classList.add('visible');
+            }, 3600));
+
+            // Slide in Card 2 at ~5.6s (2.0s after Card 1)
+            sosTimeouts.push(setTimeout(() => {
+                if (card2) card2.classList.add('visible');
+            }, 5600));
+
+            // Slide in Card 3 at ~7.6s (2.0s after Card 2)
+            sosTimeouts.push(setTimeout(() => {
+                if (card3) card3.classList.add('visible');
+            }, 7600));
+        }
+
         function showScreen(id) {
             document.querySelectorAll('.screen').forEach(s => s.style.display = 'none');
             const target = document.getElementById(id);
@@ -234,6 +354,12 @@ def build():
                 startCountdown();
             } else {
                 stopCountdown();
+            }
+
+            if (id === 'sos_active') {
+                startSosActiveUpdates();
+            } else {
+                clearSosActiveUpdates();
             }
         }
 
@@ -290,6 +416,8 @@ def build():
                 worseTimeoutId = setTimeout(() => showScreen('safe'), 3200);
             }
         }
+
+        clearSosActiveUpdates();
     });
     """
 
@@ -335,6 +463,60 @@ def build():
         }}
         .phone-wrapper * {{
             pointer-events: none;
+        }}
+
+        /* Sequential responder cards animation */
+        .update-card {{
+            opacity: 0;
+            transform: translateY(1.8cqh);
+            transition: opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1), transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+            pointer-events: none;
+        }}
+        .update-card.visible {{
+            opacity: 1;
+            transform: translateY(0);
+        }}
+
+        /* Calming breathing orb animation */
+        @keyframes calmBreath {{
+            0%, 100% {{
+                transform: scale(0.92);
+                opacity: 0.75;
+                box-shadow: 0 0 14px rgba(52, 211, 153, 0.2);
+            }}
+            50% {{
+                transform: scale(1.15);
+                opacity: 1;
+                box-shadow: 0 0 30px rgba(52, 211, 153, 0.5);
+            }}
+        }}
+        .calm-breath-orb {{
+            animation: calmBreath 4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+        }}
+
+        /* Live dispatch beacon ping animation */
+        @keyframes livePing {{
+            0%, 100% {{
+                opacity: 1;
+                transform: scale(1);
+            }}
+            50% {{
+                opacity: 0.35;
+                transform: scale(0.8);
+            }}
+        }}
+        .live-ping-dot {{
+            animation: livePing 1.8s ease-in-out infinite;
+        }}
+
+        @media (prefers-reduced-motion: reduce) {{
+            .update-card {{
+                transition: opacity 0.2s ease;
+                transform: none !important;
+            }}
+            .calm-breath-orb, .live-ping-dot {{
+                animation: none !important;
+            }}
         }}
     </style>
 </head>

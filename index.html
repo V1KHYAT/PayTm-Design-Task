@@ -41,6 +41,60 @@
         .phone-wrapper * {
             pointer-events: none;
         }
+
+        /* Sequential responder cards animation */
+        .update-card {
+            opacity: 0;
+            transform: translateY(1.8cqh);
+            transition: opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1), transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+            pointer-events: none;
+        }
+        .update-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Calming breathing orb animation */
+        @keyframes calmBreath {
+            0%, 100% {
+                transform: scale(0.92);
+                opacity: 0.75;
+                box-shadow: 0 0 14px rgba(52, 211, 153, 0.2);
+            }
+            50% {
+                transform: scale(1.15);
+                opacity: 1;
+                box-shadow: 0 0 30px rgba(52, 211, 153, 0.5);
+            }
+        }
+        .calm-breath-orb {
+            animation: calmBreath 4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+        }
+
+        /* Live dispatch beacon ping animation */
+        @keyframes livePing {
+            0%, 100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.35;
+                transform: scale(0.8);
+            }
+        }
+        .live-ping-dot {
+            animation: livePing 1.8s ease-in-out infinite;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .update-card {
+                transition: opacity 0.2s ease;
+                transform: none !important;
+            }
+            .calm-breath-orb, .live-ping-dot {
+                animation: none !important;
+            }
+        }
     </style>
 </head>
 <body>
@@ -99,20 +153,39 @@
 <div style='position:absolute; left:3.991%; top:7.918%; width:92.019%; height:48.482%; pointer-events:none; background:rgb(25,28,27); border-radius:1.735cqh; border: 0.054cqh solid rgb(40,44,42); box-sizing: border-box;'></div>
 <div style='position:absolute; left:8.216%; top:10.846%; text-align:left; width:max-content; white-space:nowrap; height:max-content; font-size:1.518cqh; font-weight:400; color:rgb(180,184,188); line-height:1.300; display:flex; flex-direction:column; overflow:visible;'><span>Sharing Location, Mic and Video</span></div>
 <img id='21:3890' src='svgs/21_3890.svg' style='position:absolute; left:85.544%; top:10.905%; width:5.673%; height:1.835%; object-fit:contain;' />
+<div id="bento-tips-container" style="position:absolute; left:7.277%; top:15.500%; width:85.446%; height:38.500%; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; pointer-events:none; z-index:5; transition:opacity 0.4s ease, transform 0.4s ease;">
+    <div style="display:inline-flex; align-items:center; gap:0.8cqh; background:rgba(34,197,94,0.14); border:1px solid rgba(34,197,94,0.32); border-radius:999px; padding:0.5cqh 1.6cqh; margin-bottom:2cqh;">
+        <span class="live-ping-dot" style="width:0.8cqh; height:0.8cqh; border-radius:50%; background:#22c55e;"></span>
+        <span style="font-size:1.15cqh; font-weight:700; color:#86efac; letter-spacing:0.08em; text-transform:uppercase;">Broadcasting SOS · Seeking Heroes</span>
+    </div>
+    <div class="calm-breath-orb" style="width:7.5cqh; height:7.5cqh; border-radius:50%; background:radial-gradient(circle, rgba(52,211,153,0.3) 0%, rgba(16,185,129,0.06) 70%, transparent 100%); border:1.5px solid rgba(52,211,153,0.45); display:flex; align-items:center; justify-content:center; margin-bottom:2.2cqh;">
+        <div style="width:2.8cqh; height:2.8cqh; border-radius:50%; background:#34d399; opacity:0.9;"></div>
+    </div>
+    <div id="bento-tip-text-box" style="display:flex; flex-direction:column; align-items:center; gap:0.7cqh; max-width:85%; transition:opacity 0.3s ease;">
+        <div id="bento-tip-title" style="font-size:1.95cqh; font-weight:700; color:#f3f4f6; line-height:1.3; text-wrap:balance;">Breathe in a 1-2 Pattern to remain calm.</div>
+        <div id="bento-tip-subtitle" style="font-size:1.3cqh; font-weight:400; color:#9ca3af; line-height:1.35;">Inhale 4s · Exhale 8s to steady your heart rate</div>
+    </div>
+</div>
+<div id="update-card-1" class="update-card" style="position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none;">
 <div style='position:absolute; left:7.277%; top:15.184%; width:85.446%; height:12.907%; pointer-events:none; background:rgb(32,41,35); border-radius:1.735cqh;'></div>
 <div style='position:absolute; left:13.146%; top:17.842%; width:16.432%; height:7.592%; pointer-events:none; background:rgb(47,57,48); border-radius:54.230cqh;'></div>
 <img id='21:3555' src='svgs/21_3555.svg' style='position:absolute; left:18.310%; top:20.228%; width:6.103%; height:2.820%; object-fit:contain;' />
 <div style='position:absolute; left:36.385%; top:18.465%; text-align:left; width:max-content; white-space:nowrap; height:max-content; font-size:1.627cqh; font-weight:700; color:rgb(180,184,188); line-height:1.300; display:flex; flex-direction:column; overflow:visible;'><span>Help is just</span></div>
 <div style='position:absolute; left:36.385%; top:20.797%; text-align:left; width:max-content; white-space:nowrap; height:max-content; font-size:3.471cqh; font-weight:700; color:rgb(250,250,250); line-height:1.150; display:flex; flex-direction:column; overflow:visible;'><span>20 m away</span></div>
+</div>
+<div id="update-card-2" class="update-card" style="position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none;">
 <div style='position:absolute; left:7.277%; top:29.067%; width:85.446%; height:12.148%; pointer-events:none; background:rgb(42,37,33); border-radius:1.735cqh;'></div>
 <div style='position:absolute; left:13.146%; top:31.345%; width:16.432%; height:7.592%; pointer-events:none; background:rgb(56,52,44); border-radius:54.230cqh;'></div>
 <img id='21:3561' src='svgs/21_3561.svg' style='position:absolute; left:17.723%; top:33.964%; width:7.277%; height:2.354%; object-fit:contain;' />
 <div style='position:absolute; left:36.385%; top:32.538%; text-align:left; width:max-content; white-space:nowrap; height:max-content; font-size:2.007cqh; font-weight:700; color:rgb(250,250,250); line-height:1.300; display:flex; flex-direction:column; overflow:visible;'><span>5 Heroes are on your way</span></div>
 <div style='position:absolute; left:36.385%; top:35.792%; text-align:left; width:max-content; white-space:nowrap; height:max-content; font-size:1.518cqh; font-weight:400; color:rgb(180,184,188); line-height:1.300; display:flex; flex-direction:column; overflow:visible;'><span>8 Watchers are near</span></div>
+</div>
+<div id="update-card-3" class="update-card" style="position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none;">
 <div style='position:absolute; left:7.277%; top:42.191%; width:85.446%; height:12.690%; pointer-events:none; background:rgb(32,39,43); border-radius:1.735cqh;'></div>
 <img id='21:3566' src='svgs/21_3566.svg' style='position:absolute; left:13.146%; top:44.740%; width:16.432%; height:7.592%; object-fit:contain;' />
 <div style='position:absolute; left:36.385%; top:45.906%; text-align:left; width:max-content; white-space:nowrap; height:max-content; font-size:2.115cqh; font-weight:700; color:rgb(250,250,250); line-height:1.300; display:flex; flex-direction:column; overflow:visible;'><span>Genos is 600 m away</span></div>
 <div style='position:absolute; left:36.385%; top:49.322%; text-align:left; width:max-content; white-space:nowrap; height:max-content; font-size:1.410cqh; font-weight:400; color:rgb(180,184,188); line-height:1.300; display:flex; flex-direction:column; overflow:visible;'><span>Class A Hero, 127 Situations handled</span></div>
+</div>
 <div style='position:absolute; left:4.577%; top:59.219%; text-align:left; width:max-content; white-space:nowrap; height:max-content; font-size:1.518cqh; font-weight:400; color:rgb(180,184,188); line-height:1.300; display:flex; flex-direction:column; overflow:visible;'><span>The Current Situation is</span></div>
 <div style='position:absolute; left:4.577%; top:62.690%; width:44.014%; height:10.738%; pointer-events:none; background:rgb(32,41,35); border-radius:1.735cqh; border: 0.054cqh solid rgb(57,66,58); box-sizing: border-box;'></div>
 <img id='21:3893' src='svgs/21_3893.svg' style='position:absolute; left:23.846%; top:65.799%; width:5.478%; height:1.265%; object-fit:contain;' />
@@ -428,6 +501,78 @@
             if (secondsEl) secondsEl.innerHTML = '<span>3</span>';
         }
 
+        let sosTimeouts = [];
+
+        function clearSosActiveUpdates() {
+            sosTimeouts.forEach(t => clearTimeout(t));
+            sosTimeouts = [];
+
+            const tipsEl = document.getElementById('bento-tips-container');
+            if (tipsEl) {
+                tipsEl.style.opacity = '1';
+                tipsEl.style.transform = 'translateY(0)';
+            }
+            const textBox = document.getElementById('bento-tip-text-box');
+            if (textBox) {
+                textBox.style.opacity = '1';
+            }
+            const tipTitle = document.getElementById('bento-tip-title');
+            const tipSub = document.getElementById('bento-tip-subtitle');
+            if (tipTitle) tipTitle.textContent = "Breathe in a 1-2 Pattern to remain calm.";
+            if (tipSub) tipSub.textContent = "Inhale 4s · Exhale 8s to steady your heart rate";
+
+            for (let i = 1; i <= 3; i++) {
+                const card = document.getElementById(`update-card-${i}`);
+                if (card) {
+                    card.classList.remove('visible');
+                }
+            }
+        }
+
+        function startSosActiveUpdates() {
+            clearSosActiveUpdates();
+
+            const tipsEl = document.getElementById('bento-tips-container');
+            const textBox = document.getElementById('bento-tip-text-box');
+            const tipTitle = document.getElementById('bento-tip-title');
+            const tipSub = document.getElementById('bento-tip-subtitle');
+
+            const card1 = document.getElementById('update-card-1');
+            const card2 = document.getElementById('update-card-2');
+            const card3 = document.getElementById('update-card-3');
+
+            // Switch to Tip 2 after 1.8s
+            sosTimeouts.push(setTimeout(() => {
+                if (textBox && tipTitle && tipSub) {
+                    textBox.style.opacity = '0';
+                    setTimeout(() => {
+                        tipTitle.textContent = "Stay low and keep your device silent.";
+                        tipSub.textContent = "Live audio & coordinates streaming to dispatch";
+                        textBox.style.opacity = '1';
+                    }, 250);
+                }
+            }, 1800));
+
+            // Fade out tips container & slide in Card 1 at ~3.6s
+            sosTimeouts.push(setTimeout(() => {
+                if (tipsEl) {
+                    tipsEl.style.opacity = '0';
+                    tipsEl.style.transform = 'translateY(-1cqh)';
+                }
+                if (card1) card1.classList.add('visible');
+            }, 3600));
+
+            // Slide in Card 2 at ~5.6s (2.0s after Card 1)
+            sosTimeouts.push(setTimeout(() => {
+                if (card2) card2.classList.add('visible');
+            }, 5600));
+
+            // Slide in Card 3 at ~7.6s (2.0s after Card 2)
+            sosTimeouts.push(setTimeout(() => {
+                if (card3) card3.classList.add('visible');
+            }, 7600));
+        }
+
         function showScreen(id) {
             document.querySelectorAll('.screen').forEach(s => s.style.display = 'none');
             const target = document.getElementById(id);
@@ -439,6 +584,12 @@
                 startCountdown();
             } else {
                 stopCountdown();
+            }
+
+            if (id === 'sos_active') {
+                startSosActiveUpdates();
+            } else {
+                clearSosActiveUpdates();
             }
         }
 
@@ -495,6 +646,8 @@
                 worseTimeoutId = setTimeout(() => showScreen('safe'), 3200);
             }
         }
+
+        clearSosActiveUpdates();
     });
     
         </script>
