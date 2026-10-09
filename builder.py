@@ -240,6 +240,7 @@ def collect_html(node, frame_x, frame_y, frame_w, frame_h, out_list):
         radius_cqh = (radius / 1844.0) * 100
 
         if bg != "transparent" or radius_cqh > 0 or stroke_css:
+            frame_id_attr = f" id='frame-{node['id'].replace(':', '_')}'" if node.get('id') else ""
             css_parts = [
                 f"position:absolute;",
                 f"left:{left:.3f}%;",
@@ -255,7 +256,7 @@ def collect_html(node, frame_x, frame_y, frame_w, frame_h, out_list):
             if stroke_css:
                 css_parts.append(stroke_css)
 
-            out_list.append(f"<div style='{' '.join(css_parts)}'></div>")
+            out_list.append(f"<div{frame_id_attr} style='{' '.join(css_parts)}'></div>")
 
     for child in node.get("children", []):
         collect_html(child, frame_x, frame_y, frame_w, frame_h, out_list)
@@ -514,12 +515,13 @@ def build():
         }
 
         // Interactive selectable item creation helper
-        function createSelectable({ screenId, left, top, width, height, radius = '1.5cqh', group = null, selected = false, onClick = null }) {
+        function createSelectable({ screenId, left, top, width, height, radius = '1.518cqh', group = null, selected = false, choiceId = null, onClick = null }) {
             const screen = document.getElementById(screenId);
             if (!screen) return null;
             const el = document.createElement('div');
             el.className = 'selectable-item' + (selected ? ' selected' : '');
             if (group) el.setAttribute('data-group', group);
+            if (choiceId) el.setAttribute('data-choice', choiceId);
             el.style.position = 'absolute';
             el.style.left = left + '%';
             el.style.top = top + '%';
@@ -533,6 +535,12 @@ def build():
                 if (group) {
                     screen.querySelectorAll(`[data-group="${group}"]`).forEach(item => item.classList.remove('selected'));
                     el.classList.add('selected');
+                    if (group === 'fire_visible') {
+                        const flamesBg = document.getElementById('frame-21_3689');
+                        if (flamesBg) {
+                            flamesBg.style.borderColor = (choiceId === 'flames') ? 'rgb(125,145,164)' : 'transparent';
+                        }
+                    }
                 } else {
                     el.classList.toggle('selected');
                 }
@@ -583,16 +591,10 @@ def build():
         });
 
         // 3. SOS Active screen
-        // Vibrate toggle
-        createSelectable({
-            screenId: 'sos_active',
-            left: 85.0, top: 8.5, width: 8.5, height: 4.5, radius: '50%', selected: true
-        });
-
         // Better button
-        createSelectable({
+        createButton({
             screenId: 'sos_active',
-            left: 4.577, top: 62.690, width: 44.014, height: 10.738, radius: '1.7cqh', group: 'sos_active_status'
+            left: 4.577, top: 62.690, width: 44.014, height: 10.738, radius: '1.7cqh'
         });
 
         // Worse button -> triggers Worse flow
@@ -625,11 +627,10 @@ def build():
         });
 
         // Category options (Fire or smoke + other 8 categories)
-        // Fire or smoke option
         createSelectable({
             screenId: 'situation_category',
             left: 3.286, top: 25.108, width: 45.305, height: 11.714,
-            radius: '1.735cqh', group: 'categories', selected: true,
+            radius: '1.735cqh', group: 'categories', selected: false,
             onClick: () => {
                 const p1 = document.getElementById('progress-bar-step1-fill');
                 if (p1) p1.style.width = '100%';
@@ -675,29 +676,29 @@ def build():
         // Condition choices ("What do you see?")
         createSelectable({
             screenId: 'fire_details',
-            left: 5.164, top: 26.952, width: 28.638, height: 11.280, radius: '1.518cqh', group: 'fire_visible', selected: true
+            left: 5.164, top: 26.952, width: 28.638, height: 11.280, radius: '1.518cqh', group: 'fire_visible', choiceId: 'flames', selected: true
         });
         createSelectable({
             screenId: 'fire_details',
-            left: 36.150, top: 26.952, width: 28.169, height: 11.280, radius: '1.518cqh', group: 'fire_visible'
+            left: 36.150, top: 26.952, width: 28.169, height: 11.280, radius: '1.518cqh', group: 'fire_visible', choiceId: 'smoke'
         });
         createSelectable({
             screenId: 'fire_details',
-            left: 66.667, top: 26.952, width: 28.169, height: 11.280, radius: '1.518cqh', group: 'fire_visible'
+            left: 66.667, top: 26.952, width: 28.169, height: 11.280, radius: '1.518cqh', group: 'fire_visible', choiceId: 'not_sure'
         });
 
         // Occupancy choices ("Anyone inside?")
         createSelectable({
             screenId: 'fire_details',
-            left: 5.164, top: 47.939, width: 28.326, height: 11.280, radius: '1.518cqh', group: 'occupancy', selected: true
+            left: 5.164, top: 47.939, width: 28.326, height: 11.280, radius: '1.518cqh', group: 'occupancy', choiceId: 'yes', selected: true
         });
         createSelectable({
             screenId: 'fire_details',
-            left: 35.837, top: 47.939, width: 28.326, height: 11.280, radius: '1.518cqh', group: 'occupancy'
+            left: 35.837, top: 47.939, width: 28.326, height: 11.280, radius: '1.518cqh', group: 'occupancy', choiceId: 'no'
         });
         createSelectable({
             screenId: 'fire_details',
-            left: 66.510, top: 47.939, width: 28.326, height: 11.280, radius: '1.518cqh', group: 'occupancy'
+            left: 66.510, top: 47.939, width: 28.326, height: 11.280, radius: '1.518cqh', group: 'occupancy', choiceId: 'not_sure_occ'
         });
 
         // Message & voice note box toggle
@@ -720,7 +721,7 @@ def build():
                 const p2 = document.getElementById('progress-bar-step2-fill');
                 if (p2) {
                     p2.style.width = '100%';
-                    p2.style.backgroundColor = '#22c55e';
+                    p2.style.backgroundColor = '#ffffff';
                 }
                 btn.style.filter = 'brightness(1.2)';
                 setTimeout(() => {
@@ -730,22 +731,16 @@ def build():
         });
 
         // 6. SOS Situation Worse screen
-        // Vibrate toggle
-        createSelectable({
-            screenId: 'sos_situation_worse',
-            left: 85.0, top: 8.5, width: 8.5, height: 4.5, radius: '50%', selected: true
-        });
-
         // Better button
-        createSelectable({
+        createButton({
             screenId: 'sos_situation_worse',
-            left: 4.225, top: 66.486, width: 44.0, height: 9.328, radius: '1.7cqh', group: 'worse_status'
+            left: 4.225, top: 66.486, width: 44.0, height: 9.328, radius: '1.7cqh'
         });
 
         // Worse button
-        createSelectable({
+        createButton({
             screenId: 'sos_situation_worse',
-            left: 51.291, top: 66.486, width: 44.484, height: 9.328, radius: '1.7cqh', group: 'worse_status', selected: true
+            left: 51.291, top: 66.486, width: 44.484, height: 9.328, radius: '1.7cqh'
         });
 
         // Cancel SOS button
@@ -887,21 +882,21 @@ def build():
             transform: translateY(0);
         }}
 
-        /* Interactive selectable elements */
+        /* Interactive selectable elements matching Figma's exact selected choice styling */
         .selectable-item {{
             cursor: pointer;
             pointer-events: auto;
-            transition: border-color 0.2s ease, background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+            transition: border-color 0.18s ease, transform 0.15s ease;
             box-sizing: border-box;
-            border: 1.5px solid transparent;
+            border: 2px solid transparent;
         }}
         .selectable-item:active {{
             transform: scale(0.975);
         }}
         .selectable-item.selected {{
-            border: 1.5px solid #22c55e !important;
-            background: rgba(34, 197, 94, 0.10) !important;
-            box-shadow: 0 0 16px rgba(34, 197, 94, 0.20) !important;
+            border: 2px solid #7d91a4 !important;
+            background: transparent !important;
+            box-shadow: none !important;
         }}
 
         /* Interactive button feedback */
